@@ -1040,6 +1040,337 @@
             font-size: 0.8em;
             color: var(--bone-dim);
         }
+
+        .cloud-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 14px;
+            padding: 10px;
+            max-width: 1100px;
+            background: rgba(10, 10, 14, .96);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 10px;
+        }
+
+        .cloud-actions button,
+        .cloud-actions select {
+            cursor: pointer !important;
+            border: 1px solid rgba(255, 255, 255, .16) !important;
+            border-radius: 7px !important;
+            padding: 9px 12px !important;
+            color: #f2efe8 !important;
+            background: #19191d !important;
+            font-family: 'EB Garamond', serif !important;
+        }
+        .cloud-actions button:hover { border-color: #c41f2e !important; background: #25252a !important; }
+        .cloud-actions button[hidden], .cloud-actions select[hidden] { display: none !important; }
+        .cloud-actions select { min-width: 190px; }
+        .dossier-footer .cloud-actions {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 14px;
+            justify-content: flex-start;
+            border-color: rgba(196, 31, 46, .45);
+        }
+        .cloud-actions .cloud-footer-btn {
+            width: auto !important;
+            margin: 0 !important;
+            padding: 11px 16px !important;
+            letter-spacing: 1px !important;
+            text-transform: uppercase !important;
+        }
+        .cloud-actions .cloud-footer-primary {
+            background: #8a1420 !important;
+            border-color: #c41f2e !important;
+        }
+
+        .cloud-dirty { color: #e2b45f; }
+        .cloud-saved { color: #7fc99a; }
+
+        .app-loading {
+            position: fixed;
+            inset: 0;
+            z-index: 11000;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            color: #f2efe8;
+            background: radial-gradient(circle at 50% 30%, #231015 0, #08080b 48%, #020203 100%);
+        }
+        .app-loading[hidden] { display: none; }
+        .app-loading-content { text-align: center; }
+        .app-loading-logo {
+            width: 82px;
+            height: 82px;
+            object-fit: contain;
+            animation: archivePulse 1.35s ease-in-out infinite;
+        }
+        .app-loading p {
+            margin: 14px 0 0;
+            color: #aaa397;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .78rem;
+            letter-spacing: 1px;
+        }
+        @keyframes archivePulse {
+            0%, 100% { opacity: .38; transform: scale(.96); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        body.app-booting > .file-actions,
+        body.app-booting > .dossier,
+        body.app-booting > .auth-gate,
+        body.app-booting > .character-hub { visibility: hidden; }
+
+        .auth-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: radial-gradient(circle at 50% 30%, #231015 0, #08080b 48%, #020203 100%);
+        }
+        .auth-gate[hidden] { display: none; }
+        .auth-gate-card {
+            width: min(92vw, 520px);
+            padding: 34px;
+            text-align: center;
+            background: rgba(12, 12, 16, .96);
+            border: 1px solid #7d1822;
+            border-radius: 14px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, .8);
+        }
+        .auth-gate-logo { width: 88px; height: 88px; object-fit: contain; }
+        .auth-gate h1 { margin: 8px 0 0; letter-spacing: 4px; }
+        .auth-gate p { color: #aaa397; }
+        .auth-gate-buttons { display: grid; gap: 10px; margin-top: 24px; }
+        .auth-gate-buttons button {
+            padding: 13px;
+            color: #fff;
+            background: #17171b;
+            border: 1px solid #423f3a;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .auth-gate-buttons button:first-child { background: #841722; border-color: #c41f2e; }
+
+        .cloud-user {
+            color: #c9c3b5;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .78rem;
+        }
+
+        .cloud-dialog {
+            position: fixed;
+            inset: 0;
+            margin: auto;
+            width: min(92vw, 430px);
+            max-height: min(88vh, 620px);
+            overflow-y: auto;
+            padding: 0;
+            color: #f2efe8;
+            background: #101014;
+            border: 1px solid #8a1420;
+            border-radius: 12px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, .75);
+        }
+
+        .cloud-dialog::backdrop { background: rgba(0, 0, 0, .78); }
+        .cloud-dialog-inner { padding: 24px; }
+        .cloud-dialog h2 { margin: 0 0 18px; }
+        .cloud-dialog label { display: block; margin: 12px 0 6px; color: #c9c3b5; }
+        .cloud-dialog input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 11px;
+            color: #fff;
+            background: #08080b;
+            border: 1px solid #423f3a;
+            border-radius: 7px;
+        }
+        .cloud-dialog-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+        .cloud-dialog-buttons button {
+            flex: 1 1 110px;
+            padding: 11px 14px !important;
+            color: #fff !important;
+            background: #19191d !important;
+            border: 1px solid #8a1420 !important;
+            border-radius: 7px !important;
+            cursor: pointer;
+        }
+        .cloud-dialog-buttons button:disabled,
+        .character-card-actions button:disabled,
+        .cloud-actions button:disabled,
+        .hub-button:disabled {
+            opacity: .52;
+            cursor: wait !important;
+        }
+        .cloud-dialog-link {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            padding: 4px;
+            color: #c9c3b5;
+            background: none;
+            border: 0;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .cloud-dialog-link[hidden] { display: none; }
+        .cloud-message { min-height: 1.4em; margin-top: 12px; color: #d7aa57; font-size: .88rem; }
+
+        .app-notice-text {
+            margin: 0;
+            color: #c9c3b5;
+            line-height: 1.55;
+            white-space: pre-line;
+        }
+        .app-notice-confirm.danger {
+            background: #841722 !important;
+            border-color: #c41f2e !important;
+        }
+        .operation-loading {
+            position: fixed;
+            inset: 0;
+            z-index: 12000;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: rgba(2, 2, 3, .78);
+            backdrop-filter: blur(3px);
+        }
+        .operation-loading[hidden] { display: none; }
+        .operation-loading-card {
+            min-width: min(78vw, 280px);
+            padding: 24px;
+            text-align: center;
+            color: #f2efe8;
+            background: #101014;
+            border: 1px solid #7d1822;
+            border-radius: 12px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, .72);
+        }
+        .operation-spinner {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 14px;
+            border: 3px solid rgba(255, 255, 255, .15);
+            border-top-color: #c41f2e;
+            border-radius: 50%;
+            animation: archiveSpin .8s linear infinite;
+        }
+        .operation-loading p { margin: 0; color: #c9c3b5; }
+        @keyframes archiveSpin { to { transform: rotate(360deg); } }
+
+        .app-toast {
+            position: fixed;
+            z-index: 12500;
+            left: 50%;
+            bottom: 24px;
+            width: min(calc(100vw - 32px), 460px);
+            padding: 13px 16px;
+            color: #f2efe8;
+            text-align: center;
+            background: #151519;
+            border: 1px solid #7fc99a;
+            border-radius: 9px;
+            box-shadow: 0 16px 50px rgba(0, 0, 0, .7);
+            transform: translate(-50%, 18px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .22s ease, transform .22s ease;
+        }
+        .app-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+        .app-toast.is-error { border-color: #c41f2e; }
+
+        .character-hub {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            overflow-y: auto;
+            padding: 28px 18px;
+            color: #f2efe8;
+            background: radial-gradient(circle at 50% 15%, #211015 0, #08080b 48%, #020203 100%);
+        }
+        .character-hub[hidden] { display: none; }
+        .character-hub-shell { width: min(1180px, 100%); margin: auto; }
+        .character-hub-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+        .character-hub-brand { display: flex; align-items: center; gap: 12px; }
+        .character-hub-brand img { width: 58px; height: 58px; object-fit: contain; }
+        .character-hub-brand h1 { margin: 0; letter-spacing: 4px; }
+        .character-hub-subtitle { margin: 34px 0 8px; text-align: center; font-size: 1.5rem; }
+        .character-hub-hint { margin: 0 0 22px; text-align: center; color: #aaa397; }
+        .character-carousel { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+        .character-carousel-viewport {
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+        .character-carousel-viewport::-webkit-scrollbar { display: none; }
+        .character-carousel-viewport.is-dragging {
+            scroll-snap-type: none;
+            scroll-behavior: auto;
+        }
+        .character-carousel-track { display: flex; gap: 18px; padding: 14px calc(50% - 145px) 26px; }
+        .character-card {
+            flex: 0 0 290px;
+            scroll-snap-align: center;
+            padding: 14px;
+            background: linear-gradient(155deg, #17171b, #070709 65%);
+            border: 1px solid #6f1720;
+            border-radius: 14px;
+            box-shadow: 0 18px 50px rgba(0,0,0,.55);
+        }
+        .character-card-photo {
+            width: 100%; aspect-ratio: 7 / 9; object-fit: cover; object-position: top center;
+            background: #08080b; border: 1px solid #423f3a; border-radius: 9px;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .character-card h3 { margin: 15px 0 4px; font-size: 1.35rem; }
+        .character-card-meta { min-height: 2.7em; color: #aaa397; font-size: .86rem; }
+        .character-card-actions { display: grid; gap: 8px; margin-top: 14px; }
+        .character-card-actions button, .carousel-arrow, .hub-button {
+            padding: 10px 13px; color: #fff; background: #18181d; border: 1px solid #7d1822;
+            border-radius: 7px; cursor: pointer;
+        }
+        .character-card-actions .open-character { background: #8a1420; border-color: #c41f2e; }
+        .new-character-card { display: grid; place-items: center; min-height: 470px; text-align: center; cursor: pointer; }
+        .new-character-card strong { display: block; font-size: 3rem; color: #c41f2e; }
+        .carousel-arrow { width: 44px; height: 54px; font-size: 1.4rem; }
+        .character-hub-footer { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+        @media (hover: hover) and (pointer: fine) {
+            .character-carousel-viewport { cursor: grab; }
+            .character-carousel-viewport.is-dragging {
+                cursor: grabbing;
+                user-select: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .character-hub { padding: 18px 8px; }
+            .character-hub-header { align-items: flex-start; }
+            .character-hub-brand h1 { font-size: 1.35rem; }
+            .character-hub-brand img { width: 46px; height: 46px; }
+            .character-carousel { grid-template-columns: minmax(0, 1fr); }
+            .carousel-arrow { display: none; }
+            .character-carousel-track { padding-inline: calc(50% - 135px); gap: 14px; }
+            .character-card { flex-basis: 270px; }
+            .character-hub-subtitle { margin-top: 26px; }
+        }
+
+        @media (max-width: 640px) {
+            .cloud-actions { margin-inline: 8px; }
+            .cloud-actions .btn { flex: 1 1 46%; }
+            .cloud-user { flex-basis: 100%; text-align: center; }
+        }
     </style>
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Metal+Mania&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap"
@@ -1059,6 +1390,10 @@
             background: rgba(10, 10, 14, .96) !important;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .file-actions[hidden] {
+            display: none !important;
         }
 
         .file-actions .btn,
@@ -1430,16 +1765,96 @@
 
 </head>
 
-<body>
-    <div class="file-actions" aria-label="Gerenciar ficha">
+<body class="app-booting">
+    <section class="app-loading" id="appLoading" aria-live="polite" aria-label="Carregando Absconditus">
+        <div class="app-loading-content">
+            <img class="app-loading-logo" src="assets/logos/absconditus-a.png" alt="">
+            <p>Abrindo o arquivo...</p>
+        </div>
+    </section>
+
+    <section class="auth-gate" id="authGate" hidden aria-label="Entrada do Absconditus">
+        <div class="auth-gate-card">
+            <img class="auth-gate-logo" src="assets/logos/absconditus-a.png" alt="Absconditus">
+            <h1>ABSCONDITUS</h1>
+            <p>Entre para acessar e gerenciar seus personagens salvos na nuvem.</p>
+            <div class="auth-gate-buttons">
+                <button type="button" id="gateSignInBtn">Entrar</button>
+                <button type="button" id="gateSignUpBtn">Criar conta</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="character-hub" id="characterHub" hidden aria-label="Selecionar personagem">
+        <div class="character-hub-shell">
+            <header class="character-hub-header">
+                <div class="character-hub-brand">
+                    <img src="assets/logos/absconditus-a.png" alt="Absconditus">
+                    <div><h1>ABSCONDITUS</h1><small id="hubAccount"></small></div>
+                </div>
+                <button type="button" class="hub-button" id="hubLogoutBtn">Sair</button>
+            </header>
+            <h2 class="character-hub-subtitle">Selecione um personagem</h2>
+            <p class="character-hub-hint">Deslize ou arraste para os lados e abra o cartão do personagem.</p>
+            <div class="character-carousel">
+                <button type="button" class="carousel-arrow" id="carouselPrevBtn" aria-label="Personagem anterior">‹</button>
+                <div class="character-carousel-viewport" id="characterCarouselViewport">
+                    <div class="character-carousel-track" id="characterCarouselTrack"></div>
+                </div>
+                <button type="button" class="carousel-arrow" id="carouselNextBtn" aria-label="Próximo personagem">›</button>
+            </div>
+            <footer class="character-hub-footer">
+                <button type="button" class="hub-button" id="hubArchiveToggleBtn">Ver arquivados</button>
+            </footer>
+        </div>
+    </section>
+
+    <div class="file-actions" id="fileActions" aria-label="Gerenciar ficha">
         <button type="button" class="btn btn-secondary" id="newCharacterBtn">🆕 Nova ficha</button>
         <button type="button" class="btn btn-secondary" id="exportCharacterBtn">💾 Exportar ficha</button>
         <button type="button" class="btn btn-secondary" id="importCharacterBtn">📂 Importar ficha</button>
         <input type="file" id="importCharacterInput" accept=".json,.absconditus,application/json" hidden>
     </div>
 
+    <dialog class="cloud-dialog" id="cloudAuthDialog">
+        <form method="dialog" class="cloud-dialog-inner" id="cloudAuthForm">
+            <h2>Arquivo da Nuvem</h2>
+            <label for="cloudEmail">E-mail</label>
+            <input id="cloudEmail" type="email" autocomplete="username" required>
+            <label for="cloudPassword">Senha</label>
+            <input id="cloudPassword" type="password" autocomplete="current-password" minlength="6" required>
+            <div class="cloud-dialog-buttons">
+                <button type="button" class="btn btn-secondary" id="cloudSignInBtn">Entrar</button>
+                <button type="button" class="btn btn-secondary" id="cloudSignUpBtn">Criar conta</button>
+                <button type="button" class="btn btn-secondary" id="cloudCloseBtn">Cancelar</button>
+            </div>
+            <button type="button" class="cloud-dialog-link" id="cloudPasswordResetBtn">Esqueci minha senha</button>
+            <p class="cloud-message" id="cloudAuthMessage" role="status"></p>
+        </form>
+    </dialog>
 
-    <div class="dossier">
+    <dialog class="cloud-dialog" id="appNoticeDialog">
+        <div class="cloud-dialog-inner">
+            <h2 id="appNoticeTitle">Aviso</h2>
+            <p class="app-notice-text" id="appNoticeText"></p>
+            <div class="cloud-dialog-buttons">
+                <button type="button" id="appNoticeCancel">Cancelar</button>
+                <button type="button" class="app-notice-confirm" id="appNoticeConfirm">Continuar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <div class="operation-loading" id="operationLoading" hidden aria-live="polite">
+        <div class="operation-loading-card">
+            <div class="operation-spinner" aria-hidden="true"></div>
+            <p id="operationLoadingText">Consultando o arquivo...</p>
+        </div>
+    </div>
+
+    <div class="app-toast" id="appToast" role="status" aria-live="polite"></div>
+
+
+    <div class="dossier" id="mainDossier">
 
         <header class="dossier-header">
             <img class="emblem"
@@ -1974,7 +2389,17 @@
         </main>
 
         <footer class="dossier-footer">
-            <button id="saveButton" class="btn-save" type="button">Selar Ficha</button>
+            <div class="cloud-actions" aria-label="Gerenciar personagem">
+                <select id="cloudCharacterSelect" aria-label="Personagem da nuvem" hidden>
+                    <option value="">Selecione um personagem</option>
+                </select>
+                <button type="button" class="btn-save cloud-footer-btn" id="cloudNewBtn" hidden>＋ Novo personagem</button>
+                <button id="saveButton" class="btn-save cloud-footer-btn cloud-footer-primary" type="button">🔒 Selar ficha</button>
+                <button type="button" class="btn-save cloud-footer-btn" id="cloudLoadBtn" hidden>⬇️ Carregar ficha</button>
+                <button type="button" class="btn-save cloud-footer-btn" id="switchCharacterBtn" hidden>← Trocar personagem</button>
+                <button type="button" class="btn-save cloud-footer-btn" id="cloudLogoutBtn" hidden>Sair</button>
+                <span class="cloud-user" id="cloudUserStatus">Nuvem desconectada</span>
+            </div>
             <span id="saveStatus" class="save-status"></span>
         </footer>
 
@@ -1985,7 +2410,8 @@
         // ✨ ABSCONDITUS — FICHA DE INVESTIGADOR
         // =============================================
 
-        const STORAGE_KEY = 'absconditusCharacter';
+        // Cada conta conectada possui seu próprio rascunho local.
+        const STORAGE_KEY = localStorage.getItem('absconditusStorageScope') || 'absconditusCharacter:signed-out';
 
         const ATTRIBUTES = {
             corpo: ['Força', 'Agilidade', 'Resistência', 'Precisão', 'Reflexo'],
@@ -2084,6 +2510,17 @@
                 setTimeout(() => { status.textContent = ''; }, 4000);
             }
         }
+
+        // Ponte controlada usada pela integração Firebase abaixo.
+        window.absconditusCloudBridge = {
+            getState: () => JSON.parse(JSON.stringify(state)),
+            applyState: (cloudState) => {
+                if (!cloudState || typeof cloudState !== 'object') throw new Error('Ficha da nuvem inválida.');
+                state = Object.assign(defaultState(), cloudState);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                window.location.reload();
+            }
+        };
 
         function loadState() {
             const saved = localStorage.getItem(STORAGE_KEY);
@@ -2673,11 +3110,11 @@
 
             const rollAttrBtn = document.getElementById('rollAttrBtn');
             if (rollAttrBtn) {
-                rollAttrBtn.addEventListener('click', () => {
+                rollAttrBtn.addEventListener('click', async () => {
                     const select = document.getElementById('diceAttrSelect');
                     const attrKey = select.value;
                     if (!attrKey) {
-                        alert('Selecione um atributo primeiro!');
+                        await window.absconditusNotice('Selecione um atributo antes de realizar a rolagem.', 'Dados incompletos');
                         return;
                     }
 
@@ -2785,8 +3222,12 @@
             const importInput = document.getElementById('importCharacterInput');
 
             if (newBtn) {
-                newBtn.addEventListener('click', () => {
-                    if (confirm('Deseja criar uma nova ficha? Os dados não salvos localmente serão redefinidos.')) {
+                newBtn.addEventListener('click', async () => {
+                    if (await window.absconditusConfirm(
+                        'Deseja criar uma nova ficha? Os dados ainda não selados serão descartados.',
+                        'Nova ficha',
+                        'Criar ficha'
+                    )) {
                         state = defaultState();
                         saveState();
                         initApp();
@@ -2812,7 +3253,7 @@
                     const file = e.target.files[0];
                     if (!file) return;
                     const reader = new FileReader();
-                    reader.onload = (event) => {
+                    reader.onload = async (event) => {
                         try {
                             const parsed = JSON.parse(event.target.result);
                             state = Object.assign(defaultState(), parsed);
@@ -2820,7 +3261,10 @@
                             initApp();
                             document.dispatchEvent(new CustomEvent('absconditus:characterImported'));
                         } catch (err) {
-                            alert('Erro ao importar arquivo. Certifique-se de que é um JSON ou .absconditus válido.');
+                            await window.absconditusNotice(
+                                'Não foi possível importar o arquivo. Verifique se ele é um JSON ou .absconditus válido.',
+                                'Falha na importação'
+                            );
                         }
                     };
                     reader.readAsText(file);
@@ -2862,6 +3306,706 @@
         }
 
         document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
+        import {
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            signOut, onAuthStateChanged, sendPasswordResetEmail
+        } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
+        import {
+            getFirestore, doc, getDoc, setDoc, collection, query, where,
+            getDocs, serverTimestamp, writeBatch, deleteField
+        } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: 'AIzaSyCOZ4NKWoNkyLKEyIGMvhOSQoLL6lfxHBs',
+            authDomain: 'absconditus.firebaseapp.com',
+            projectId: 'absconditus',
+            storageBucket: 'absconditus.firebasestorage.app',
+            messagingSenderId: '161869203476',
+            appId: '1:161869203476:web:438729306d06d57513f01'
+        };
+
+        const firebaseApp = initializeApp(firebaseConfig);
+        const auth = getAuth(firebaseApp);
+        const db = getFirestore(firebaseApp);
+        let activeCharacterId = null;
+        let authDialogMode = 'signin';
+        let creatingNewCharacter = sessionStorage.getItem('absconditusCreatingCharacter') === '1';
+        let loadedCharacters = [];
+        let showArchivedCharacters = false;
+
+        const byId = (id) => document.getElementById(id);
+        const authDialog = byId('cloudAuthDialog');
+        const authMessage = byId('cloudAuthMessage');
+        const emailInput = byId('cloudEmail');
+        const passwordInput = byId('cloudPassword');
+        const noticeDialog = byId('appNoticeDialog');
+        let toastTimer = null;
+        let busyDepth = 0;
+
+        function openNoticeDialog({ title = 'Aviso', message, confirmText = 'Entendi', cancelText = '', danger = false }) {
+            return new Promise(resolve => {
+                const confirmButton = byId('appNoticeConfirm');
+                const cancelButton = byId('appNoticeCancel');
+                let settled = false;
+
+                byId('appNoticeTitle').textContent = title;
+                byId('appNoticeText').textContent = message;
+                confirmButton.textContent = confirmText;
+                confirmButton.classList.toggle('danger', danger);
+                cancelButton.textContent = cancelText || 'Cancelar';
+                cancelButton.hidden = !cancelText;
+
+                const finish = result => {
+                    if (settled) return;
+                    settled = true;
+                    noticeDialog.close();
+                    resolve(result);
+                };
+
+                confirmButton.onclick = () => finish(true);
+                cancelButton.onclick = () => finish(false);
+                noticeDialog.oncancel = event => {
+                    event.preventDefault();
+                    finish(false);
+                };
+                noticeDialog.showModal();
+                confirmButton.focus();
+            });
+        }
+
+        function showNotice(message, title = 'Aviso') {
+            return openNoticeDialog({ title, message });
+        }
+
+        function showConfirm(message, title = 'Confirmar ação', confirmText = 'Continuar', danger = false) {
+            return openNoticeDialog({ title, message, confirmText, cancelText: 'Cancelar', danger });
+        }
+
+        window.absconditusNotice = showNotice;
+        window.absconditusConfirm = showConfirm;
+
+        function showToast(message, isError = false) {
+            const toast = byId('appToast');
+            window.clearTimeout(toastTimer);
+            toast.textContent = message;
+            toast.classList.toggle('is-error', isError);
+            toast.classList.add('is-visible');
+            toastTimer = window.setTimeout(() => toast.classList.remove('is-visible'), 3200);
+        }
+
+        function beginOperation(message) {
+            busyDepth += 1;
+            byId('operationLoadingText').textContent = message;
+            byId('operationLoading').hidden = false;
+        }
+
+        function endOperation() {
+            busyDepth = Math.max(0, busyDepth - 1);
+            if (!busyDepth) byId('operationLoading').hidden = true;
+        }
+
+        function activeStorageKey(userId) {
+            return `absconditusActiveCharacter:${userId}`;
+        }
+
+        function setDirty(isDirty) {
+            const status = byId('cloudUserStatus');
+            status.classList.toggle('cloud-dirty', isDirty);
+            status.classList.toggle('cloud-saved', !isDirty && !!auth.currentUser);
+            if (isDirty && auth.currentUser) status.textContent = `Alterações locais não salvas • ${auth.currentUser.email}`;
+        }
+
+        function openAuthDialog(mode) {
+            authDialogMode = mode;
+            authDialog.querySelector('h2').textContent = mode === 'signup' ? 'Criar conta' : 'Entrar no Arquivo da Nuvem';
+            byId('cloudSignInBtn').hidden = mode === 'signup';
+            byId('cloudSignUpBtn').hidden = mode !== 'signup';
+            byId('cloudPasswordResetBtn').hidden = mode === 'signup';
+            showMessage('');
+            authDialog.showModal();
+            emailInput.focus();
+        }
+
+        function finishAppBoot() {
+            document.body.classList.remove('app-booting');
+            byId('appLoading').hidden = true;
+        }
+
+        function showCharacterHub() {
+            sessionStorage.removeItem('absconditusViewingCharacter');
+            byId('characterHub').hidden = false;
+            byId('mainDossier').hidden = true;
+            byId('fileActions').hidden = true;
+            renderCharacterHub();
+        }
+
+        function showCharacterSheet() {
+            byId('characterHub').hidden = true;
+            byId('mainDossier').hidden = false;
+            byId('fileActions').hidden = false;
+        }
+
+        function characterPhoto(character) {
+            return character.miniatura || character.ficha?.credCard?.fotoBase64 || 'assets/logos/absconditus-a.png';
+        }
+
+        async function createThumbnail(dataUrl) {
+            if (!dataUrl) return '';
+            const image = new Image();
+            image.src = dataUrl;
+            await image.decode();
+            const maxWidth = 180;
+            const scale = Math.min(1, maxWidth / image.width);
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.max(1, Math.round(image.width * scale));
+            canvas.height = Math.max(1, Math.round(image.height * scale));
+            canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg', .68);
+        }
+
+        async function migrateLegacyCharacter(character) {
+            if (!character.ficha || character.schemaVersion === 2) return character;
+            const thumbnail = await createThumbnail(character.ficha.credCard?.fotoBase64 || '');
+            const batch = writeBatch(db);
+            const rootRef = doc(db, 'personagens', character.id);
+            const sheetRef = doc(db, 'personagens', character.id, 'dados', 'ficha');
+            batch.set(sheetRef, {
+                donoId: character.donoId,
+                conteudo: character.ficha,
+                atualizadoEm: serverTimestamp()
+            });
+            batch.set(rootRef, {
+                resumo: resumoDaFicha(character.ficha),
+                miniatura: thumbnail,
+                schemaVersion: 2,
+                ficha: deleteField(),
+                atualizadoEm: serverTimestamp()
+            }, { merge: true });
+            await batch.commit();
+            character.resumo = resumoDaFicha(character.ficha);
+            character.miniatura = thumbnail;
+            character.schemaVersion = 2;
+            delete character.ficha;
+            return character;
+        }
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>'"]/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            })[character]);
+        }
+
+        function renderCharacterHub() {
+            const track = byId('characterCarouselTrack');
+            track.innerHTML = '';
+            const visibleCharacters = loadedCharacters.filter(character => !!character.arquivado === showArchivedCharacters);
+            visibleCharacters.forEach(character => {
+                const card = document.createElement('article');
+                card.className = 'character-card';
+                const name = character.resumo?.nome || character.ficha?.personal?.nome || 'Investigador sem nome';
+                const codename = character.resumo?.codinome || character.ficha?.personal?.codinome || 'Sem codinome';
+                const characterClass = character.resumo?.classe || character.ficha?.personal?.classe || 'Classe não definida';
+                card.innerHTML = `
+                    <img class="character-card-photo" src="${characterPhoto(character)}" alt="Foto de ${escapeHtml(name)}">
+                    <h3>${escapeHtml(name)}</h3>
+                    <div class="character-card-meta">${escapeHtml(codename)}<br>${escapeHtml(characterClass)} • ${escapeHtml(character.resumo?.status || 'Ativo')}</div>
+                    <div class="character-card-actions">
+                        <button type="button" class="open-character">Abrir ficha</button>
+                        <button type="button" class="archive-character">${character.arquivado ? 'Restaurar' : 'Arquivar'}</button>
+                    </div>`;
+                card.querySelector('.open-character').addEventListener('click', () => openCharacter(character.id));
+                card.querySelector('.archive-character').addEventListener('click', () => toggleArchiveCharacter(character));
+                track.appendChild(card);
+            });
+
+            if (!showArchivedCharacters) {
+                const newCard = document.createElement('article');
+                newCard.className = 'character-card new-character-card';
+                newCard.innerHTML = '<div><strong>＋</strong><h3>Criar personagem</h3><p class="character-card-meta">Começar uma nova ficha</p></div>';
+                newCard.addEventListener('click', startNewCharacter);
+                track.appendChild(newCard);
+            }
+
+            if (!track.children.length) {
+                track.innerHTML = '<article class="character-card new-character-card"><div><h3>Nenhum personagem arquivado</h3></div></article>';
+            }
+            byId('hubArchiveToggleBtn').textContent = showArchivedCharacters ? 'Ver personagens ativos' : 'Ver arquivados';
+        }
+
+        async function toggleArchiveCharacter(character) {
+            const action = character.arquivado ? 'restaurar' : 'arquivar';
+            const confirmed = await showConfirm(
+                `Deseja realmente ${action} este personagem?`,
+                character.arquivado ? 'Restaurar personagem' : 'Arquivar personagem',
+                character.arquivado ? 'Restaurar' : 'Arquivar',
+                !character.arquivado
+            );
+            if (!confirmed) return;
+            beginOperation(character.arquivado ? 'Restaurando personagem...' : 'Arquivando personagem...');
+            try {
+                await setDoc(doc(db, 'personagens', character.id), {
+                    arquivado: !character.arquivado,
+                    atualizadoEm: serverTimestamp()
+                }, { merge: true });
+                await refreshCharacterList();
+                showToast(character.arquivado ? 'Personagem restaurado.' : 'Personagem arquivado.');
+            } catch (error) {
+                console.error(error);
+                await showNotice('Não foi possível atualizar este personagem. Verifique sua conexão e tente novamente.', 'Falha no arquivo');
+            } finally {
+                endOperation();
+            }
+        }
+
+        async function openCharacter(characterId) {
+            activeCharacterId = characterId;
+            creatingNewCharacter = false;
+            sessionStorage.removeItem('absconditusCreatingCharacter');
+            sessionStorage.setItem('absconditusViewingCharacter', characterId);
+            localStorage.setItem(activeStorageKey(auth.currentUser.uid), characterId);
+            await loadCloud(false);
+        }
+
+        async function startNewCharacter() {
+            const confirmed = await showConfirm(
+                'Iniciar uma ficha vazia? Alterações ainda não seladas no personagem atual serão descartadas.',
+                'Criar personagem',
+                'Criar personagem'
+            );
+            if (!confirmed) return;
+            activeCharacterId = null;
+            creatingNewCharacter = true;
+            sessionStorage.setItem('absconditusCreatingCharacter', '1');
+            sessionStorage.setItem('absconditusViewingCharacter', 'new');
+            localStorage.removeItem(activeStorageKey(auth.currentUser.uid));
+            localStorage.removeItem(localStorage.getItem('absconditusStorageScope') || 'absconditusCharacter:signed-out');
+            window.location.reload();
+        }
+
+        function logoutUser() {
+            sessionStorage.removeItem('absconditusViewingCharacter');
+            sessionStorage.removeItem('absconditusCreatingCharacter');
+            return signOut(auth);
+        }
+
+        async function refreshCharacterList() {
+            const user = auth.currentUser;
+            const select = byId('cloudCharacterSelect');
+            select.innerHTML = '<option value="">Selecione um personagem</option>';
+            if (!user) return;
+            const snapshot = await getDocs(query(collection(db, 'personagens'), where('donoId', '==', user.uid)));
+            const characters = snapshot.docs.map(item => ({ id: item.id, ...item.data() }))
+                .sort((a, b) => (a.resumo?.nome || '').localeCompare(b.resumo?.nome || ''));
+            loadedCharacters = characters;
+            const legacyCharacters = characters.filter(character => character.ficha && character.schemaVersion !== 2);
+            if (legacyCharacters.length) {
+                const migrationResults = await Promise.allSettled(legacyCharacters.map(migrateLegacyCharacter));
+                migrationResults.forEach((result, index) => {
+                    if (result.status === 'rejected') {
+                        console.error(`Falha ao migrar ${legacyCharacters[index].id}:`, result.reason);
+                    }
+                });
+            }
+            characters.forEach(character => {
+                const option = document.createElement('option');
+                option.value = character.id;
+                option.textContent = character.resumo?.nome || character.ficha?.personal?.nome || 'Investigador sem nome';
+                select.appendChild(option);
+            });
+            const remembered = localStorage.getItem(activeStorageKey(user.uid));
+            if (creatingNewCharacter) {
+                activeCharacterId = null;
+                select.value = '';
+            } else if (remembered && characters.some(character => character.id === remembered)) {
+                activeCharacterId = remembered;
+                select.value = remembered;
+            } else if (characters.length === 1) {
+                activeCharacterId = characters[0].id;
+                select.value = activeCharacterId;
+                localStorage.setItem(activeStorageKey(user.uid), activeCharacterId);
+            } else {
+                activeCharacterId = null;
+            }
+            renderCharacterHub();
+            return characters;
+        }
+
+        function showMessage(text, isError = false) {
+            authMessage.textContent = text;
+            authMessage.style.color = isError ? '#ff7b87' : '#d7aa57';
+        }
+
+        function friendlyAuthError(error) {
+            const messages = {
+                'auth/email-already-in-use': 'Este e-mail já possui uma conta.',
+                'auth/invalid-email': 'Digite um e-mail válido.',
+                'auth/invalid-credential': 'E-mail ou senha incorretos.',
+                'auth/weak-password': 'A senha precisa ter pelo menos 6 caracteres.',
+                'auth/too-many-requests': 'Muitas tentativas. Aguarde um pouco e tente novamente.'
+            };
+            return messages[error.code] || 'Não foi possível autenticar. Tente novamente.';
+        }
+
+        async function compressPhoto(dataUrl) {
+            if (!dataUrl || dataUrl.length < 450000) return dataUrl;
+            const image = new Image();
+            image.src = dataUrl;
+            await image.decode();
+            const maxWidth = 600;
+            const scale = Math.min(1, maxWidth / image.width);
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(image.width * scale);
+            canvas.height = Math.round(image.height * scale);
+            canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg', .76);
+        }
+
+        async function stateForCloud() {
+            const copy = window.absconditusCloudBridge.getState();
+            if (copy.credCard?.fotoBase64) {
+                copy.credCard.fotoBase64 = await compressPhoto(copy.credCard.fotoBase64);
+            }
+            return copy;
+        }
+
+        function resumoDaFicha(ficha) {
+            return {
+                nome: ficha.personal?.nome || 'Investigador',
+                codinome: ficha.personal?.codinome || '',
+                classe: ficha.personal?.classe || '',
+                ranking: ficha.personal?.ranking || '',
+                organizacao: ficha.personal?.organizacao || '',
+                hpAtual: ficha.vitals?.hpAtual ?? 0,
+                hpMax: ficha.vitals?.hpMax ?? 0,
+                spAtual: ficha.vitals?.spAtual ?? 0,
+                sanAtual: ficha.vitals?.sanAtual ?? 0,
+                sanMax: ficha.vitals?.sanMax ?? 0,
+                fadigaAtual: ficha.vitals?.fadigaAtual ?? 0,
+                corrupcao: ficha.corrupcao ?? 0,
+                status: ficha.credCard?.status || 'Ativo'
+            };
+        }
+
+        async function saveCloud() {
+            const user = auth.currentUser;
+            if (!user) return;
+            const button = byId('saveButton');
+            button.disabled = true;
+            byId('cloudUserStatus').textContent = 'Salvando ficha...';
+            beginOperation('Selando a ficha...');
+            try {
+                const ficha = await stateForCloud();
+                const thumbnail = await createThumbnail(ficha.credCard?.fotoBase64 || '');
+                const isNewCharacter = !activeCharacterId;
+                const rootRef = isNewCharacter
+                    ? doc(collection(db, 'personagens'))
+                    : doc(db, 'personagens', activeCharacterId);
+                const sheetRef = doc(db, 'personagens', rootRef.id, 'dados', 'ficha');
+                const batch = writeBatch(db);
+                const rootPayload = {
+                    donoId: user.uid,
+                    resumo: resumoDaFicha(ficha),
+                    miniatura: thumbnail,
+                    schemaVersion: 2,
+                    atualizadoEm: serverTimestamp()
+                };
+                if (isNewCharacter) rootPayload.criadoEm = serverTimestamp();
+                else rootPayload.ficha = deleteField();
+                batch.set(rootRef, rootPayload, { merge: true });
+                batch.set(sheetRef, {
+                    donoId: user.uid,
+                    conteudo: ficha,
+                    atualizadoEm: serverTimestamp()
+                }, { merge: true });
+                await batch.commit();
+                if (isNewCharacter) {
+                    activeCharacterId = rootRef.id;
+                    creatingNewCharacter = false;
+                    sessionStorage.removeItem('absconditusCreatingCharacter');
+                    localStorage.setItem(activeStorageKey(user.uid), activeCharacterId);
+                }
+                sessionStorage.setItem('absconditusViewingCharacter', activeCharacterId);
+                await refreshCharacterList();
+                byId('cloudUserStatus').textContent = `Salvo na nuvem • ${user.email}`;
+                setDirty(false);
+                showToast('Ficha selada e salva na nuvem.');
+            } catch (error) {
+                console.error(error);
+                byId('cloudUserStatus').textContent = 'Erro ao salvar na nuvem';
+                await showNotice(
+                    'Não foi possível salvar a ficha. A imagem pode estar muito grande ou a conexão pode ter falhado.',
+                    'Falha ao selar ficha'
+                );
+            } finally {
+                endOperation();
+                button.disabled = false;
+            }
+        }
+
+        async function loadCloud(askConfirmation = true) {
+            const user = auth.currentUser;
+            if (!user) return;
+            if (!activeCharacterId) {
+                await showNotice('Selecione um personagem salvo antes de carregar a ficha.', 'Nenhum personagem selecionado');
+                return;
+            }
+            if (askConfirmation) {
+                const confirmed = await showConfirm(
+                    'Carregar a ficha salva na nuvem e substituir os dados atualmente abertos?',
+                    'Carregar ficha',
+                    'Carregar'
+                );
+                if (!confirmed) return;
+            }
+            beginOperation('Carregando a ficha...');
+            try {
+                const sheetSnapshot = await getDoc(doc(db, 'personagens', activeCharacterId, 'dados', 'ficha'));
+                let cloudSheet = sheetSnapshot.exists() ? sheetSnapshot.data().conteudo : null;
+                if (!cloudSheet) {
+                    // Compatibilidade temporária com personagens ainda não migrados.
+                    const legacySnapshot = await getDoc(doc(db, 'personagens', activeCharacterId));
+                    cloudSheet = legacySnapshot.exists() ? legacySnapshot.data().ficha : null;
+                }
+                if (!cloudSheet) {
+                    await showNotice('Esta conta ainda não possui uma ficha salva na nuvem.', 'Ficha não encontrada');
+                    return;
+                }
+                window.absconditusCloudBridge.applyState(cloudSheet);
+                byId('cloudUserStatus').textContent = `Ficha carregada • ${user.email}`;
+                showToast('Ficha carregada.');
+            } catch (error) {
+                console.error(error);
+                await showNotice('Não foi possível carregar a ficha da nuvem. Verifique sua conexão e tente novamente.', 'Falha ao carregar');
+            } finally {
+                endOperation();
+            }
+        }
+
+        async function authenticate(mode) {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            if (!email || password.length < 6) {
+                showMessage('Informe um e-mail e uma senha com pelo menos 6 caracteres.', true);
+                return;
+            }
+            showMessage(mode === 'signup' ? 'Criando conta...' : 'Entrando...');
+            const signInButton = byId('cloudSignInBtn');
+            const signUpButton = byId('cloudSignUpBtn');
+            signInButton.disabled = true;
+            signUpButton.disabled = true;
+            try {
+                let credential;
+                if (mode === 'signup') {
+                    credential = await createUserWithEmailAndPassword(auth, email, password);
+                    await setDoc(doc(db, 'usuarios', credential.user.uid), {
+                        email: credential.user.email,
+                        tipo: 'jogador',
+                        criadoEm: serverTimestamp()
+                    });
+                } else {
+                    credential = await signInWithEmailAndPassword(auth, email, password);
+                }
+                passwordInput.value = '';
+                authDialog.close();
+            } catch (error) {
+                console.error(error);
+                showMessage(friendlyAuthError(error), true);
+            } finally {
+                signInButton.disabled = false;
+                signUpButton.disabled = false;
+            }
+        }
+
+        async function resetPassword() {
+            const email = emailInput.value.trim();
+            const button = byId('cloudPasswordResetBtn');
+            if (!email) {
+                showMessage('Digite seu e-mail acima para recuperar a senha.', true);
+                emailInput.focus();
+                return;
+            }
+            button.disabled = true;
+            showMessage('Enviando instruções de recuperação...');
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showMessage('Se houver uma conta com esse e-mail, as instruções foram enviadas. Verifique também o spam.');
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'auth/invalid-email') {
+                    showMessage('Digite um endereço de e-mail válido.', true);
+                } else {
+                    showMessage('Não foi possível enviar agora. Aguarde um pouco e tente novamente.', true);
+                }
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        byId('cloudCloseBtn').addEventListener('click', () => authDialog.close());
+        byId('cloudSignInBtn').addEventListener('click', () => authenticate('signin'));
+        byId('cloudSignUpBtn').addEventListener('click', () => authenticate('signup'));
+        byId('cloudPasswordResetBtn').addEventListener('click', resetPassword);
+        byId('cloudLogoutBtn').addEventListener('click', logoutUser);
+        byId('saveButton').addEventListener('click', saveCloud);
+        byId('cloudLoadBtn').addEventListener('click', loadCloud);
+        byId('cloudNewBtn').addEventListener('click', startNewCharacter);
+        byId('cloudCharacterSelect').addEventListener('change', async (event) => {
+            const previousCharacterId = activeCharacterId;
+            const selectedCharacterId = event.target.value || null;
+            if (selectedCharacterId) {
+                const confirmed = await showConfirm(
+                    'Carregar este personagem e substituir a ficha atualmente aberta?',
+                    'Trocar personagem',
+                    'Carregar'
+                );
+                if (!confirmed) {
+                    event.target.value = previousCharacterId || '';
+                    return;
+                }
+            }
+            activeCharacterId = selectedCharacterId;
+            creatingNewCharacter = false;
+            sessionStorage.removeItem('absconditusCreatingCharacter');
+            if (activeCharacterId) {
+                localStorage.setItem(activeStorageKey(auth.currentUser.uid), activeCharacterId);
+                await loadCloud(false);
+            } else {
+                localStorage.removeItem(activeStorageKey(auth.currentUser.uid));
+            }
+        });
+
+        byId('gateSignInBtn').addEventListener('click', () => openAuthDialog('signin'));
+        byId('gateSignUpBtn').addEventListener('click', () => openAuthDialog('signup'));
+        byId('switchCharacterBtn').addEventListener('click', showCharacterHub);
+        byId('hubLogoutBtn').addEventListener('click', logoutUser);
+        byId('hubArchiveToggleBtn').addEventListener('click', () => {
+            showArchivedCharacters = !showArchivedCharacters;
+            renderCharacterHub();
+        });
+        byId('carouselPrevBtn').addEventListener('click', () => {
+            byId('characterCarouselViewport').scrollBy({ left: -308, behavior: 'smooth' });
+        });
+        byId('carouselNextBtn').addEventListener('click', () => {
+            byId('characterCarouselViewport').scrollBy({ left: 308, behavior: 'smooth' });
+        });
+
+        function setupCarouselDrag() {
+            const viewport = byId('characterCarouselViewport');
+            let pointerId = null;
+            let startX = 0;
+            let startScrollLeft = 0;
+            let dragged = false;
+            let suppressClick = false;
+
+            viewport.addEventListener('dragstart', event => event.preventDefault());
+
+            viewport.addEventListener('pointerdown', event => {
+                if (event.pointerType !== 'mouse' || event.button !== 0) return;
+                pointerId = event.pointerId;
+                startX = event.clientX;
+                startScrollLeft = viewport.scrollLeft;
+                dragged = false;
+            });
+
+            viewport.addEventListener('pointermove', event => {
+                if (event.pointerId !== pointerId) return;
+                const distance = event.clientX - startX;
+                if (!dragged && Math.abs(distance) < 6) return;
+                if (!dragged) {
+                    dragged = true;
+                    viewport.classList.add('is-dragging');
+                    viewport.setPointerCapture(pointerId);
+                }
+                viewport.scrollLeft = startScrollLeft - distance;
+                event.preventDefault();
+            });
+
+            function finishDrag(event) {
+                if (event.pointerId !== pointerId) return;
+                if (viewport.hasPointerCapture(pointerId)) viewport.releasePointerCapture(pointerId);
+                pointerId = null;
+                viewport.classList.remove('is-dragging');
+                if (dragged) {
+                    suppressClick = true;
+                    window.setTimeout(() => { suppressClick = false; }, 0);
+                    window.requestAnimationFrame(() => {
+                        const viewportCenter = viewport.getBoundingClientRect().left + viewport.clientWidth / 2;
+                        const cards = [...byId('characterCarouselTrack').querySelectorAll('.character-card')];
+                        const nearestCard = cards.reduce((nearest, card) => {
+                            const rect = card.getBoundingClientRect();
+                            const distance = Math.abs((rect.left + rect.width / 2) - viewportCenter);
+                            return !nearest || distance < nearest.distance ? { card, distance } : nearest;
+                        }, null);
+                        nearestCard?.card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    });
+                }
+            }
+
+            viewport.addEventListener('pointerup', finishDrag);
+            viewport.addEventListener('pointercancel', finishDrag);
+            viewport.addEventListener('click', event => {
+                if (!suppressClick) return;
+                event.preventDefault();
+                event.stopPropagation();
+            }, true);
+        }
+
+        setupCarouselDrag();
+
+        document.addEventListener('input', (event) => {
+            if (event.target.closest('.dossier')) setDirty(true);
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            const desiredStorageScope = user
+                ? `absconditusCharacter:${user.uid}`
+                : 'absconditusCharacter:signed-out';
+            const currentStorageScope = localStorage.getItem('absconditusStorageScope');
+            if (currentStorageScope !== desiredStorageScope) {
+                localStorage.setItem('absconditusStorageScope', desiredStorageScope);
+                window.location.reload();
+                return;
+            }
+            byId('cloudCharacterSelect').hidden = true;
+            byId('cloudNewBtn').hidden = !user;
+            byId('cloudLoadBtn').hidden = !user;
+            byId('switchCharacterBtn').hidden = !user;
+            byId('cloudLogoutBtn').hidden = !user;
+            byId('cloudUserStatus').textContent = user ? `Conectado: ${user.email}` : 'Nuvem desconectada';
+            byId('authGate').hidden = !!user;
+            if (user) {
+                try {
+                    byId('hubAccount').textContent = user.email;
+                    const characters = await refreshCharacterList();
+                    const viewingCharacter = sessionStorage.getItem('absconditusViewingCharacter');
+                    if (viewingCharacter === 'new' && creatingNewCharacter) {
+                        showCharacterSheet();
+                    } else if (viewingCharacter && characters.some(character => character.id === viewingCharacter)) {
+                        activeCharacterId = viewingCharacter;
+                        showCharacterSheet();
+                    } else {
+                        showCharacterHub();
+                    }
+                }
+                catch (error) {
+                    console.error(error);
+                    byId('cloudUserStatus').textContent = 'Erro ao listar personagens';
+                    showCharacterHub();
+                }
+            } else {
+                activeCharacterId = null;
+                loadedCharacters = [];
+                byId('characterHub').hidden = true;
+                byId('mainDossier').hidden = true;
+                byId('fileActions').hidden = true;
+                byId('cloudCharacterSelect').innerHTML = '<option value="">Selecione um personagem</option>';
+            }
+            finishAppBoot();
+        });
     </script>
 </body>
 
