@@ -1,2 +1,2 @@
 # Absconditus-v1
-Um projeto de história em quadrinhos/mangá e RPG
+Um projeto de jogo e RPG
