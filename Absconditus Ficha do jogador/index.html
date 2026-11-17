@@ -5272,15 +5272,24 @@ function updateOrganizationDetails(organization) {
         // ✨ CARROSSEL DE ORGANIZAÇÕES
         // =============================================
         const ORG_ICON = {
-            'Credo do Caçador': '🏹', 'Centro de Observação': '🔍', 'Pax Vobiscum': '🕊️',
-            'Filhos da Terra': '🌿', 'Ordem do Abismo': '👁️', 'A Divisão': '🎯',
-            'Clã Akamatsu': '⚔️', 'Kurotsuki': '🌙'
+            'Credo do Caçador': 'Absconditus Ficha do jogador/assets/logos/org/credo-cacadores.png',
+            'Centro de Observação': 'Absconditus Ficha do jogador/assets/logos/org/centro-observacao.png',
+            'Pax Vobiscum': 'Absconditus Ficha do jogador/assets/logos/org/pax-vobiscum.png',
+            'Filhos da Terra': 'Absconditus Ficha do jogador/assets/logos/org/filhos-terra.png',
+            'Ordem do Abismo': 'Absconditus Ficha do jogador/assets/logos/org/ordem-abismo.png',
+            'A Divisão': 'Absconditus Ficha do jogador/assets/logos/org/a-divisao.png',
+            'Clã Akamatsu': 'Absconditus Ficha do jogador/assets/logos/org/cla-akamatsu.png',
+            'Kurotsuki': 'Absconditus Ficha do jogador/assets/logos/org/cla-akamatsu.png'
         };
         const ORG_ORDER = ['Credo do Caçador', 'Centro de Observação', 'Pax Vobiscum', 'Filhos da Terra', 'Ordem do Abismo', 'A Divisão', 'Clã Akamatsu', 'Kurotsuki'];
         let ogIndex = 0;
 
-        /* Placeholder do brasão da organização */
+        /* Brasão da organização — usa imagem da pasta assets quando disponível */
         function ogLogoSVG(nome, ic) {
+            // Se o ícone for um caminho de imagem, renderiza  direto
+            if (ic && (ic.endsWith('.png') || ic.endsWith('.svg') || ic.endsWith('.jpg'))) {
+                return `<img src="${ic}" alt="Brasão de ${nome}" class="org-logo-img" style="width:100%;height:100%;object-fit:contain;display:block">`;
+            }
             const id = 'ogl' + Math.random().toString(36).slice(2, 8);
             return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brasão de ${nome}">
                 <defs>
