@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070708">
+    <title>ABSCONDITUS — Painel do Mestre</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=EB+Garamond:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Metal+Mania&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Razq_Kyz_QNIvMOwjvrSg0TcuSwTqvbr-Tz1kSFsLcbk-pXP7MvDCudx7YTy66WVwyvC2zwA8tmHvqDArzbgGLuejSMdAvZw53Mhk5RlLsX5TEontvtzpVJmBqa5pYNrKP_A4JxRwbbsiA8OVDLOT_5aj8EsKwB8kQWSUxeb01jbqspOFXu6gnwGMz_qLfxEs0l59sFbGB1OGiQKyXElTSVjSAilU32P89O2MP-lA_EN8K1UApK6N0Xr9UxQEqO2ERcgUrzwAFwHFNviagBwyg" charset="UTF-8"></script><style>
+        :root {
+            --black: #050506;
+            --panel: #0d0d0f;
+            --panel-2: #151518;
+            --line: #343034;
+            --line-red: #771521;
+            --blood: #951723;
+            --blood-light: #c92535;
+            --bone: #eee9df;
+            --muted: #a9a198;
+            --good: #70bd87;
+            --warning: #d9a74f;
+            --danger: #d84b58;
+        }
+
+        * { box-sizing: border-box; }
+        html, body { min-height: 100%; }
+        body {
+            margin: 0;
+            color: var(--bone);
+            background:
+                radial-gradient(circle at 88% 12%, rgba(117, 18, 31, .14), transparent 30rem),
+                var(--black);
+            font-family: 'EB Garamond', serif;
+        }
+        button, input, select, textarea { font: inherit; }
+        button { color: inherit; }
+        [hidden] { display: none !important; }
+
+        .full-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: radial-gradient(circle at 50% 28%, #251016 0, #09090b 48%, #020203 100%);
+        }
+        .gate-card {
+            width: min(92vw, 470px);
+            padding: 34px;
+            text-align: center;
+            background: rgba(12, 12, 15, .97);
+            border: 1px solid var(--line-red);
+            border-radius: 14px;
+            box-shadow: 0 28px 90px rgba(0, 0, 0, .78);
+        }
+        .gate-logo { width: 82px; height: 82px; object-fit: contain; }
+        .gate-card h1 { margin: 8px 0 0; font-family: 'Metal Mania', serif; letter-spacing: 4px; }
+        .gate-kicker { margin: 4px 0 24px; color: var(--blood-light); letter-spacing: 4px; font-family: 'Bebas Neue', sans-serif; }
+        .gate-card label { display: block; margin: 13px 0 6px; color: var(--muted); text-align: left; }
+        .gate-card input {
+            width: 100%; padding: 12px; color: white; background: #070709;
+            border: 1px solid #454046; border-radius: 7px;
+        }
+        .gate-actions { display: grid; gap: 9px; margin-top: 18px; }
+        .btn {
+            padding: 11px 14px; color: var(--bone); background: #19191d;
+            border: 1px solid #514950; border-radius: 7px; cursor: pointer;
+        }
+        .btn:hover { border-color: var(--blood-light); background: #232328; }
+        .btn-primary { background: #841722; border-color: var(--blood-light); }
+        .btn-link { padding: 5px; color: var(--muted); background: none; border: 0; text-decoration: underline; cursor: pointer; }
+        .btn:disabled, .btn-link:disabled { opacity: .5; cursor: wait; }
+        .gate-message { min-height: 1.4em; margin: 14px 0 0; color: var(--warning); }
+
+        .spinner {
+            width: 38px; height: 38px; margin: 0 auto 16px;
+            border: 3px solid rgba(255,255,255,.13); border-top-color: var(--blood-light);
+            border-radius: 50%; animation: spin .8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .master-app { min-height: 100vh; }
+        .topbar {
+            position: sticky; top: 0; z-index: 40;
+            display: flex; align-items: center; justify-content: space-between; gap: 18px;
+            min-height: 78px; padding: 10px 22px;
+            background: rgba(7, 7, 9, .96); border-bottom: 1px solid var(--line-red);
+            backdrop-filter: blur(12px);
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand img { width: 52px; height: 52px; object-fit: contain; }
+        .brand h1 { margin: 0; font-family: 'Metal Mania', serif; letter-spacing: 3px; font-size: 1.55rem; }
+        .brand small { color: var(--blood-light); font-family: 'Bebas Neue', sans-serif; letter-spacing: 4px; }
+        .top-actions { display: flex; align-items: center; gap: 12px; }
+        .master-email { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: .72rem; }
+        .menu-button { display: none; }
+        .encounter-button { border-color: var(--line-red); }
+
+        .layout { display: grid; grid-template-columns: 310px minmax(0, 1fr); min-height: calc(100vh - 78px); }
+        .sidebar {
+            position: sticky; top: 78px; height: calc(100vh - 78px); overflow: hidden;
+            display: flex; flex-direction: column;
+            background: rgba(10, 10, 12, .98); border-right: 1px solid var(--line-red);
+        }
+        .sidebar-head { padding: 20px 18px 14px; border-bottom: 1px solid var(--line); }
+        .sidebar-head h2 { margin: 0; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; }
+        .sidebar-head p { margin: 5px 0 0; color: var(--muted); font-size: .88rem; }
+        .archive-switcher { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 14px; }
+        .archive-switcher .btn { padding: 8px 6px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+        .archive-switcher .active { background: #841722; border-color: var(--blood-light); }
+        .sidebar-create { margin: 12px 12px 12px; }
+        .sidebar-close { display: none; }
+        .character-list { overflow-y: auto; padding: 12px; scrollbar-color: var(--blood) #111; }
+        .character-item {
+            width: 100%; display: grid; grid-template-columns: 66px minmax(0,1fr); gap: 11px;
+            margin-bottom: 9px; padding: 9px; text-align: left;
+            background: #111114; border: 1px solid #332f33; border-radius: 8px; cursor: pointer;
+            appearance: none;
+        }
+        .character-item > span { display: block; min-width: 0; }
+        .character-item:hover { border-color: #7b1a25; }
+        .character-item.active { background: linear-gradient(100deg, rgba(133, 21, 33, .28), #111114); border-color: var(--blood-light); }
+        .character-item.archived { opacity: .58; }
+        .character-thumb { width: 66px; height: 84px; object-fit: cover; object-position: top; background: #060607; border-radius: 5px; }
+        .character-name { display: block; margin: 2px 0; font-weight: 600; font-size: 1.06rem; }
+        .character-codename { color: var(--muted); font-size: .78rem; }
+        .mini-hp { display: block; width: 100%; margin-top: 8px; }
+        .mini-hp-line { display: flex; justify-content: space-between; gap: 8px; color: #ccc5bc; font-size: .75rem; }
+        .bar {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 7px;
+            overflow: hidden;
+            margin-top: 4px;
+            background: #29282a;
+            border-radius: 99px;
+        }
+        .bar > span {
+            display: block;
+            position: absolute;
+            inset: 0 auto 0 0;
+            max-width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #8c1420, #d33442);
+            border-radius: inherit;
+        }
+        .character-status { display: block; margin-top: 6px; color: var(--good); font-family: 'JetBrains Mono', monospace; font-size: .67rem; text-transform: uppercase; }
+        .empty-list { padding: 22px; color: var(--muted); text-align: center; }
+
+        .content { min-width: 0; padding: 24px; }
+        .empty-state {
+            min-height: calc(100vh - 150px); display: grid; place-items: center; text-align: center; color: var(--muted);
+        }
+        .empty-state img { width: 100px; opacity: .38; }
+        .empty-state h2 { color: var(--bone); }
+
+        .character-hero {
+            display: grid; grid-template-columns: 180px minmax(220px, .9fr) minmax(560px, 2.2fr); gap: 22px;
+            margin-bottom: 20px; padding: 20px;
+            background: linear-gradient(110deg, #141416, rgba(18, 10, 12, .72));
+            border: 1px solid #3a3338; border-left: 2px solid var(--blood-light); border-radius: 10px;
+        }
+        .hero-photo { width: 180px; aspect-ratio: 7/9; object-fit: cover; object-position: top; background: #070708; border: 1px solid #51464c; border-radius: 7px; }
+        .hero-info h2 { margin: 8px 0 3px; font-size: 2rem; }
+        .hero-codename { color: var(--blood-light); }
+        .hero-facts { display: grid; gap: 7px; margin-top: 17px; color: var(--muted); }
+        .updated { display: block; margin-top: 18px; color: #777178; font-family: 'JetBrains Mono', monospace; font-size: .68rem; }
+        .vitals-grid { display: grid; grid-template-columns: repeat(5, minmax(100px, 1fr)); gap: 10px; align-content: center; }
+        .vital-card { padding: 14px; background: rgba(7, 7, 9, .76); border: 1px solid #3e383d; border-radius: 8px; }
+        .vital-label { color: var(--muted); font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+        .vital-value { margin: 8px 0; font-size: 1.25rem; }
+
+        .sheet { background: rgba(12,12,14,.96); border: 1px solid #3a3439; border-radius: 10px; overflow: hidden; }
+        .tabs { display: flex; overflow-x: auto; background: #09090b; border-bottom: 1px solid #3a3439; scrollbar-width: none; }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab-button {
+            flex: 1 0 auto; min-width: 126px; padding: 15px 17px;
+            color: #a49d95; background: transparent; border: 0; border-bottom: 2px solid transparent;
+            font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; cursor: pointer;
+        }
+        .tab-button.active { color: var(--blood-light); border-bottom-color: var(--blood-light); background: rgba(130, 20, 32, .08); }
+        .tab-content { padding: 20px; }
+        .section-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+        .data-section { padding: 17px; background: #101012; border: 1px solid #302d30; border-radius: 8px; }
+        .data-section.full { grid-column: 1 / -1; }
+        .data-section h3 { margin: 0 0 13px; color: var(--blood-light); font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+        .data-row { display: grid; grid-template-columns: minmax(120px, .8fr) minmax(0, 1.3fr); gap: 16px; padding: 8px 0; border-bottom: 1px solid #292629; }
+        .data-row:last-child { border-bottom: 0; }
+        .data-label { color: var(--muted); }
+        .data-value { text-align: right; overflow-wrap: anywhere; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 9px; }
+        .stat { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; background: #08080a; border: 1px solid #2d292d; border-radius: 6px; }
+        .stat span:first-child { color: var(--muted); }
+        .stat strong { color: var(--bone); }
+        .list-card { margin-top: 8px; padding: 12px; background: #08080a; border: 1px solid #2d292d; border-left-color: var(--blood); border-radius: 6px; }
+        .list-card strong { color: var(--bone); }
+        .list-card p { margin: 5px 0 0; color: var(--muted); }
+        .no-data { color: #746e68; font-style: italic; }
+        .dice-panel { display: flex; flex-wrap: wrap; gap: 10px; }
+        .dice-result { margin-top: 18px; padding: 20px; text-align: center; background: #08080a; border: 1px solid var(--line-red); border-radius: 8px; }
+        .dice-result strong { display: block; color: var(--blood-light); font-size: 2.8rem; }
+
+        .layout.encounter-mode { display: block; }
+        .layout.encounter-mode .sidebar, .layout.encounter-mode .drawer-backdrop { display: none; }
+        .encounter-view { min-height: calc(100vh - 126px); }
+        .encounter-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+        .encounter-toolbar h2 { margin: 0; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; }
+        .encounter-toolbar p { margin: 3px 0 0; color: var(--muted); }
+        .encounter-actions { display: flex; gap: 8px; }
+        .roster-panel { margin-bottom: 18px; padding: 16px; background: #0d0d10; border: 1px solid #373137; border-radius: 10px; }
+        .roster-panel h3 { margin: 0 0 11px; color: var(--blood-light); font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+        .roster-track { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; scroll-snap-type: x proximity; scrollbar-color: var(--blood) #111; }
+        .roster-card { flex: 0 0 150px; display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 8px; align-items: center; padding: 8px; text-align: left; background: #111114; border: 1px solid #393439; border-radius: 7px; cursor: pointer; scroll-snap-align: start; }
+        .roster-card:hover { border-color: var(--blood-light); }
+        .roster-card.selected { background: rgba(133,21,33,.3); border-color: var(--blood-light); }
+        .roster-card img { width: 44px; height: 55px; object-fit: cover; object-position: top; border-radius: 4px; }
+        .roster-card strong, .roster-card small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .roster-card small { color: var(--muted); }
+        .turn-panel { margin-bottom: 18px; padding: 14px 16px; background: linear-gradient(100deg, rgba(117,18,31,.18), #0d0d10); border: 1px solid #54202a; border-radius: 10px; }
+        .turn-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+        .round-counter { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 1.2rem; }
+        .turn-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+        .turn-order { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-color: var(--blood) #111; }
+        .turn-token { flex: 0 0 auto; min-width: 122px; padding: 8px 10px; background: #111114; border: 1px solid #393439; border-radius: 6px; }
+        .turn-token.active { color: white; background: #841722; border-color: var(--blood-light); box-shadow: 0 0 18px rgba(201,37,53,.25); }
+        .turn-token strong, .turn-token small { display: block; }
+        .turn-token small { color: var(--muted); }
+        .turn-token.active small { color: #f1ccd0; }
+        .battlefield { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+        .battle-side { min-height: 360px; padding: 16px; background: rgba(12,12,14,.96); border: 1px solid #383238; border-radius: 10px; }
+        .battle-side.enemy-side { border-color: #651621; background: linear-gradient(145deg, rgba(38,8,13,.62), #0c0c0e 48%); }
+        .battle-side h3 { margin: 0 0 14px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; }
+        .combatant-list { display: grid; gap: 10px; }
+        .combatant { display: grid; grid-template-columns: 70px minmax(0,1fr); gap: 12px; padding: 11px; background: #111114; border: 1px solid #393439; border-radius: 8px; }
+        .combatant img { width: 70px; height: 88px; object-fit: cover; object-position: top; border-radius: 5px; }
+        .combatant-head { display: flex; justify-content: space-between; gap: 8px; }
+        .combatant-head button { padding: 1px 7px; color: var(--muted); background: transparent; border: 0; cursor: pointer; }
+        .combatant-meta { color: var(--muted); font-size: .82rem; }
+        .hp-controls { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+        .hp-controls .btn { padding: 4px 9px; }
+        .combat-tools { display: grid; grid-template-columns: 92px minmax(130px,1fr); gap: 8px; margin-top: 9px; }
+        .combat-tools label { display: grid; gap: 3px; color: var(--muted); font-size: .72rem; }
+        .combat-tools input, .combat-tools select { width: 100%; padding: 6px 7px; color: var(--bone); background: #08080a; border: 1px solid #413b40; border-radius: 5px; }
+        .condition-badge { display: inline-block; margin-top: 7px; padding: 2px 7px; color: #f2c0c5; background: #4b1119; border: 1px solid #7e1c28; border-radius: 99px; font-size: .7rem; }
+        .battle-empty { padding: 45px 15px; color: #716a65; text-align: center; font-style: italic; }
+
+        .drawer-backdrop { display: none; }
+        .toast {
+            position: fixed; left: 50%; bottom: 22px; z-index: 120;
+            width: min(calc(100vw - 28px), 430px); padding: 13px 16px;
+            text-align: center; background: #17171b; border: 1px solid var(--danger); border-radius: 8px;
+            transform: translate(-50%, 18px); opacity: 0; pointer-events: none; transition: .2s ease;
+        }
+        .toast.visible { transform: translate(-50%, 0); opacity: 1; }
+        .modal-backdrop { position: fixed; inset: 0; z-index: 110; display: grid; place-items: center; padding: 18px; background: rgba(0,0,0,.84); }
+        .npc-modal { width: min(920px, 100%); max-height: calc(100vh - 36px); overflow: auto; padding: 22px; background: #0d0d10; border: 1px solid var(--line-red); border-radius: 12px; box-shadow: 0 30px 90px #000; }
+        .modal-head, .modal-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .modal-head h2 { margin: 0; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; }
+        .form-section { margin-top: 18px; padding: 15px; background: #111114; border: 1px solid #302c30; border-radius: 8px; }
+        .form-section h3 { margin: 0 0 12px; color: var(--blood-light); font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+        .form-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+        .form-grid label { display: grid; gap: 5px; color: var(--muted); font-size: .86rem; }
+        .form-grid input, .form-grid select, .form-grid textarea { width: 100%; padding: 10px; color: var(--bone); background: #070709; border: 1px solid #454046; border-radius: 6px; }
+        .form-grid input[readonly] { color: #bbb2aa; background: #17171a; }
+        .custom-choice { margin-top: 6px; }
+        .form-grid textarea { min-height: 92px; resize: vertical; }
+        .field-wide { grid-column: 1 / -1; }
+        .modal-actions { margin-top: 18px; justify-content: flex-end; }
+        .danger-action { color: #ffadb5; border-color: #7b1a25; margin-right: auto; }
+
+        @media (max-width: 1180px) {
+            .character-hero { grid-template-columns: 150px minmax(210px, 1fr); }
+            .hero-photo { width: 150px; }
+            .vitals-grid { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 760px) {
+            .topbar { min-height: 68px; padding: 9px 12px; }
+            .brand img { width: 44px; height: 44px; }
+            .brand h1 { font-size: 1.18rem; }
+            .brand small { letter-spacing: 2px; }
+            .master-email { display: none; }
+            .menu-button { display: inline-block; }
+            .layout { display: block; min-height: calc(100vh - 68px); }
+            .sidebar {
+                position: fixed; z-index: 80; top: 0; left: 0; height: 100vh; width: min(88vw, 340px);
+                transform: translateX(-105%); transition: transform .25s ease; box-shadow: 24px 0 70px rgba(0,0,0,.75);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-head { display: grid; grid-template-columns: 1fr auto; align-items: center; padding-top: 24px; }
+            .sidebar-head p { grid-column: 1 / -1; }
+            .sidebar-close { display: inline-block; font-size: 1.3rem; }
+            .drawer-backdrop { position: fixed; inset: 0; z-index: 70; background: rgba(0,0,0,.7); }
+            .drawer-backdrop.visible { display: block; }
+            .content { padding: 12px; }
+            .character-hero { grid-template-columns: 104px minmax(0,1fr); gap: 13px; padding: 13px; }
+            .hero-photo { width: 104px; }
+            .hero-info h2 { margin-top: 2px; font-size: 1.45rem; }
+            .hero-facts { gap: 3px; margin-top: 8px; font-size: .86rem; }
+            .updated { margin-top: 8px; }
+            .vitals-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .vital-card:last-child { grid-column: 1 / -1; }
+            .section-grid { grid-template-columns: 1fr; }
+            .data-section.full { grid-column: auto; }
+            .tab-content { padding: 12px; }
+            .data-row { grid-template-columns: 1fr; gap: 2px; }
+            .data-value { text-align: left; }
+            .form-grid { grid-template-columns: 1fr 1fr; }
+            .field-wide { grid-column: 1 / -1; }
+            .encounter-toolbar { align-items: flex-start; flex-direction: column; }
+            .turn-panel-head { align-items: flex-start; flex-direction: column; }
+            .battlefield { grid-template-columns: 1fr; }
+            .battle-side { min-height: 230px; }
+        }
+        @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } .field-wide { grid-column: auto; } }
+    </style>
+</head>
+<body>
+    <section class="full-screen" id="bootScreen">
+        <div class="gate-card">
+            <div class="spinner"></div>
+            <p>Abrindo o arquivo do mestre...</p>
+        </div>
+    </section>
+
+    <section class="full-screen" id="loginScreen" hidden>
+        <form class="gate-card" id="loginForm">
+            <img class="gate-logo" src="assets/logos/absconditus-a.png" alt="Absconditus">
+            <h1>ABSCONDITUS</h1>
+            <p class="gate-kicker">Painel do Mestre</p>
+            <label for="masterEmail">E-mail</label>
+            <input id="masterEmail" type="email" autocomplete="username" required>
+            <label for="masterPassword">Senha</label>
+            <input id="masterPassword" type="password" autocomplete="current-password" minlength="6" required>
+            <div class="gate-actions">
+                <button class="btn btn-primary" id="loginButton" type="submit">Entrar no painel</button>
+                <button class="btn-link" id="resetButton" type="button">Esqueci minha senha</button>
+                <a class="btn-link" href="index.html">Voltar para a ficha do jogador</a>
+            </div>
+            <p class="gate-message" id="loginMessage" role="status"></p>
+        </form>
+    </section>
+
+    <section class="full-screen" id="deniedScreen" hidden>
+        <div class="gate-card">
+            <img class="gate-logo" src="assets/logos/absconditus-a.png" alt="Absconditus">
+            <h1>Acesso restrito</h1>
+            <p>Esta conta não possui permissão de mestre.</p>
+            <div class="gate-actions">
+                <button class="btn btn-primary" id="deniedLogout" type="button">Entrar com outra conta</button>
+                <a class="btn-link" href="index.html">Voltar para a ficha do jogador</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="master-app" id="masterApp" hidden>
+        <header class="topbar">
+            <div class="brand">
+                <img src="assets/logos/absconditus-a.png" alt="">
+                <div><h1>ABSCONDITUS</h1><small>Painel do Mestre</small></div>
+            </div>
+            <div class="top-actions">
+                <span class="master-email" id="masterEmailStatus"></span>
+                <button class="btn menu-button" id="openSidebar" type="button">Personagens</button>
+                <button class="btn encounter-button" id="openEncounter" type="button">Encontro</button>
+                <button class="btn" id="logoutButton" type="button">Sair</button>
+            </div>
+        </header>
+
+        <div class="layout" id="layout">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-head">
+                    <div><h2 id="archiveTitle">Jogadores</h2><p id="characterCount">Consultando o arquivo...</p></div>
+                    <button class="btn sidebar-close" id="closeSidebar" type="button" aria-label="Fechar personagens">×</button>
+                </div>
+                <div class="archive-switcher">
+                    <button class="btn active" id="playersMode" type="button">Jogadores</button>
+                    <button class="btn" id="npcsMode" type="button">NPCs / Inimigos</button>
+                </div>
+                <button class="btn btn-primary sidebar-create" id="createNpcButton" type="button" hidden>+ Criar NPC ou inimigo</button>
+                <div class="character-list" id="characterList"></div>
+            </aside>
+            <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+            <main class="content">
+                <section class="encounter-view" id="encounterView" hidden>
+                    <div class="encounter-toolbar">
+                        <div><h2>Mesa de encontro</h2><p>Selecione participantes na faixa superior e monte a cena.</p></div>
+                        <div class="encounter-actions"><button class="btn" id="clearEncounter" type="button">Limpar cena</button><button class="btn btn-primary" id="closeEncounter" type="button">Voltar ao arquivo</button></div>
+                    </div>
+                    <div class="roster-panel"><h3>Arquivo de participantes</h3><div class="roster-track" id="encounterRoster"></div></div>
+                    <div class="turn-panel">
+                        <div class="turn-panel-head"><div class="round-counter" id="roundCounter">Rodada 1</div><div class="turn-actions"><button class="btn" id="previousTurn" type="button">← Voltar turno</button><button class="btn btn-primary" id="nextTurn" type="button">Próximo turno →</button><button class="btn" id="resetTurns" type="button">Reiniciar turnos</button></div></div>
+                        <div class="turn-order" id="turnOrder"><span class="no-data">Defina as iniciativas dos participantes.</span></div>
+                    </div>
+                    <div class="battlefield">
+                        <section class="battle-side"><h3>Jogadores</h3><div class="combatant-list" id="encounterPlayers"></div></section>
+                        <section class="battle-side enemy-side"><h3>NPCs e inimigos</h3><div class="combatant-list" id="encounterEnemies"></div></section>
+                    </div>
+                </section>
+                <section class="empty-state" id="emptyState">
+                    <div>
+                        <img src="assets/logos/absconditus-a.png" alt="">
+                        <h2>Selecione um personagem</h2>
+                        <p>Escolha uma ficha na lista para iniciar a consulta.</p>
+                    </div>
+                </section>
+
+                <section id="characterView" hidden>
+                    <div class="character-hero">
+                        <img class="hero-photo" id="heroPhoto" src="assets/logos/absconditus-a.png" alt="Foto do personagem">
+                        <div class="hero-info">
+                            <h2 id="heroName">Personagem</h2>
+                            <div class="hero-codename" id="heroCodename"></div>
+                            <div class="hero-facts" id="heroFacts"></div>
+                            <small class="updated" id="heroUpdated"></small>
+                        </div>
+                        <div class="vitals-grid" id="vitalsGrid"></div>
+                    </div>
+
+                    <div class="sheet">
+                        <nav class="tabs" id="tabs" aria-label="Seções da ficha">
+                            <button class="tab-button active" data-tab="identidade" type="button">Identidade</button>
+                            <button class="tab-button" data-tab="atributos" type="button">Atributos</button>
+                            <button class="tab-button" data-tab="combate" type="button">Combate</button>
+                            <button class="tab-button" data-tab="equipamento" type="button">Equipamento</button>
+                            <button class="tab-button" data-tab="vinculos" type="button">Vínculos</button>
+                            <button class="tab-button" data-tab="dados" type="button">Dados</button>
+                        </nav>
+                        <div class="tab-content" id="tabContent"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <div class="modal-backdrop" id="npcModal" hidden>
+        <form class="npc-modal" id="npcForm">
+            <div class="modal-head"><h2 id="npcModalTitle">Novo registro</h2><button class="btn" id="closeNpcModal" type="button">×</button></div>
+            <input id="npcId" type="hidden">
+            <div class="form-section"><h3>Identidade</h3><div class="form-grid">
+                <label>Tipo<select id="npcTipo"><option value="npc">NPC</option><option value="inimigo">Inimigo</option></select></label>
+                <label>Nome<input id="npcNome" required></label><label>Codinome<input id="npcCodinome"></label>
+                <label>Idade<input id="npcIdade" type="number" min="0"></label>
+                <label>Raça<select id="npcRaca"><option value="">Selecione</option><option>Humano</option><option>Vampiro</option><option>Licantropo</option><option>Celestial</option><option>Demônio</option><option>Híbrido</option><option value="__outro">Outro / Personalizado</option></select><input id="npcRacaOutro" class="custom-choice" placeholder="Informe a raça" hidden></label>
+                <label>Categoria Superno<select id="npcCategoria"><option value="">Selecione</option><option>Velado</option><option>Testemunha</option><option>Absconditus</option></select></label>
+                <label>Classe<select id="npcClasse"><option value="">Selecione</option><option>Caçador</option><option>Atirador</option><option>Espadachim</option><option>Sacerdote</option><option>Feiticeiro</option><option>Bruxo</option><option>Investigador</option><option value="__outro">Outro / Personalizado</option></select><input id="npcClasseOutro" class="custom-choice" placeholder="Informe a classe" hidden></label>
+                <label>Ranking<select id="npcRanking"><option value="">Selecione</option><option>E</option><option>D</option><option>C</option><option>B</option><option>A</option><option>S</option></select></label>
+                <label>Organização<select id="npcOrganizacao"><option value="">Sem organização</option><option>Credo do Caçador</option><option>Centro de Observação</option><option>Pax Vobiscum</option><option>Filhos da Terra</option><option>Ordem do Abismo</option><option>A Divisão</option><option>Clã Akamatsu</option><option value="__outro">Outra / Personalizada</option></select><input id="npcOrganizacaoOutro" class="custom-choice" placeholder="Informe a organização" hidden></label>
+                <label>Especialidade<input id="npcEspecialidade" readonly></label><label>Visão do Superno<input id="npcVisao" readonly></label>
+                <label>Status<select id="npcStatus"><option>Ativo</option><option>Inativo</option><option>Ferido</option><option>Incapacitado</option><option>Morto</option><option>Desaparecido</option></select></label><label>Foto<input id="npcFoto" type="file" accept="image/*"></label>
+            </div></div>
+            <div class="form-section"><h3>Recursos</h3><div class="form-grid">
+                <label>HP atual<input id="npcHpAtual" type="number" value="10"></label><label>HP máximo<input id="npcHpMax" type="number" value="10"></label><label>Corrupção<input id="npcCorrupcao" type="number" value="0"></label>
+                <label>SP atual<input id="npcSpAtual" type="number" value="10"></label><label>SP máximo<input id="npcSpMax" type="number" value="10"></label><label>Sanidade atual<input id="npcSanAtual" type="number" value="10"></label>
+                <label>Sanidade máxima<input id="npcSanMax" type="number" value="10"></label><label>Fadiga atual<input id="npcFadigaAtual" type="number" value="0"></label><label>Fadiga máxima<input id="npcFadigaMax" type="number" value="10"></label>
+            </div></div>
+            <div class="form-section"><h3>Atributos</h3><div class="form-grid" id="npcAttributeFields"></div></div>
+            <div class="form-section"><h3>Treinamento</h3><div class="form-grid">
+                <label class="field-wide">Proficiências (separadas por vírgula)<textarea id="npcProficiencias" placeholder="Pistolas, investigação, furtividade"></textarea></label>
+                <label class="field-wide">Especializações (uma por linha: Nome | Valor)<textarea id="npcEspecializacoes" placeholder="Hackeamento | 3"></textarea></label>
+                <label class="field-wide">Resistências (uma por linha: Nome | Valor)<textarea id="npcResistencias" placeholder="Físico | 2"></textarea></label>
+            </div></div>
+            <div class="form-section"><h3>Combate e equipamento</h3><div class="form-grid">
+                <label>Arma principal<input id="npcArmaPrincipal"></label><label>Arma secundária<input id="npcArmaSecundaria"></label><label>Arma reserva<input id="npcArmaReserva"></label>
+                <label>Objeto Superno<input id="npcObjetoSuperno"></label><label>Talismã<input id="npcTalisma"></label><label>Munição<input id="npcMunicao"></label><label>Curativos<input id="npcCurativos"></label>
+                <label>Capacete<input id="npcCapacete"></label><label>Peitoral<input id="npcPeitoral"></label><label>Luvas<input id="npcLuvas"></label>
+                <label>Calça<input id="npcCalca"></label><label>Botas<input id="npcBotas"></label><label>Acessórios<input id="npcAcessorios"></label>
+                <label class="field-wide">Técnicas (uma por linha: Nome | Efeito)<textarea id="npcTecnicas"></textarea></label>
+                <label class="field-wide">Notas privadas do mestre<textarea id="npcNotas"></textarea></label>
+            </div></div>
+            <div class="modal-actions"><button class="btn danger-action" id="deleteNpcButton" type="button" hidden>Excluir registro</button><button class="btn" id="cancelNpcButton" type="button">Cancelar</button><button class="btn btn-primary" id="saveNpcButton" type="submit">Salvar no arquivo</button></div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
+        import {
+            getAuth, signInWithEmailAndPassword, sendPasswordResetEmail,
+            signOut, onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
+        import {
+            getFirestore, doc, getDoc, collection, onSnapshot, query, where,
+            addDoc, setDoc, deleteDoc, serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: 'AIzaSyCOZ4NKWoNkyLKEyIGMvhOSQoLL6lfxHBs',
+            authDomain: 'absconditus.firebaseapp.com',
+            projectId: 'absconditus',
+            storageBucket: 'absconditus.firebasestorage.app',
+            messagingSenderId: '161869203476',
+            appId: '1:161869203476:web:438729306d06d57513f01'
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const $ = id => document.getElementById(id);
+
+        let characters = [];
+        let activeCharacterId = null;
+        let activeSheet = null;
+        let activeTab = 'identidade';
+        let unsubscribeCharacters = null;
+        let unsubscribeSheet = null;
+        let toastTimer = null;
+        let npcs = [];
+        let panelMode = 'players';
+        let unsubscribeNpcs = null;
+        let currentMaster = null;
+        let npcPhotoData = '';
+        const encounterPlayers = new Set();
+        const encounterEnemies = new Set();
+        const encounterHp = new Map();
+        const encounterInitiative = new Map();
+        const encounterConditions = new Map();
+        let currentTurnId = null;
+        let encounterRound = 1;
+        const attributeKeys = ['forca','fisico','resistencia','precisao','percepcao','investigacao','concentracao','determinacao','inteligencia','fe','armadefogo','artesmarciais','controlesuperno','mercadoNegro','eletricidade'];
+        const organizationProfiles = {
+            'Credo do Caçador': ['Combate', 'Eliminar ameaças'],
+            'Centro de Observação': ['Investigação', 'Compreender e registrar'],
+            'Pax Vobiscum': ['Religião', 'Proteger e purificar'],
+            'Filhos da Terra': ['Natureza', 'Preservar o equilíbrio'],
+            'Ordem do Abismo': ['Magia sombria', 'Explorar o proibido'],
+            'A Divisão': ['Atiradores', 'Conter danos à sociedade'],
+            'Clã Akamatsu': ['Espadachins', 'Disciplina e domínio das lâminas']
+        };
+
+        const labels = {
+            nome: 'Nome', codinome: 'Codinome', idade: 'Idade', raca: 'Raça',
+            categoriaSuperno: 'Categoria Superno', organizacao: 'Organização',
+            especialidade: 'Especialidade', visaoSuperno: 'Visão do Superno', ranking: 'Ranking', classe: 'Classe',
+            numeroId: 'Número de identificação', tipoSanguineo: 'Tipo sanguíneo',
+            contatoEmergencia: 'Contato de emergência', status: 'Status', assinaturaLider: 'Assinatura do líder',
+            tipo: 'Tipo', afinidades: 'Afinidades', reputacao: 'Reputação',
+            hpAtual: 'HP atual', hpMax: 'HP máximo', spAtual: 'SP atual', spMax: 'SP máximo',
+            sanAtual: 'Sanidade atual', sanMax: 'Sanidade máxima', fadigaAtual: 'Fadiga atual', fadigaMax: 'Fadiga máxima',
+            armaPrincipal: 'Arma principal', armaSecundaria: 'Arma secundária', armaReserva: 'Arma reserva',
+            objetoSuperno: 'Objeto Superno', talisma: 'Talismã', municao: 'Munição', curativos: 'Curativos',
+            capacete: 'Capacete', peitoral: 'Peitoral', luvas: 'Luvas', calca: 'Calça', botas: 'Botas', acessorios: 'Acessórios',
+            armadefogo: 'Armas de fogo', artesmarciais: 'Artes marciais', controlesuperno: 'Controle Superno',
+            mercadoNegro: 'Mercado Negro', fisico: 'Físico', maldicao: 'Maldição', eletricidade: 'Eletricidade',
+            fe: 'Fé', forca: 'Força', precisao: 'Precisão', percepcao: 'Percepção', investigacao: 'Investigação',
+            concentracao: 'Concentração', determinacao: 'Determinação', inteligencia: 'Inteligência', resistencia: 'Resistência'
+        };
+
+        function labelFor(key) {
+            if (labels[key]) return labels[key];
+            return key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, char => char.toUpperCase());
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            })[char]);
+        }
+
+        function valueText(value) {
+            if (Array.isArray(value)) return value.filter(Boolean).join(', ') || 'Não informado';
+            if (value === null || value === undefined || value === '') return 'Não informado';
+            if (typeof value === 'boolean') return value ? 'Sim' : 'Não';
+            return String(value);
+        }
+
+        function percent(current, maximum) {
+            const max = Number(maximum) || 0;
+            if (!max) return 0;
+            return Math.max(0, Math.min(100, (Number(current) || 0) / max * 100));
+        }
+
+        function showToast(message) {
+            clearTimeout(toastTimer);
+            $('toast').textContent = message;
+            $('toast').classList.add('visible');
+            toastTimer = setTimeout(() => $('toast').classList.remove('visible'), 3200);
+        }
+
+        function setScreen(name) {
+            $('bootScreen').hidden = name !== 'boot';
+            $('loginScreen').hidden = name !== 'login';
+            $('deniedScreen').hidden = name !== 'denied';
+            $('masterApp').hidden = name !== 'app';
+        }
+
+        function setLoginMessage(message, error = false) {
+            $('loginMessage').textContent = message;
+            $('loginMessage').style.color = error ? 'var(--danger)' : 'var(--warning)';
+        }
+
+        function openDrawer() {
+            $('sidebar').classList.add('open');
+            $('drawerBackdrop').classList.add('visible');
+        }
+
+        function closeDrawer() {
+            $('sidebar').classList.remove('open');
+            $('drawerBackdrop').classList.remove('visible');
+        }
+
+        function cleanSubscriptions() {
+            if (unsubscribeCharacters) unsubscribeCharacters();
+            if (unsubscribeSheet) unsubscribeSheet();
+            if (unsubscribeNpcs) unsubscribeNpcs();
+            unsubscribeCharacters = null;
+            unsubscribeSheet = null;
+            unsubscribeNpcs = null;
+        }
+
+        function renderCharacterList() {
+            const list = $('characterList');
+            list.innerHTML = '';
+            const records = panelMode === 'players' ? characters : npcs;
+            $('archiveTitle').textContent = panelMode === 'players' ? 'Jogadores' : 'NPCs e inimigos';
+            $('characterCount').textContent = `${records.length} ${records.length === 1 ? 'registro' : 'registros'}`;
+            $('createNpcButton').hidden = panelMode !== 'npcs';
+            $('playersMode').classList.toggle('active', panelMode === 'players');
+            $('npcsMode').classList.toggle('active', panelMode === 'npcs');
+            if (!records.length) {
+                list.innerHTML = `<div class="empty-list">${panelMode === 'players' ? 'Nenhum personagem foi salvo até o momento.' : 'Nenhum NPC ou inimigo foi criado.'}</div>`;
+                return;
+            }
+
+            records.forEach(character => {
+                const summary = character.resumo || character.ficha?.personal || {};
+                const currentHp = summary.hpAtual ?? 0;
+                const maxHp = summary.hpMax ?? 0;
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `character-item${character.id === activeCharacterId ? ' active' : ''}${character.arquivado ? ' archived' : ''}`;
+                button.innerHTML = `
+                    <img class="character-thumb" src="${escapeHtml(character.miniatura || character.ficha?.credCard?.fotoBase64 || 'assets/logos/absconditus-a.png')}" alt="">
+                    <span>
+                        <span class="character-name">${escapeHtml(summary.nome || 'Investigador sem nome')}</span>
+                        <span class="character-codename">${escapeHtml(summary.codinome || 'Sem codinome')}</span>
+                        <span class="mini-hp">
+                            <span class="mini-hp-line"><span>HP</span><span>${escapeHtml(currentHp)} / ${escapeHtml(maxHp)}</span></span>
+                            <span class="bar"><span style="width:${percent(currentHp, maxHp)}%"></span></span>
+                        </span>
+                        <span class="character-status">${escapeHtml(character.arquivado ? 'Arquivado' : (summary.status || 'Ativo'))}</span>
+                    </span>`;
+                button.addEventListener('click', () => panelMode === 'players' ? selectCharacter(character.id) : selectNpc(character.id));
+                list.appendChild(button);
+            });
+        }
+
+        function switchPanelMode(mode) {
+            panelMode = mode;
+            activeCharacterId = null;
+            activeSheet = null;
+            if (unsubscribeSheet) unsubscribeSheet();
+            unsubscribeSheet = null;
+            $('characterView').hidden = true;
+            $('emptyState').hidden = false;
+            $('emptyState').querySelector('h2').textContent = mode === 'players' ? 'Selecione um personagem' : 'Selecione um NPC ou inimigo';
+            $('emptyState').querySelector('p').textContent = mode === 'players' ? 'Escolha uma ficha na lista para iniciar a consulta.' : 'Abra um registro ou crie uma nova ficha particular do mestre.';
+            renderCharacterList();
+        }
+
+        function openEncounterMode() {
+            closeDrawer();
+            $('layout').classList.add('encounter-mode');
+            $('emptyState').hidden = true;
+            $('characterView').hidden = true;
+            $('encounterView').hidden = false;
+            renderEncounter();
+        }
+
+        function closeEncounterMode() {
+            $('layout').classList.remove('encounter-mode');
+            $('encounterView').hidden = true;
+            if (activeSheet) renderActiveCharacter();
+            else $('emptyState').hidden = false;
+        }
+
+        function participantSummary(item, npc = false) {
+            const summary = item.resumo || item.ficha?.personal || {};
+            return {
+                name: summary.nome || (npc ? 'NPC sem nome' : 'Jogador sem nome'),
+                codename: summary.codinome || (npc ? (item.tipo === 'inimigo' ? 'Inimigo' : 'NPC') : 'Sem codinome'),
+                photo: item.miniatura || item.ficha?.credCard?.fotoBase64 || 'assets/logos/absconditus-a.png',
+                currentHp: npc ? (item.ficha?.vitals?.hpAtual ?? summary.hpAtual ?? 0) : (summary.hpAtual ?? 0),
+                maxHp: npc ? (item.ficha?.vitals?.hpMax ?? summary.hpMax ?? 0) : (summary.hpMax ?? 0),
+                ranking: item.ficha?.personal?.ranking || summary.ranking || '—'
+            };
+        }
+
+        function rosterCard(item, npc = false) {
+            const info = participantSummary(item, npc);
+            const selected = (npc ? encounterEnemies : encounterPlayers).has(item.id);
+            return `<button class="roster-card${selected ? ' selected' : ''}" type="button" data-roster-id="${escapeHtml(item.id)}" data-roster-kind="${npc ? 'npc' : 'player'}"><img src="${escapeHtml(info.photo)}" alt=""><span><strong>${escapeHtml(info.name)}</strong><small>${escapeHtml(info.codename)}</small><small>${npc ? escapeHtml(item.tipo === 'inimigo' ? 'Inimigo' : 'NPC') : 'Jogador'}</small></span></button>`;
+        }
+
+        function combatantCard(item, npc = false) {
+            const info = participantSummary(item, npc);
+            const combatKey = `${npc ? 'n' : 'p'}:${item.id}`;
+            if (npc && !encounterHp.has(item.id)) encounterHp.set(item.id, Number(info.currentHp) || 0);
+            const currentHp = npc ? encounterHp.get(item.id) : info.currentHp;
+            const initiative = encounterInitiative.get(combatKey) ?? 0;
+            const condition = encounterConditions.get(combatKey) || 'Normal';
+            return `<article class="combatant">
+                <img src="${escapeHtml(info.photo)}" alt="">
+                <div><div class="combatant-head"><strong>${escapeHtml(info.name)}</strong><button type="button" title="Retirar da cena" data-remove-id="${escapeHtml(item.id)}" data-remove-kind="${npc ? 'npc' : 'player'}">×</button></div>
+                <div class="combatant-meta">${escapeHtml(info.codename)} • Ranking ${escapeHtml(info.ranking)}</div>
+                <div class="mini-hp"><div class="mini-hp-line"><span>HP</span><span>${escapeHtml(currentHp)} / ${escapeHtml(info.maxHp)}</span></div><span class="bar"><span style="width:${percent(currentHp, info.maxHp)}%"></span></span></div>
+                <div class="combat-tools"><label>Iniciativa<input type="number" value="${escapeHtml(initiative)}" data-initiative-key="${escapeHtml(combatKey)}"></label><label>Condição<select data-condition-key="${escapeHtml(combatKey)}">${['Normal','Ferido','Atordoado','Caído','Imobilizado','Inconsciente','Morto'].map(value => `<option${value === condition ? ' selected' : ''}>${value}</option>`).join('')}</select></label></div>
+                ${condition !== 'Normal' ? `<span class="condition-badge">${escapeHtml(condition)}</span>` : ''}
+                ${npc ? `<div class="hp-controls"><button class="btn" type="button" data-hp-id="${escapeHtml(item.id)}" data-hp-delta="-5">−5</button><button class="btn" type="button" data-hp-id="${escapeHtml(item.id)}" data-hp-delta="-1">−1</button><button class="btn" type="button" data-hp-id="${escapeHtml(item.id)}" data-hp-delta="1">+1</button><button class="btn" type="button" data-hp-id="${escapeHtml(item.id)}" data-hp-delta="5">+5</button></div>` : ''}
+                </div></article>`;
+        }
+
+        function getTurnOrder() {
+            const entries = [
+                ...characters.filter(item => encounterPlayers.has(item.id)).map(item => ({item, npc:false, key:`p:${item.id}`})),
+                ...npcs.filter(item => encounterEnemies.has(item.id)).map(item => ({item, npc:true, key:`n:${item.id}`}))
+            ];
+            return entries.sort((a,b) => (encounterInitiative.get(b.key) || 0) - (encounterInitiative.get(a.key) || 0) || participantSummary(a.item,a.npc).name.localeCompare(participantSummary(b.item,b.npc).name,'pt-BR'));
+        }
+
+        function renderTurnOrder() {
+            const order = getTurnOrder();
+            if (!order.length) {
+                currentTurnId = null;
+                $('turnOrder').innerHTML = '<span class="no-data">Adicione participantes para iniciar o combate.</span>';
+            } else {
+                if (!order.some(entry => entry.key === currentTurnId)) currentTurnId = order[0].key;
+                $('turnOrder').innerHTML = order.map(entry => {
+                    const info = participantSummary(entry.item, entry.npc), initiative = encounterInitiative.get(entry.key) || 0;
+                    return `<div class="turn-token${entry.key === currentTurnId ? ' active' : ''}"><strong>${escapeHtml(info.name)}</strong><small>Iniciativa ${escapeHtml(initiative)} • ${entry.npc ? 'Oposição' : 'Jogador'}</small></div>`;
+                }).join('');
+            }
+            $('roundCounter').textContent = `Rodada ${encounterRound}`;
+        }
+
+        function moveTurn(direction) {
+            const order = getTurnOrder(); if (!order.length) return;
+            let index = order.findIndex(entry => entry.key === currentTurnId); if (index < 0) index = 0;
+            if (direction > 0) {
+                index += 1;
+                if (index >= order.length) { index = 0; encounterRound += 1; }
+            } else {
+                index -= 1;
+                if (index < 0) { index = order.length - 1; encounterRound = Math.max(1, encounterRound - 1); }
+            }
+            currentTurnId = order[index].key; renderEncounter();
+        }
+
+        function resetTurns() {
+            encounterRound = 1; currentTurnId = getTurnOrder()[0]?.key || null; renderEncounter();
+        }
+
+        function renderEncounter() {
+            $('encounterRoster').innerHTML = [
+                ...characters.filter(item => !item.arquivado).map(item => rosterCard(item, false)),
+                ...npcs.map(item => rosterCard(item, true))
+            ].join('') || '<p class="no-data">Nenhum participante disponível.</p>';
+            const selectedPlayers = characters.filter(item => encounterPlayers.has(item.id));
+            const selectedEnemies = npcs.filter(item => encounterEnemies.has(item.id));
+            $('encounterPlayers').innerHTML = selectedPlayers.map(item => combatantCard(item, false)).join('') || '<div class="battle-empty">Clique em um jogador na faixa superior.</div>';
+            $('encounterEnemies').innerHTML = selectedEnemies.map(item => combatantCard(item, true)).join('') || '<div class="battle-empty">Clique em um NPC ou inimigo na faixa superior.</div>';
+            renderTurnOrder();
+        }
+
+        function clearEncounter() {
+            encounterPlayers.clear(); encounterEnemies.clear(); encounterHp.clear(); encounterInitiative.clear(); encounterConditions.clear(); currentTurnId = null; encounterRound = 1; renderEncounter(); showToast('A cena foi limpa.');
+        }
+
+        function selectNpc(npcId) {
+            const npc = npcs.find(item => item.id === npcId);
+            if (!npc) return;
+            activeCharacterId = npcId;
+            activeSheet = npc.ficha || {};
+            renderCharacterList();
+            closeDrawer();
+            renderActiveCharacter();
+        }
+
+        function selectCharacter(characterId) {
+            activeCharacterId = characterId;
+            activeSheet = null;
+            renderCharacterList();
+            closeDrawer();
+            $('emptyState').hidden = false;
+            $('emptyState').querySelector('h2').textContent = 'Carregando ficha...';
+            $('emptyState').querySelector('p').textContent = 'Consultando os registros do personagem.';
+            $('characterView').hidden = true;
+            if (unsubscribeSheet) unsubscribeSheet();
+
+            const sheetRef = doc(db, 'personagens', characterId, 'dados', 'ficha');
+            unsubscribeSheet = onSnapshot(sheetRef, async snapshot => {
+                let sheet = snapshot.exists() ? snapshot.data().conteudo : null;
+                if (!sheet) {
+                    const legacy = await getDoc(doc(db, 'personagens', characterId));
+                    sheet = legacy.exists() ? legacy.data().ficha : null;
+                }
+                if (!sheet) {
+                    $('emptyState').querySelector('h2').textContent = 'Ficha não encontrada';
+                    $('emptyState').querySelector('p').textContent = 'O resumo existe, mas os dados completos não foram encontrados.';
+                    return;
+                }
+                activeSheet = sheet;
+                renderActiveCharacter();
+            }, error => {
+                console.error(error);
+                $('emptyState').querySelector('h2').textContent = 'Não foi possível abrir a ficha';
+                $('emptyState').querySelector('p').textContent = 'Verifique as permissões e tente novamente.';
+                showToast('Falha ao consultar a ficha do personagem.');
+            });
+        }
+
+        function vitalCard(label, current, maximum, single = false) {
+            const shown = single ? valueText(current) : `${valueText(current)} / ${valueText(maximum)}`;
+            const width = single ? Math.max(0, Math.min(100, Number(current) || 0)) : percent(current, maximum);
+            return `<div class="vital-card"><div class="vital-label">${escapeHtml(label)}</div><div class="vital-value">${escapeHtml(shown)}</div><div class="bar"><span style="width:${width}%"></span></div></div>`;
+        }
+
+        function formatTimestamp(timestamp) {
+            if (!timestamp?.toDate) return '';
+            return timestamp.toDate().toLocaleString('pt-BR');
+        }
+
+        function renderActiveCharacter() {
+            const character = (panelMode === 'players' ? characters : npcs).find(item => item.id === activeCharacterId) || {};
+            const sheet = activeSheet;
+            const personal = sheet.personal || {};
+            const vitals = sheet.vitals || {};
+            $('heroPhoto').src = sheet.credCard?.fotoBase64 || character.miniatura || 'assets/logos/absconditus-a.png';
+            $('heroName').textContent = personal.nome || 'Investigador sem nome';
+            $('heroCodename').textContent = personal.codinome ? `Codinome: ${personal.codinome}` : 'Sem codinome';
+            $('heroFacts').innerHTML = [
+                `${personal.raca || 'Raça não definida'} • ${personal.categoriaSuperno || 'Categoria não definida'}`,
+                `${personal.classe || 'Classe não definida'} • Ranking ${personal.ranking || '—'}`,
+                personal.organizacao || 'Sem organização',
+                `Status: ${sheet.credCard?.status || 'Ativo'}`
+            ].map(text => `<span>${escapeHtml(text)}</span>`).join('');
+            $('heroUpdated').textContent = character.atualizadoEm ? `Última atualização: ${formatTimestamp(character.atualizadoEm)}` : '';
+            $('vitalsGrid').innerHTML = [
+                vitalCard('HP', vitals.hpAtual, vitals.hpMax),
+                vitalCard('SP', vitals.spAtual, vitals.spMax),
+                vitalCard('Sanidade', vitals.sanAtual, vitals.sanMax),
+                vitalCard('Fadiga', vitals.fadigaAtual, vitals.fadigaMax),
+                vitalCard('Corrupção', sheet.corrupcao ?? 0, 100, true)
+            ].join('');
+            $('emptyState').hidden = true;
+            $('characterView').hidden = false;
+            let editButton = $('editNpcButton');
+            if (panelMode === 'npcs') {
+                if (!editButton) {
+                    editButton = document.createElement('button');
+                    editButton.id = 'editNpcButton'; editButton.type = 'button'; editButton.className = 'btn'; editButton.textContent = 'Editar registro';
+                    editButton.addEventListener('click', () => openNpcModal(npcs.find(item => item.id === activeCharacterId)));
+                    $('heroFacts').after(editButton);
+                }
+                editButton.hidden = false;
+            } else if (editButton) editButton.hidden = true;
+            renderTab();
+        }
+
+        function numberValue(id, fallback = 0) { const value = Number($(id).value); return Number.isFinite(value) ? value : fallback; }
+        function techniquesFromText(text) {
+            return text.split('\n').map(line => line.trim()).filter(Boolean).map(line => { const [nome, ...rest] = line.split('|'); return { nome: nome.trim(), efeito: rest.join('|').trim() }; });
+        }
+        function techniquesToText(items) { return (items || []).map(item => `${item.nome || ''}${item.efeito ? ` | ${item.efeito}` : ''}`).join('\n'); }
+        function statsFromText(text) {
+            return Object.fromEntries(text.split('\n').map(line => line.trim()).filter(Boolean).map(line => {
+                const [name, ...rest] = line.split('|');
+                const raw = rest.join('|').trim();
+                const numeric = Number(raw);
+                return [name.trim(), raw !== '' && Number.isFinite(numeric) ? numeric : raw];
+            }).filter(([name]) => name));
+        }
+        function statsToText(data) { return Object.entries(data || {}).map(([name,value]) => `${name} | ${value}`).join('\n'); }
+        function setChoice(selectId, customId, value) {
+            const select = $(selectId), custom = $(customId);
+            const known = [...select.options].some(option => option.value === value && option.value !== '__outro');
+            select.value = known ? value : (value ? '__outro' : '');
+            custom.hidden = select.value !== '__outro';
+            custom.value = select.value === '__outro' ? value : '';
+        }
+        function choiceValue(selectId, customId) { return $(selectId).value === '__outro' ? $(customId).value.trim() : $(selectId).value; }
+        function toggleCustomChoice(selectId, customId) {
+            const custom = $(customId); custom.hidden = $(selectId).value !== '__outro';
+            if (!custom.hidden) custom.focus();
+        }
+        function syncOrganization(force = false) {
+            const selected = $('npcOrganizacao').value;
+            toggleCustomChoice('npcOrganizacao', 'npcOrganizacaoOutro');
+            const custom = selected === '__outro';
+            $('npcEspecialidade').readOnly = !custom;
+            $('npcVisao').readOnly = !custom;
+            if (organizationProfiles[selected]) {
+                [$('npcEspecialidade').value, $('npcVisao').value] = organizationProfiles[selected];
+            } else if (custom && force) {
+                $('npcEspecialidade').value = '';
+                $('npcVisao').value = '';
+            } else if (!custom && (force || selected === '')) {
+                $('npcEspecialidade').value = '';
+                $('npcVisao').value = '';
+            }
+        }
+
+        async function compressImage(file) {
+            if (!file) return npcPhotoData;
+            const source = await createImageBitmap(file);
+            const max = 720, scale = Math.min(1, max / Math.max(source.width, source.height));
+            const canvas = document.createElement('canvas'); canvas.width = Math.round(source.width * scale); canvas.height = Math.round(source.height * scale);
+            canvas.getContext('2d').drawImage(source, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg', .76);
+        }
+
+        function openNpcModal(npc = null) {
+            const sheet = npc?.ficha || {}, personal = sheet.personal || {}, vitals = sheet.vitals || {}, inventory = sheet.inventory || {}, equipment = sheet.equipment || {};
+            $('npcForm').reset(); $('npcId').value = npc?.id || ''; npcPhotoData = sheet.credCard?.fotoBase64 || '';
+            $('npcModalTitle').textContent = npc ? 'Editar NPC / inimigo' : 'Novo NPC / inimigo'; $('deleteNpcButton').hidden = !npc;
+            const values = { npcTipo:npc?.tipo || 'npc', npcNome:personal.nome || '', npcCodinome:personal.codinome || '', npcIdade:personal.idade || '', npcCategoria:personal.categoriaSuperno || '', npcRanking:personal.ranking || '', npcEspecialidade:personal.especialidade || '', npcVisao:personal.visaoSuperno || '', npcStatus:sheet.credCard?.status || 'Ativo', npcHpAtual:vitals.hpAtual ?? 10, npcHpMax:vitals.hpMax ?? 10, npcSpAtual:vitals.spAtual ?? 10, npcSpMax:vitals.spMax ?? 10, npcSanAtual:vitals.sanAtual ?? 10, npcSanMax:vitals.sanMax ?? 10, npcFadigaAtual:vitals.fadigaAtual ?? 0, npcFadigaMax:vitals.fadigaMax ?? 10, npcCorrupcao:sheet.corrupcao ?? 0, npcProficiencias:(sheet.proficiencias || []).join(', '), npcEspecializacoes:statsToText(sheet.specializations), npcResistencias:statsToText(sheet.resistances), npcArmaPrincipal:inventory.armaPrincipal || '', npcArmaSecundaria:inventory.armaSecundaria || '', npcArmaReserva:inventory.armaReserva || '', npcObjetoSuperno:inventory.objetoSuperno || '', npcTalisma:inventory.talisma || '', npcMunicao:inventory.municao || '', npcCurativos:inventory.curativos || '', npcCapacete:equipment.capacete || '', npcPeitoral:equipment.peitoral || '', npcLuvas:equipment.luvas || '', npcCalca:equipment.calca || '', npcBotas:equipment.botas || '', npcAcessorios:equipment.acessorios || '', npcTecnicas:techniquesToText(sheet.tecnicas), npcNotas:npc?.notasMestre || '' };
+            Object.entries(values).forEach(([id,value]) => $(id).value = value);
+            setChoice('npcRaca', 'npcRacaOutro', personal.raca || '');
+            setChoice('npcClasse', 'npcClasseOutro', personal.classe || '');
+            setChoice('npcOrganizacao', 'npcOrganizacaoOutro', personal.organizacao || '');
+            syncOrganization(false);
+            if ($('npcOrganizacao').value === '__outro') { $('npcEspecialidade').value = personal.especialidade || ''; $('npcVisao').value = personal.visaoSuperno || ''; }
+            if (!$('npcStatus').value) $('npcStatus').value = 'Ativo';
+            attributeKeys.forEach(key => $(`npcAttr_${key}`).value = sheet.attributes?.[key] ?? 0);
+            $('npcModal').hidden = false; $('npcNome').focus();
+        }
+
+        function closeNpcModal() { $('npcModal').hidden = true; $('npcFoto').value = ''; }
+
+        async function saveNpc(event) {
+            event.preventDefault();
+            $('saveNpcButton').disabled = true;
+            try {
+                npcPhotoData = await compressImage($('npcFoto').files[0]);
+                const attributes = Object.fromEntries(attributeKeys.map(key => [key, numberValue(`npcAttr_${key}`)]));
+                const ficha = {
+                    personal:{ nome:$('npcNome').value.trim(), codinome:$('npcCodinome').value.trim(), idade:numberValue('npcIdade',''), raca:choiceValue('npcRaca','npcRacaOutro'), categoriaSuperno:$('npcCategoria').value, classe:choiceValue('npcClasse','npcClasseOutro'), ranking:$('npcRanking').value, organizacao:choiceValue('npcOrganizacao','npcOrganizacaoOutro'), especialidade:$('npcEspecialidade').value.trim(), visaoSuperno:$('npcVisao').value.trim() },
+                    vitals:{ hpAtual:numberValue('npcHpAtual'), hpMax:numberValue('npcHpMax'), spAtual:numberValue('npcSpAtual'), spMax:numberValue('npcSpMax'), sanAtual:numberValue('npcSanAtual'), sanMax:numberValue('npcSanMax'), fadigaAtual:numberValue('npcFadigaAtual'), fadigaMax:numberValue('npcFadigaMax') },
+                    corrupcao:numberValue('npcCorrupcao'), attributes,
+                    proficiencias:$('npcProficiencias').value.split(',').map(value => value.trim()).filter(Boolean),
+                    specializations:statsFromText($('npcEspecializacoes').value), resistances:statsFromText($('npcResistencias').value),
+                    credCard:{ fotoBase64:npcPhotoData, status:$('npcStatus').value.trim() || 'Ativo' },
+                    equipment:{ capacete:$('npcCapacete').value.trim(), peitoral:$('npcPeitoral').value.trim(), luvas:$('npcLuvas').value.trim(), calca:$('npcCalca').value.trim(), botas:$('npcBotas').value.trim(), acessorios:$('npcAcessorios').value.trim() },
+                    inventory:{ armaPrincipal:$('npcArmaPrincipal').value.trim(), armaSecundaria:$('npcArmaSecundaria').value.trim(), armaReserva:$('npcArmaReserva').value.trim(), objetoSuperno:$('npcObjetoSuperno').value.trim(), talisma:$('npcTalisma').value.trim(), municao:$('npcMunicao').value.trim(), curativos:$('npcCurativos').value.trim() }, tecnicas:techniquesFromText($('npcTecnicas').value)
+                };
+                const payload = { mestreId:currentMaster.uid, tipo:$('npcTipo').value, resumo:{ nome:ficha.personal.nome, codinome:ficha.personal.codinome, hpAtual:ficha.vitals.hpAtual, hpMax:ficha.vitals.hpMax, status:ficha.credCard.status }, miniatura:npcPhotoData, ficha, notasMestre:$('npcNotas').value.trim(), atualizadoEm:serverTimestamp() };
+                const id = $('npcId').value;
+                if (id) await setDoc(doc(db,'npcs',id), payload, {merge:true}); else await addDoc(collection(db,'npcs'), {...payload, criadoEm:serverTimestamp()});
+                closeNpcModal(); showToast(id ? 'Registro atualizado.' : 'NPC criado no arquivo do mestre.');
+            } catch (error) { console.error(error); showToast('Não foi possível salvar o registro.'); }
+            finally { $('saveNpcButton').disabled = false; }
+        }
+
+        async function removeNpc() {
+            const id = $('npcId').value; if (!id || !confirm('Excluir definitivamente este NPC ou inimigo?')) return;
+            try { await deleteDoc(doc(db,'npcs',id)); closeNpcModal(); activeCharacterId = null; activeSheet = null; $('characterView').hidden = true; $('emptyState').hidden = false; showToast('Registro excluído.'); }
+            catch (error) { console.error(error); showToast('Não foi possível excluir o registro.'); }
+        }
+
+        function section(title, body, full = false) {
+            return `<section class="data-section${full ? ' full' : ''}"><h3>${escapeHtml(title)}</h3>${body}</section>`;
+        }
+
+        function rows(data, keys = null) {
+            const source = data || {};
+            const entries = (keys || Object.keys(source)).map(key => [key, source[key]]);
+            if (!entries.length) return '<p class="no-data">Nenhuma informação registrada.</p>';
+            return entries.map(([key, value]) => `<div class="data-row"><span class="data-label">${escapeHtml(labelFor(key))}</span><span class="data-value">${escapeHtml(valueText(value))}</span></div>`).join('');
+        }
+
+        function stats(data) {
+            const entries = Object.entries(data || {});
+            if (!entries.length) return '<p class="no-data">Nenhuma informação registrada.</p>';
+            return `<div class="stat-grid">${entries.map(([key, value]) => `<div class="stat"><span>${escapeHtml(labelFor(key))}</span><strong>${escapeHtml(valueText(value))}</strong></div>`).join('')}</div>`;
+        }
+
+        function cards(items, titleKey = 'nome', detailKey = 'efeito') {
+            const valid = (items || []).filter(item => item && (item[titleKey] || item[detailKey]));
+            if (!valid.length) return '<p class="no-data">Nenhuma informação registrada.</p>';
+            return valid.map(item => `<div class="list-card"><strong>${escapeHtml(valueText(item[titleKey]))}</strong><p>${escapeHtml(valueText(item[detailKey]))}</p></div>`).join('');
+        }
+
+        function renderIdentity(sheet) {
+            const privateNotes = panelMode === 'npcs' ? npcs.find(item => item.id === activeCharacterId)?.notasMestre : '';
+            return `<div class="section-grid">
+                ${section('Dados pessoais', rows(sheet.personal, ['nome','codinome','idade','raca','categoriaSuperno','classe','ranking']))}
+                ${section('Organização', rows(sheet.personal, ['organizacao','especialidade','visaoSuperno']))}
+                ${section('Identificação', rows(sheet.credCard, ['numeroId','tipoSanguineo','contatoEmergencia','status','assinaturaLider']))}
+                ${section('Natureza Superno', rows({
+                    despertar: sheet.despertar?.tipo,
+                    afinidades: sheet.elemental?.afinidades,
+                    folk: sheet.folk?.tipo,
+                    reputacao: sheet.reputacao
+                }))}
+                ${section('Fama', stats(sheet.fama), true)}
+                ${panelMode === 'npcs' ? section('Notas privadas do mestre', `<p>${escapeHtml(valueText(privateNotes))}</p>`, true) : ''}
+            </div>`;
+        }
+
+        function renderAttributes(sheet) {
+            return `<div class="section-grid">
+                ${section('Atributos', stats(sheet.attributes), true)}
+                ${section('Especializações', stats(sheet.specializations), true)}
+                ${section('Resistências', stats(sheet.resistances), true)}
+                ${section('Proficiências', Array.isArray(sheet.proficiencias) && sheet.proficiencias.length ? `<p>${escapeHtml(sheet.proficiencias.join(', '))}</p>` : '<p class="no-data">Nenhuma proficiência registrada.</p>', true)}
+            </div>`;
+        }
+
+        function renderCombat(sheet) {
+            return `<div class="section-grid">
+                ${section('Recursos', rows({...sheet.vitals, corrupcao: sheet.corrupcao}))}
+                ${section('Despertar e afinidade', rows({despertar: sheet.despertar?.tipo, afinidades: sheet.elemental?.afinidades, folk: sheet.folk?.tipo}))}
+                ${section('Técnicas', cards(sheet.tecnicas), true)}
+            </div>`;
+        }
+
+        function renderEquipment(sheet) {
+            return `<div class="section-grid">
+                ${section('Proteções', rows(sheet.equipment))}
+                ${section('Inventário', rows(sheet.inventory))}
+                ${section('Relíquias', cards(sheet.reliquias), true)}
+                ${section('Objetos Superno', cards(sheet.objetosSuperno), true)}
+            </div>`;
+        }
+
+        function renderBonds(sheet) {
+            return `<div class="section-grid">
+                ${section('Relacionamentos', cards(sheet.relacionamentos, 'nome', 'status'))}
+                ${section('Pactos', cards(sheet.pactos))}
+                ${section('Invocações', cards(sheet.invocacoes))}
+            </div>`;
+        }
+
+        function renderDice() {
+            return `<div class="section-grid">
+                ${section('Rolagem rápida', `<p class="no-data">As rolagens deste painel são locais e ainda não são enviadas aos jogadores.</p><div class="dice-panel">${[4,6,8,10,12,20,100].map(sides => `<button class="btn dice-button" type="button" data-sides="${sides}">d${sides}</button>`).join('')}</div><div class="dice-result" id="masterDiceResult"><span>Resultado</span><strong>—</strong></div>`, true)}
+            </div>`;
+        }
+
+        function renderTab() {
+            if (!activeSheet) return;
+            const renderers = {
+                identidade: renderIdentity,
+                atributos: renderAttributes,
+                combate: renderCombat,
+                equipamento: renderEquipment,
+                vinculos: renderBonds,
+                dados: renderDice
+            };
+            $('tabs').querySelectorAll('.tab-button').forEach(button => button.classList.toggle('active', button.dataset.tab === activeTab));
+            $('tabContent').innerHTML = renderers[activeTab](activeSheet);
+            $('tabContent').querySelectorAll('.dice-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const sides = Number(button.dataset.sides);
+                    const result = Math.floor(Math.random() * sides) + 1;
+                    $('masterDiceResult').innerHTML = `<span>d${sides}</span><strong>${result}</strong>`;
+                });
+            });
+        }
+
+        function startMasterPanel(user) {
+            currentMaster = user;
+            setScreen('app');
+            $('masterEmailStatus').textContent = `Mestre: ${user.email}`;
+            cleanSubscriptions();
+            unsubscribeCharacters = onSnapshot(collection(db, 'personagens'), snapshot => {
+                characters = snapshot.docs.map(item => ({ id: item.id, ...item.data() }))
+                    .sort((a, b) => (a.resumo?.nome || '').localeCompare(b.resumo?.nome || '', 'pt-BR'));
+                renderCharacterList();
+                if (!$('encounterView').hidden) renderEncounter();
+                if (panelMode === 'players' && activeCharacterId && !characters.some(item => item.id === activeCharacterId)) {
+                    activeCharacterId = null;
+                    activeSheet = null;
+                    $('emptyState').hidden = false;
+                    $('characterView').hidden = true;
+                }
+            }, error => {
+                console.error(error);
+                $('characterList').innerHTML = '<div class="empty-list">Não foi possível consultar os personagens.</div>';
+                $('characterCount').textContent = 'Falha na consulta';
+                showToast('O Firebase recusou a consulta. Confira as regras publicadas.');
+            });
+            unsubscribeNpcs = onSnapshot(query(collection(db, 'npcs'), where('mestreId', '==', user.uid)), snapshot => {
+                npcs = snapshot.docs.map(item => ({id:item.id, ...item.data()}))
+                    .sort((a,b) => (a.resumo?.nome || '').localeCompare(b.resumo?.nome || '', 'pt-BR'));
+                if (panelMode === 'npcs') {
+                    renderCharacterList();
+                    if (activeCharacterId) {
+                        const updated = npcs.find(item => item.id === activeCharacterId);
+                        if (updated) { activeSheet = updated.ficha || {}; renderActiveCharacter(); }
+                        else { activeCharacterId = null; activeSheet = null; $('characterView').hidden = true; $('emptyState').hidden = false; }
+                    }
+                }
+                if (!$('encounterView').hidden) renderEncounter();
+            }, error => { console.error(error); if (panelMode === 'npcs') showToast('Não foi possível consultar NPCs. Publique as novas regras.'); });
+        }
+
+        $('loginForm').addEventListener('submit', async event => {
+            event.preventDefault();
+            const email = $('masterEmail').value.trim();
+            const password = $('masterPassword').value;
+            if (!email || password.length < 6) {
+                setLoginMessage('Informe e-mail e senha com pelo menos 6 caracteres.', true);
+                return;
+            }
+            $('loginButton').disabled = true;
+            setLoginMessage('Validando credenciais...');
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                $('masterPassword').value = '';
+            } catch (error) {
+                console.error(error);
+                setLoginMessage('E-mail ou senha incorretos.', true);
+            } finally {
+                $('loginButton').disabled = false;
+            }
+        });
+
+        $('resetButton').addEventListener('click', async () => {
+            const email = $('masterEmail').value.trim();
+            if (!email) {
+                setLoginMessage('Digite o e-mail acima para recuperar a senha.', true);
+                $('masterEmail').focus();
+                return;
+            }
+            $('resetButton').disabled = true;
+            try {
+                await sendPasswordResetEmail(auth, email);
+                setLoginMessage('Se houver uma conta com esse e-mail, as instruções foram enviadas.');
+            } catch (error) {
+                console.error(error);
+                setLoginMessage('Não foi possível enviar a recuperação agora.', true);
+            } finally {
+                $('resetButton').disabled = false;
+            }
+        });
+
+        async function logout() {
+            cleanSubscriptions();
+            await signOut(auth);
+        }
+
+        $('logoutButton').addEventListener('click', logout);
+        $('deniedLogout').addEventListener('click', logout);
+        $('openSidebar').addEventListener('click', openDrawer);
+        $('openEncounter').addEventListener('click', openEncounterMode);
+        $('closeEncounter').addEventListener('click', closeEncounterMode);
+        $('clearEncounter').addEventListener('click', clearEncounter);
+        $('previousTurn').addEventListener('click', () => moveTurn(-1));
+        $('nextTurn').addEventListener('click', () => moveTurn(1));
+        $('resetTurns').addEventListener('click', resetTurns);
+        $('closeSidebar').addEventListener('click', closeDrawer);
+        $('drawerBackdrop').addEventListener('click', closeDrawer);
+        $('playersMode').addEventListener('click', () => switchPanelMode('players'));
+        $('npcsMode').addEventListener('click', () => switchPanelMode('npcs'));
+        $('createNpcButton').addEventListener('click', () => openNpcModal());
+        $('closeNpcModal').addEventListener('click', closeNpcModal);
+        $('cancelNpcButton').addEventListener('click', closeNpcModal);
+        $('npcForm').addEventListener('submit', saveNpc);
+        $('deleteNpcButton').addEventListener('click', removeNpc);
+        $('npcModal').addEventListener('click', event => { if (event.target === $('npcModal')) closeNpcModal(); });
+        $('npcRaca').addEventListener('change', () => toggleCustomChoice('npcRaca', 'npcRacaOutro'));
+        $('npcClasse').addEventListener('change', () => toggleCustomChoice('npcClasse', 'npcClasseOutro'));
+        $('npcOrganizacao').addEventListener('change', () => syncOrganization(true));
+        $('encounterRoster').addEventListener('click', event => {
+            const card = event.target.closest('[data-roster-id]'); if (!card) return;
+            const target = card.dataset.rosterKind === 'npc' ? encounterEnemies : encounterPlayers;
+            if (target.has(card.dataset.rosterId)) target.delete(card.dataset.rosterId); else target.add(card.dataset.rosterId);
+            renderEncounter();
+        });
+        $('encounterView').addEventListener('click', event => {
+            const remove = event.target.closest('[data-remove-id]');
+            if (remove) {
+                (remove.dataset.removeKind === 'npc' ? encounterEnemies : encounterPlayers).delete(remove.dataset.removeId);
+                const key = `${remove.dataset.removeKind === 'npc' ? 'n' : 'p'}:${remove.dataset.removeId}`;
+                encounterInitiative.delete(key); encounterConditions.delete(key);
+                if (currentTurnId === key) currentTurnId = null;
+                renderEncounter(); return;
+            }
+            const hp = event.target.closest('[data-hp-id]');
+            if (hp) {
+                const npc = npcs.find(item => item.id === hp.dataset.hpId); if (!npc) return;
+                const maximum = Number(participantSummary(npc, true).maxHp) || 0;
+                const next = Math.max(0, Math.min(maximum, (encounterHp.get(npc.id) || 0) + Number(hp.dataset.hpDelta)));
+                encounterHp.set(npc.id, next); renderEncounter();
+            }
+        });
+        $('encounterView').addEventListener('change', event => {
+            const initiative = event.target.closest('[data-initiative-key]');
+            if (initiative) {
+                encounterInitiative.set(initiative.dataset.initiativeKey, Number(initiative.value) || 0);
+                renderEncounter(); return;
+            }
+            const condition = event.target.closest('[data-condition-key]');
+            if (condition) {
+                encounterConditions.set(condition.dataset.conditionKey, condition.value);
+                renderEncounter();
+            }
+        });
+        $('tabs').addEventListener('click', event => {
+            const button = event.target.closest('.tab-button');
+            if (!button) return;
+            activeTab = button.dataset.tab;
+            renderTab();
+        });
+
+        onAuthStateChanged(auth, async user => {
+            setScreen('boot');
+            if (!user) {
+                cleanSubscriptions();
+                characters = [];
+                npcs = [];
+                encounterPlayers.clear();
+                encounterEnemies.clear();
+                encounterHp.clear();
+                encounterInitiative.clear();
+                encounterConditions.clear();
+                currentTurnId = null;
+                encounterRound = 1;
+                activeCharacterId = null;
+                activeSheet = null;
+                setScreen('login');
+                return;
+            }
+            try {
+                const profile = await getDoc(doc(db, 'usuarios', user.uid));
+                if (!profile.exists() || profile.data().tipo !== 'mestre') {
+                    cleanSubscriptions();
+                    setScreen('denied');
+                    return;
+                }
+                startMasterPanel(user);
+            } catch (error) {
+                console.error(error);
+                await signOut(auth);
+                setScreen('login');
+                setLoginMessage('Não foi possível validar a permissão de mestre.', true);
+            }
+        });
+
+        $('npcAttributeFields').innerHTML = attributeKeys.map(key => `<label>${escapeHtml(labelFor(key))}<input id="npcAttr_${key}" type="number" value="0"></label>`).join('');
+    </script>
+</body>
+</html>
