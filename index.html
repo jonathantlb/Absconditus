@@ -1447,22 +1447,6 @@
         .cred-face::before { top: 5px; left: 5px; border-right: 0; border-bottom: 0; border-radius: 4px 0 0 0; }
         .cred-face::after { bottom: 5px; right: 5px; border-left: 0; border-top: 0; border-radius: 0 0 4px 0; }
 
-        /* Texto vertical na borda direita */
-        .cred-edge-text {
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%);
-            writing-mode: vertical-rl;
-            font-family: 'Absolute Empire', serif;
-            font-size: 1.5rem;
-            letter-spacing: 6px;
-            color: rgba(242,239,232,.30);
-            text-transform: uppercase;
-            pointer-events: none;
-            z-index: 2;
-        }
-
         .cred-back {
             transform: rotateY(180deg);
         }
@@ -1903,7 +1887,6 @@
             .cred-cat-logo { width: 60px; height: 60px; }
             .cred-topbar { padding: 9px 14px 8px; }
             .cred-topbar-l, .cred-topbar-r { font-size: .62rem; letter-spacing: 2.2px; }
-            .cred-edge-text { font-size: 1rem; right: 7px; }
         }
 
         /* ================= FOOTER ================= */
@@ -4326,7 +4309,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="cred-edge-text" aria-hidden="true">Absconditus</div>
                                         </div>
 
                                         <!-- VERSO DO CARTÃO -->
@@ -8142,15 +8124,8 @@ function renderIdentity() {
             const photoBox = document.getElementById('credPhotoBox');
             const photoUpload = document.getElementById('credPhotoUpload');
 
-            if (card) {
-                card.addEventListener('click', (e) => {
-                    if (e.target.closest('#credPhotoBox')) return;
-                    if (e.target.closest('#credFlipBtn')) return;
-                    card.classList.toggle('flipped');
-                });
-            }
-
-            // Botao explicito de troca (flip)
+            // O flip e ativado EXCLUSIVAMENTE pelo botao de troca no canto superior direito.
+            // Clicar no restante do cartao nao vira o cartao.
             const flipBtn = document.getElementById('credFlipBtn');
             if (flipBtn && card) {
                 flipBtn.addEventListener('click', (e) => {
