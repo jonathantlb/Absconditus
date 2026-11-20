@@ -1368,7 +1368,39 @@
             max-width: 560px;
             margin: 0 auto;
             cursor: pointer;
+            position: relative;
         }
+
+        /* Botão de troca (flip) no canto superior direito */
+        .cred-flip-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 20;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            background: rgba(8, 7, 7, .88);
+            border: 1px solid rgba(196, 31, 46, .75);
+            border-radius: 50%;
+            color: var(--bone);
+            cursor: pointer;
+            transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .5s ease;
+        }
+
+        .cred-flip-btn svg { width: 20px; height: 20px; display: block; }
+
+        .cred-flip-btn:hover {
+            background: var(--blood);
+            border-color: var(--blood-bright);
+            color: #fff;
+            box-shadow: 0 0 18px rgba(196, 31, 46, .6);
+            transform: rotate(180deg);
+        }
+
+        .cred-flip-btn:active { transform: rotate(180deg) scale(.92); }
 
         .card-flip-inner {
             position: relative;
@@ -1476,7 +1508,7 @@
             display: flex;
             align-items: baseline;
             gap: 10px;
-            padding: 12px 20px 10px;
+            padding: 12px 62px 10px 20px;
             border-bottom: 1px solid rgba(196,31,46,.45);
             background: linear-gradient(90deg, rgba(150,22,34,.5), rgba(20,8,10,.2));
         }
@@ -1506,6 +1538,7 @@
             padding: 14px 20px 0;
             flex: 1;
             min-height: 0;
+            align-items: stretch;
         }
 
         .cred-col-main {
@@ -1518,6 +1551,7 @@
         .cred-photo-box {
             width: 100%;
             height: 292px;
+            flex: 0 0 292px;
             max-width: none;
             aspect-ratio: auto;
             border: 1px solid rgba(196,31,46,.45);
@@ -1556,8 +1590,10 @@
         .cred-fields {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             gap: 10px;
             min-width: 0;
+            flex: 1;
         }
 
         .cred-field {
@@ -1656,7 +1692,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 10px;
+            height: 292px;
+            flex: 0 0 292px;
             padding: 14px 12px 12px;
             border: 1px solid rgba(242,239,232,.16);
             background: radial-gradient(circle at 50% 38%, rgba(138,20,32,.24), rgba(0,0,0,.42) 70%);
@@ -1684,6 +1723,7 @@
 
         .cred-rank-box {
             flex: 1;
+            min-height: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -4214,6 +4254,15 @@
                             <!-- CARTÃO DE IDENTIFICAÇÃO — protagonista, centralizado -->
                             <div class="id-cardwrap">
                                 <div class="card-flip" id="credCardFlip">
+                                    <button type="button" class="cred-flip-btn" id="credFlipBtn"
+                                        aria-label="Virar o cartão" title="Virar o cartão">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M7 8.6A7 7 0 0 1 17.6 6.4"></path>
+                                            <path d="M17.4 2.9v3.7h-3.7"></path>
+                                            <path d="M17 15.4A7 7 0 0 1 6.4 17.6"></path>
+                                            <path d="M6.6 21.1v-3.7h3.7"></path>
+                                        </svg>
+                                    </button>
                                     <div class="card-flip-inner">
 
                                         <!-- FRENTE DO CARTÃO -->
@@ -4298,107 +4347,6 @@
                                 </div>
                             </div>
 
-                            <div class="id-main">
-                                <div class="card">
-                                    <h2>Identidade</h2>
-                                    <div class="form-grid">
-                                        <div class="field-row-col span2"><label>Nome</label><input type="text" data-field="personal.nome" class="input"></div>
-                                        <div class="field-row-col"><label>Codinome</label><input type="text" data-field="personal.codinome" class="input"></div>
-                                        <div class="field-row-col"><label>Idade</label><input type="number" min="0" data-field="personal.idade" class="input"></div>
-                                        <div class="field-row-col span2"><label>Categoria Superno</label><div class="tag-group" data-radio="personal.categoriaSuperno"><button type="button" class="tag" data-value="Velado">Velado</button><button type="button" class="tag" data-value="Testemunha">Testemunha</button><button type="button" class="tag" data-value="Absconditus">Absconditus</button></div></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card id-cardwrap">
-                                <h2>Cartão de Identificação</h2>
-                                <p class="hint">Clique no cartão para virar. Clique na foto para adicionar ou alterar.</p>
-                                <div class="card-flip" id="credCardFlip">
-                            <div class="card-flip-inner">
-
-                            <!-- FRENTE DO CARTÃO -->
-                            <div class="cred-face cred-front">
-                                <div class="cred-front-bar">
-                                    <span class="cred-front-title">Cartão de Identificação Superno</span>
-                                    <span class="cred-front-code">REG · ABS-0000</span>
-                                </div>
-
-                                <div class="cred-front-main">
-                                    <div class="cred-photo-box" id="credPhotoBox" role="button" tabindex="0"
-                                        aria-label="Adicionar ou alterar foto">FOTO</div>
-
-                                    <div class="cred-front-fields">
-                                        <div class="cred-front-field">
-                                            <span class="cred-label">Nome Completo</span>
-                                            <span class="cred-value" data-mirror="personal.nome">—</span>
-                                        </div>
-                                        <div class="cred-front-field">
-                                            <span class="cred-label">Codinome</span>
-                                            <span class="cred-value" data-mirror="personal.codinome">—</span>
-                                        </div>
-                                        <div class="cred-front-field">
-                                            <span class="cred-label">Categoria Superno</span>
-                                            <span class="cred-value" data-mirror="personal.categoriaSuperno">—</span>
-                                        </div>
-                                    </div>
-
-                                    <img class="cred-cat-logo-large" data-cat-logo="front"
-                                        src="Absconditus Ficha do jogador/assets/logos/absconditus-a.png"
-                                        alt="Logo Categoria Superno">
-                                </div>
-
-                                <div class="cred-front-foot">
-                                    <span class="cred-foot-mark">Absconditus · Sistema de Ficha</span>
-                                    <span class="cred-foot-note">Clique para virar ▸</span>
-                                </div>
-                            </div>
-
-                            <!-- VERSO DO CARTÃO -->
-                            <div class="cred-face cred-back">
-                                <div class="cred-back-row-top">
-                                    <div>
-                                        <span class="cred-label">Organização</span>
-                                        <span class="cred-value org-value" data-mirror="personal.organizacao">—</span>
-                                    </div>
-                                    <img class="cred-org-logo small" data-org-logo="back-header"
-                                        src="Absconditus Ficha do jogador/assets/logos/credo-do-cacador.svg" alt="Logo da organização">
-                                </div>
-
-                                <div class="cred-back-body">
-                                    <div class="cred-back-grid">
-                                        <div class="cred-back-field">
-                                            <span class="cred-label">Idade</span>
-                                            <span class="cred-value" data-mirror="personal.idade">—</span>
-                                        </div>
-                                        <div class="cred-back-field">
-                                            <span class="cred-label">Raça</span>
-                                            <span class="cred-value" data-mirror="personal.raca">—</span>
-                                        </div>
-                                        <div class="cred-back-field">
-                                            <span class="cred-label">Classe</span>
-                                            <span class="cred-value" data-mirror="personal.classe">—</span>
-                                        </div>
-                                        <div class="cred-back-field">
-                                            <span class="cred-label">Ranking</span>
-                                            <span class="cred-value" data-mirror="personal.ranking">—</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="cred-back-logo-big">
-                                        <img class="cred-org-logo big" data-org-logo="back-big"
-                                            src="Absconditus Ficha do jogador/assets/logos/credo-do-cacador.svg" alt="Logo grande da organização">
-                                    </div>
-                                </div>
-
-                                <div class="cred-front-foot">
-                                    <span class="cred-foot-mark">Absconditus · Registro Oficial</span>
-                                    <span class="cred-foot-note">◂ Clique para virar</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                            </div>
-                        </div>
-                    </div>
 
                 <div class="sub-panel" id="sub-raca">
                     <div class="rc-screen">
@@ -8197,6 +8145,16 @@ function renderIdentity() {
             if (card) {
                 card.addEventListener('click', (e) => {
                     if (e.target.closest('#credPhotoBox')) return;
+                    if (e.target.closest('#credFlipBtn')) return;
+                    card.classList.toggle('flipped');
+                });
+            }
+
+            // Botao explicito de troca (flip)
+            const flipBtn = document.getElementById('credFlipBtn');
+            if (flipBtn && card) {
+                flipBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     card.classList.toggle('flipped');
                 });
             }
