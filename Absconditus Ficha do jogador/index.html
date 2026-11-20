@@ -3067,14 +3067,15 @@
             border:1px solid var(--line-strong);transition:all .18s;
         }
         #combate .cb-slot:hover{border-color:var(--bone-dim);transform:scale(1.04)}
-        #combate .cb-slot-top{grid-column:2;grid-row:1}
-        #combate .cb-slot-core{grid-column:2;grid-row:2;cursor:default;border-style:dashed;opacity:.55}
+        /* Posicoes conforme a referencia: 6 slots em circulo + nucleo */
+        #combate .cb-slot-m6{grid-column:2;grid-row:1}
+        #combate .cb-slot-m1{grid-column:1;grid-row:2}
+        #combate .cb-slot-core{grid-column:2;grid-row:2;cursor:default;border-style:dashed;opacity:.5}
         #combate .cb-slot-core:hover{transform:none;border-color:var(--line-strong)}
-        #combate .cb-slot-bottom{grid-column:2;grid-row:3}
-        #combate .cb-slot[data-slot="arma1"]{grid-column:1;grid-row:2}
-        #combate .cb-slot[data-slot="arma2"]{grid-column:3;grid-row:2}
-        #combate .cb-slot[data-slot="kit"]{grid-column:1;grid-row:3}
-        #combate .cb-slot[data-slot="erva"]{grid-column:3;grid-row:3}
+        #combate .cb-slot-m2{grid-column:3;grid-row:2}
+        #combate .cb-slot-m3{grid-column:1;grid-row:3}
+        #combate .cb-slot-m5{grid-column:2;grid-row:3}
+        #combate .cb-slot-m4{grid-column:3;grid-row:3}
 
         #combate .cb-slot-ring{
             position:absolute;inset:6px;border-radius:50%;
@@ -3086,6 +3087,22 @@
             font-family:var(--font-display);font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;
             color:var(--bone);line-height:1.1;
         }
+        /* Nome do item dentro do slot */
+        #combate .cb-slot-item{
+            position:relative;z-index:2;display:block;text-align:center;padding:0 5px;margin-top:2px;
+            font-family:var(--font-mono);font-size:.53rem;line-height:1.15;color:var(--bone-dim);
+            max-height:2.3em;overflow:hidden;
+        }
+        #combate .cb-slot.slot-cheio .cb-slot-item{color:rgba(242,239,232,.82)}
+        /* Slot vazio: so o anel dourado */
+        #combate .cb-slot.slot-vazio .cb-slot-label,
+        #combate .cb-slot.slot-vazio .cb-slot-item{display:none}
+        #combate .cb-slot.slot-vazio .cb-slot-ring{
+            border-color:rgba(212,175,55,.65);
+            box-shadow:inset 0 0 18px rgba(212,175,55,.30),0 0 12px rgba(212,175,55,.18);
+        }
+        #combate .cb-slot.slot-vazio{border-color:rgba(212,175,55,.45);cursor:default}
+        #combate .cb-slot.slot-vazio:hover{transform:none;border-color:rgba(212,175,55,.45)}
         #combate .cb-slot-qtd{
             position:absolute;bottom:8px;right:10px;z-index:3;
             font-family:var(--font-mono);font-size:.6rem;color:var(--blood-bright);
@@ -5008,69 +5025,51 @@
                                     <button type="button" class="cb-slots-close" id="cbSlotsToggle" aria-label="Alternar arsenal">✕</button>
                                 </div>
 
-                                <div class="cb-slots-grid">
-                                    <div class="cb-slot cb-slot-top" data-slot="magic">
+                                <div class="cb-slots-grid" id="cbSlotsGrid">
+                                    <button type="button" class="cb-slot cb-slot-m6" data-slot-id="m6" data-slot-pos="top">
                                         <span class="cb-slot-ring"></span>
-                                        <span class="cb-slot-label">Magia</span>
-                                    </div>
-                                    <div class="cb-slot" id="cbSlotArma1" data-slot="arma1">
+                                        <span class="cb-slot-label">Magia 6</span>
+                                        <span class="cb-slot-item"></span>
+                                    </button>
+                                    <button type="button" class="cb-slot cb-slot-m1" data-slot-id="m1" data-slot-pos="left">
                                         <span class="cb-slot-ring"></span>
                                         <span class="cb-slot-label">Arma 1</span>
-                                    </div>
-                                    <div class="cb-slot cb-slot-core" aria-hidden="true">
+                                        <span class="cb-slot-item"></span>
+                                    </button>
+                                    <span class="cb-slot cb-slot-core" aria-hidden="true">
                                         <span class="cb-slot-ring"></span>
                                         <span class="cb-slot-cross">✕</span>
-                                    </div>
-                                    <div class="cb-slot" id="cbSlotArma2" data-slot="arma2">
+                                    </span>
+                                    <button type="button" class="cb-slot cb-slot-m2" data-slot-id="m2" data-slot-pos="right">
                                         <span class="cb-slot-ring"></span>
                                         <span class="cb-slot-label">Arma 2</span>
-                                    </div>
-                                    <div class="cb-slot" id="cbSlotKit" data-slot="kit">
+                                        <span class="cb-slot-item"></span>
+                                    </button>
+                                    <button type="button" class="cb-slot cb-slot-m3" data-slot-id="m3" data-slot-pos="bl">
                                         <span class="cb-slot-ring"></span>
                                         <span class="cb-slot-label">Kit Medic</span>
+                                        <span class="cb-slot-item"></span>
                                         <span class="cb-slot-qtd" data-mirror="arsenal.kits">0</span>
-                                    </div>
-                                    <div class="cb-slot" id="cbSlotErva" data-slot="erva">
+                                    </button>
+                                    <button type="button" class="cb-slot cb-slot-m4" data-slot-id="m4" data-slot-pos="br">
                                         <span class="cb-slot-ring"></span>
                                         <span class="cb-slot-label">Erva San</span>
+                                        <span class="cb-slot-item"></span>
                                         <span class="cb-slot-qtd" data-mirror="arsenal.ervas">0</span>
-                                    </div>
-                                    <div class="cb-slot cb-slot-bottom" data-slot="magic">
+                                    </button>
+                                    <button type="button" class="cb-slot cb-slot-m5" data-slot-id="m5" data-slot-pos="bottom">
                                         <span class="cb-slot-ring"></span>
-                                        <span class="cb-slot-label">Magia</span>
-                                    </div>
+                                        <span class="cb-slot-label">Magia 5</span>
+                                        <span class="cb-slot-item"></span>
+                                    </button>
                                 </div>
 
                                 <div class="cb-slots-tabs">
-                                    <button type="button" class="cb-slots-tab active" data-slots="armas">ARMAS</button>
+                                    <button type="button" class="cb-slots-tab on" data-slots="armas">ARMAS</button>
                                     <button type="button" class="cb-slots-tab" data-slots="magias">MAGIAS</button>
                                 </div>
                             </section>
 
-                            <section class="cb-panel" id="cbMagiasPanel">
-                                <h3 class="cb-box-title">MAGIAS</h3>
-                                <div class="cb-magias-grid" id="cbMagicList">
-                                    <p class="cb-empty">Nenhuma magia aprendida ainda.</p>
-                                </div>
-                            </section>
-
-                            <section class="cb-panel cb-highlight" id="cbConsumiveisPanel">
-                                <h3 class="cb-box-title">CONSUMÍVEIS</h3>
-                                <div class="cb-consumiveis-grid">
-                                    <div class="cb-consumivel-slot">
-                                        <div class="cb-consumivel-icon">💊</div>
-                                        <div class="cb-consumivel-label">Kit Médico</div>
-                                        <div class="cb-consumivel-qtd" id="cbKits" data-mirror="arsenal.kits">0</div>
-                                        <button type="button" class="cb-btn-use" id="cbBtnUseKit">Usar (+20 HP)</button>
-                                    </div>
-                                    <div class="cb-consumivel-slot">
-                                        <div class="cb-consumivel-icon">🌿</div>
-                                        <div class="cb-consumivel-label">Erva do Véu</div>
-                                        <div class="cb-consumivel-qtd" id="cbErvas" data-mirror="arsenal.ervas">0</div>
-                                        <button type="button" class="cb-btn-use" id="cbBtnUseErva">Usar (+20 SAN)</button>
-                                    </div>
-                                </div>
-                            </section>
                         </div>
                     </div>
 
@@ -8684,6 +8683,9 @@ function renderIdentity() {
 
             // Atualiza Box2 com seleção atual (se houver)
             renderInfoBox();
+
+            // Atualiza os slots do Arsenal de Combate
+            renderCombatSlots();
         }
 
         // =============================================
@@ -8887,43 +8889,79 @@ function renderIdentity() {
             });
         }
 
+        /* =============================================
+         * ✨ COMBATE — Arsenal de Combate (slots)
+         * Modo ARMAS: arma 1, arma 2, kit medico, erva do veu
+         * Modo MAGIAS: magia 1..6 na ordem das slots (1 e2 nas laterais,
+         * 3 e4 embaixo, 5 embaixo-centro, 6 topo-centro)
+         * ============================================= */
+        let cbSlotsMode = 'armas'; // 'armas' | 'magias'
+
+        function renderCombatSlots() {
+            const grid = document.getElementById('cbSlotsGrid');
+            if (!grid) return;
+            const magias = (state.elemental && state.elemental.aprendidas) || [];
+            const inv = state.inventory || {};
+            const ar = state.arsenal || {};
+
+            // Modo ARMAS
+            const modoArmas = {
+                m1: { label: 'Arma 1', tipo: 'arma', nome: inv.armaPrincipal || '' },
+                m2: { label: 'Arma 2', tipo: 'arma', nome: inv.armaSecundaria || '' },
+                m3: { label: 'Kit Medic', tipo: 'consumivel', nome: 'Kit Médico' },
+                m4: { label: 'Erva San', tipo: 'consumivel', nome: 'Erva do Véu' },
+                m5: { label: '', tipo: null, nome: '' },
+                m6: { label: '', tipo: null, nome: '' }
+            };
+
+            // Modo MAGIAS — ordem conforme a referencia
+            const modoMagias = {};
+            ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'].forEach((id, idx) => {
+                const nome = magias[idx] || '';
+                modoMagias[id] = { label: 'Magia ' + (idx + 1), tipo: nome ? 'magia' : null, nome };
+            });
+
+            const data = cbSlotsMode === 'magias' ? modoMagias : modoArmas;
+
+            grid.querySelectorAll('[data-slot-id]').forEach(btn => {
+                const d = data[btn.dataset.slotId] || { label: '', tipo: null, nome: '' };
+                const labelEl = btn.querySelector('.cb-slot-label');
+                const itemEl = btn.querySelector('.cb-slot-item');
+                if (labelEl) labelEl.textContent = d.label || '';
+                if (itemEl) itemEl.textContent = d.nome || '';
+                btn.dataset.tipo = d.tipo || '';
+                btn.dataset.nome = d.nome || '';
+                btn.classList.toggle('slot-vazio', !d.label && !d.nome);
+                btn.classList.toggle('slot-cheio', !!d.nome);
+                const sel = cbSelecionado && d.tipo && cbSelecionado.tipo === d.tipo && cbSelecionado.nome === d.nome;
+                btn.classList.toggle('selected', !!sel);
+            });
+
+            // Tabs refletem o modo atual
+            document.querySelectorAll('#combate .cb-slots-tab').forEach(b => {
+                b.classList.toggle('on', b.dataset.slots === cbSlotsMode);
+            });
+        }
+
         function setupCombatSlots() {
-            // Tabs ARMAS / MAGIAS do painel de slots
-            document.querySelectorAll('#combate [data-slots]').forEach(btn => {
-                if (!btn.classList.contains('cb-slots-tab')) return;
+            // Tabs ARMAS / MAGIAS
+            document.querySelectorAll('#combate .cb-slots-tab').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const modo = btn.dataset.slots;
-                    document.querySelectorAll('#combate .cb-slots-tab').forEach(b => b.classList.toggle('on', b === btn));
-                    const magias = document.getElementById('cbMagiasPanel');
-                    const cons = document.getElementById('cbConsumiveisPanel');
-                    if (modo === 'magias') {
-                        if (magias) magias.classList.add('cb-highlight');
-                        if (cons) cons.classList.remove('cb-highlight');
-                        const tabMagias = document.querySelector('#combate .cb-slots-tab[data-slots="magias"]');
-                        if (tabMagias) tabMagias.classList.add('on');
-                    } else {
-                        if (magias) magias.classList.remove('cb-highlight');
-                        if (cons) cons.classList.add('cb-highlight');
-                    }
+                    cbSlotsMode = btn.dataset.slots === 'magias' ? 'magias' : 'armas';
+                    renderCombatSlots();
                 });
             });
 
-            // Slots: arma 1 / arma 2 selecionam no HUD
-            const s1 = document.getElementById('cbSlotArma1');
-            const s2 = document.getElementById('cbSlotArma2');
-            if (s1) s1.addEventListener('click', () => document.getElementById('cbArmaCard1')?.click());
-            if (s2) s2.addEventListener('click', () => document.getElementById('cbArmaCard2')?.click());
-
-            // Slots: consumiveis selecionam no HUD
-            const sk = document.getElementById('cbSlotKit');
-            const se = document.getElementById('cbSlotErva');
-            if (sk) sk.addEventListener('click', () => {
-                const slot = [...document.querySelectorAll('#combate .cb-consumivel-slot')].find(s => /Kit/i.test(s.innerText));
-                if (slot) slot.click();
-            });
-            if (se) se.addEventListener('click', () => {
-                const slot = [...document.querySelectorAll('#combate .cb-consumivel-slot')].find(s => /Erva/i.test(s.innerText));
-                if (slot) slot.click();
+            // Clique no slot seleciona o item no painel de informacoes
+            document.getElementById('cbSlotsGrid')?.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-slot-id]');
+                if (!btn) return;
+                const tipo = btn.dataset.tipo, nome = btn.dataset.nome;
+                if (!tipo || !nome) return;
+                cbSelecionado = { tipo, nome };
+                document.querySelectorAll('#combate .cb-arma-card').forEach(c => c.classList.remove('selected'));
+                renderInfoBox();
+                renderCombatSlots();
             });
 
             // Botao de fechar do painel (colapsa o arsenal)
@@ -8934,6 +8972,8 @@ function renderIdentity() {
                     panel.classList.toggle('cb-collapsed');
                 });
             }
+
+            renderCombatSlots();
         }
 
         function setupCombate() {
