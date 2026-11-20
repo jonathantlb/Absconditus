@@ -1361,11 +1361,11 @@
             margin-top: 4px;
         }
 
-        /* ================= CARTÃO DO CREDO — ID CARD (paisagem 1.586:1) ================= */
+        /* ================= CARTÃO DO CREDO — VERTICAL (estilo credencial) ================= */
         .card-flip {
             perspective: 1600px;
-            width: 100%;
-            max-width: 440px;
+            width: min(100%, 560px);
+            max-width: 560px;
             margin: 0 auto;
             cursor: pointer;
         }
@@ -1373,8 +1373,8 @@
         .card-flip-inner {
             position: relative;
             width: 100%;
-            height: 262px;
-            min-height: 262px;
+            height: 762px;
+            min-height: 762px;
             transition: transform 0.7s cubic-bezier(.4,.14,.3,1);
             transform-style: preserve-3d;
         }
@@ -1390,15 +1390,15 @@
             overflow: hidden;
             backface-visibility: hidden;
             background:
-                radial-gradient(ellipse at 14% 0%, rgba(138,20,32,.22), transparent 56%),
-                linear-gradient(160deg, #161314, #080707 62%, #050404);
+                radial-gradient(ellipse at 12% 0%, rgba(138,20,32,.20), transparent 52%),
+                linear-gradient(160deg, #151213, #080707 62%, #050404);
             border: 1px solid rgba(196,31,46,.55);
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 0;
             display: flex;
             flex-direction: column;
             gap: 0;
-            box-shadow: 0 18px 40px rgba(0,0,0,.6), inset 0 0 50px rgba(0,0,0,.55);
+            box-shadow: 0 22px 50px rgba(0,0,0,.65), inset 0 0 60px rgba(0,0,0,.55);
         }
 
         /* Cantoneiras de HUD */
@@ -1406,21 +1406,29 @@
         .cred-face::after {
             content: '';
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 16px;
+            height: 16px;
             pointer-events: none;
-            border: 1px solid rgba(196,31,46,.8);
+            border: 1px solid rgba(196,31,46,.85);
+            z-index: 3;
         }
         .cred-face::before { top: 5px; left: 5px; border-right: 0; border-bottom: 0; border-radius: 4px 0 0 0; }
         .cred-face::after { bottom: 5px; right: 5px; border-left: 0; border-top: 0; border-radius: 0 0 4px 0; }
 
-        /* Scanlines sutis */
-        .cred-face > .cred-front-bar,
-        .cred-face > .cred-front-foot,
-        .cred-face > .cred-back-row-top,
-        .cred-face > .cred-back-body {
-            position: relative;
-            z-index: 1;
+        /* Texto vertical na borda direita */
+        .cred-edge-text {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            font-family: 'Absolute Empire', serif;
+            font-size: 1.5rem;
+            letter-spacing: 6px;
+            color: rgba(242,239,232,.30);
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 2;
         }
 
         .cred-back {
@@ -1464,56 +1472,61 @@
         }
 
         /* ================= FRENTE ================= */
-        .cred-front-bar {
+        .cred-topbar {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            align-items: baseline;
             gap: 10px;
-            padding: 6px 14px;
-            background: linear-gradient(90deg, rgba(150,22,34,.95), rgba(92,12,20,.7) 58%, rgba(22,8,10,.55));
-            border-bottom: 1px solid rgba(196,31,46,.5);
+            padding: 12px 20px 10px;
+            border-bottom: 1px solid rgba(196,31,46,.45);
+            background: linear-gradient(90deg, rgba(150,22,34,.5), rgba(20,8,10,.2));
         }
 
-        .cred-front-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1em;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #fff;
-            white-space: nowrap;
-            text-shadow: 0 1px 6px rgba(0,0,0,.7);
-        }
-
-        .cred-front-code {
+        .cred-topbar-l {
             font-family: var(--font-mono);
-            font-size: .52rem;
-            letter-spacing: 1.4px;
-            color: rgba(255,255,255,.62);
-            white-space: nowrap;
+            font-size: .78rem;
+            letter-spacing: 3.4px;
+            text-transform: uppercase;
+            color: var(--bone);
         }
 
-        .cred-front-main {
+        .cred-topbar-r {
+            font-family: var(--font-mono);
+            font-size: .78rem;
+            letter-spacing: 3.4px;
+            text-transform: uppercase;
+            color: #D2142A;
+            font-weight: 700;
+        }
+
+        /* Corpo: foto + campos | organização + ranking */
+        .cred-body {
             display: grid;
-            grid-template-columns: auto minmax(0,1fr) auto;
+            grid-template-columns: minmax(0,1fr) 178px;
             gap: 14px;
-            align-items: center;
-            padding: 9px 14px 6px;
+            padding: 14px 20px 0;
             flex: 1;
             min-height: 0;
         }
 
+        .cred-col-main {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 0;
+        }
+
         .cred-photo-box {
-            width: 88px;
-            height: 116px;
+            width: 100%;
+            height: 292px;
             max-width: none;
             aspect-ratio: auto;
-            border: 1px dashed rgba(242,239,232,.30);
+            border: 1px solid rgba(196,31,46,.45);
             border-radius: 4px;
-            background: rgba(0,0,0,.42);
+            background: rgba(0,0,0,.45);
             overflow: hidden;
             position: relative;
-            box-shadow: inset 0 0 20px rgba(0,0,0,.7);
+            box-shadow: inset 0 0 26px rgba(0,0,0,.75);
+            cursor: pointer;
         }
 
         .cred-photo-box img {
@@ -1525,59 +1538,97 @@
         }
 
         .cred-photo-box::after {
-            content: '📸 FOTO';
-            font-size: 7px;
-            letter-spacing: .5px;
-            background: rgba(0,0,0,.78);
-            padding: 3px 2px;
+            content: '📸 CLIQUE PARA ALTERAR A FOTO';
+            font-family: var(--font-mono);
+            font-size: .55rem;
+            letter-spacing: 1.2px;
+            background: rgba(0,0,0,.8);
+            padding: 5px 3px;
             position: absolute;
-            left: 2px;
-            right: 2px;
-            bottom: 2px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
             text-align: center;
             color: var(--bone);
         }
 
-        .cred-photo-box.has-photo::after {
-            content: '📸 ALTERAR FOTO';
-        }
-
-        .cred-front-fields {
+        /* Campos editáveis / somente leitura */
+        .cred-fields {
             display: flex;
             flex-direction: column;
+            gap: 10px;
             min-width: 0;
         }
 
-        .cred-front-field {
+        .cred-field {
             display: flex;
             flex-direction: column;
-            gap: 1px;
-            padding: 5px 0;
-            border-bottom: 1px solid rgba(242,239,232,.14);
+            gap: 2px;
+            min-width: 0;
         }
 
-        .cred-front-field:last-child {
-            border-bottom: none;
-        }
-
-        .cred-front-field .cred-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: .72em;
-            letter-spacing: 1.6px;
-            color: #D2142A;
+        .cred-label {
+            font-family: var(--font-mono);
+            font-size: .56rem;
+            letter-spacing: 2.4px;
             text-transform: uppercase;
+            color: #D2142A;
         }
 
-        .cred-front-field .cred-value {
+        .cred-input,
+        .cred-select {
+            width: 100%;
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(242,239,232,.22);
+            color: #ffffff;
             font-family: 'Absolute Empire', serif;
-            font-size: 1.02em;
+            font-size: 1.35rem;
+            font-weight: 400;
+            letter-spacing: .5px;
+            padding: 2px 0 4px;
+            outline: none;
+            border-radius: 0;
+            transition: border-color .15s, color .15s;
+        }
+
+        .cred-input::placeholder { color: rgba(242,239,232,.28); }
+
+        .cred-input:focus,
+        .cred-select:focus {
+            border-bottom-color: var(--blood-bright);
+            color: #fff;
+            text-shadow: 0 0 14px rgba(196,31,46,.45);
+        }
+
+        .cred-select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: linear-gradient(45deg, transparent 50%, rgba(242,239,232,.55) 50%), linear-gradient(135deg, rgba(242,239,232,.55) 50%, transparent 50%);
+            background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%;
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+            padding-right: 24px;
+        }
+
+        .cred-select option { background: #0d0b0c; color: #fff; }
+
+        /* Valor somente leitura (Raça, Classe, Organização) */
+        .cred-read {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1px solid rgba(242,239,232,.22);
+            padding: 2px 0 4px;
+            min-width: 0;
+        }
+
+        .cred-read .cred-value {
+            font-family: 'Absolute Empire', serif;
+            font-size: 1.35rem;
             font-weight: 400;
             color: #ffffff;
-            background: transparent;
-            padding: 0;
-            border-radius: 0;
-            min-width: 0;
-            text-align: left;
             letter-spacing: .5px;
             line-height: 1.15;
             overflow: hidden;
@@ -1585,16 +1636,105 @@
             white-space: nowrap;
         }
 
-        .cred-cat-logo-large {
-            width: 82px;
-            height: 82px;
-            max-width: 82px;
+        .cred-chev {
+            margin-left: auto;
+            color: rgba(242,239,232,.45);
+            font-size: .85rem;
+            line-height: 1;
+            flex: 0 0 auto;
+        }
+
+        /* Coluna direita: organização + ranking */
+        .cred-col-side {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .cred-org-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 12px 12px;
+            border: 1px solid rgba(242,239,232,.16);
+            background: radial-gradient(circle at 50% 38%, rgba(138,20,32,.24), rgba(0,0,0,.42) 70%);
+            border-radius: 5px;
+        }
+
+        .cred-org-box .cred-org-logo {
+            width: 108px;
+            height: 108px;
+            filter: drop-shadow(0 0 12px rgba(138,20,32,.5));
+        }
+
+        .cred-org-name {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .cred-org-name .cred-value {
+            font-size: .92rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: normal;
+        }
+
+        .cred-rank-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 12px;
+            border: 1px solid rgba(196,31,46,.45);
+            background: radial-gradient(circle at 50% 40%, rgba(138,20,32,.28), rgba(0,0,0,.5) 72%);
+            border-radius: 5px;
+        }
+
+        .cred-rank-letter {
+            font-family: 'Absolute Empire', serif;
+            font-size: 5.4rem;
+            line-height: .95;
+            color: #ffffff;
+            text-shadow: 0 0 26px rgba(196,31,46,.55);
+        }
+
+        /* Rodapé: categoria + logo */
+        .cred-cat-row {
+            display: grid;
+            grid-template-columns: minmax(0,1fr) 116px;
+            gap: 16px;
+            align-items: center;
+            margin: 14px 20px 18px;
+            padding: 14px 16px;
+            border: 1px solid rgba(242,239,232,.14);
+            background: rgba(0,0,0,.32);
+            border-radius: 5px;
+        }
+
+        .cred-cat-field .cred-label { margin-bottom: 3px; }
+
+        .cred-cat-box {
+            display: grid;
+            place-items: center;
+            padding: 6px;
+            border: 1px solid rgba(242,239,232,.12);
+            border-radius: 4px;
+            background: radial-gradient(circle at 50% 50%, rgba(138,20,32,.2), transparent 72%);
+        }
+
+        .cred-cat-logo {
+            width: 92px;
+            height: 92px;
             object-fit: contain;
-            flex-shrink: 0;
             display: block;
             background: transparent;
             border: none;
-            filter: drop-shadow(0 0 10px rgba(138,20,32,.55));
+            filter: drop-shadow(0 0 10px rgba(138,20,32,.45));
         }
 
         .cred-front-foot {
@@ -1602,9 +1742,9 @@
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            padding: 4px 14px;
+            padding: 5px 20px;
             border-top: 1px solid rgba(242,239,232,.12);
-            background: rgba(0,0,0,.3);
+            background: rgba(0,0,0,.32);
         }
 
         .cred-foot-mark {
@@ -1628,147 +1768,102 @@
             padding: 0;
         }
 
-        .cred-back-row-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 8px 14px 7px;
-            border-bottom: 1px solid rgba(242,239,232,.14);
-        }
-
-        .cred-back-row-top .cred-label {
-            display: block;
-            margin-bottom: 3px;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: .72em;
-            letter-spacing: 1.6px;
-            color: #D2142A;
-            text-transform: uppercase;
-        }
-
-        .cred-back-row-top .org-value {
-            font-family: 'Absolute Empire', serif;
-            font-size: 1.15em;
-            letter-spacing: .5px;
-            color: #ffffff;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
-
         .cred-back-body {
-            display: grid;
-            grid-template-columns: minmax(0,1fr) 104px;
-            gap: 12px;
-            align-items: center;
-            padding: 8px 14px;
-            flex: 1;
-            min-height: 0;
-        }
-
-        .cred-back-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px 10px;
-        }
-
-        .cred-back-field {
             display: flex;
             flex-direction: column;
-            gap: 3px;
-            padding: 5px 8px;
-            background: rgba(0,0,0,.34);
-            border-left: 2px solid rgba(196,31,46,.65);
+            gap: 12px;
+            padding: 16px 22px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
         }
 
-        .cred-back-field .cred-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: .68em;
-            letter-spacing: 1.4px;
-            color: #D2142A;
-            text-transform: uppercase;
+        .cred-back-sec {
+            border-left: 2px solid rgba(196,31,46,.6);
+            padding: 2px 0 2px 11px;
         }
 
-        .cred-back-field .cred-value {
-            font-size: .88em;
-            font-weight: 500;
-            line-height: 1.15;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .cred-back-sec > .cred-label { display: block; margin-bottom: 3px; }
+
+        .cred-back-value {
+            font-family: 'Absolute Empire', serif;
+            font-size: 1.15rem;
+            color: #ffffff;
+            letter-spacing: .5px;
+            line-height: 1.2;
         }
 
-        .cred-back-logo-big {
-            margin-top: 0;
+        .cred-back-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-            border: 1px solid rgba(242,239,232,.12);
-            background: radial-gradient(circle at 50% 45%, rgba(138,20,32,.20), rgba(0,0,0,.35) 72%);
-            border-radius: 6px;
-            height: 100%;
-            min-height: 104px;
+            flex-wrap: wrap;
+            gap: 6px 10px;
         }
 
-        .cred-back-logo-big .cred-org-logo.big {
-            width: 88px;
-            height: 88px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 12px rgba(138,20,32,.45));
+        .cred-back-list li {
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            color: var(--bone-dim);
         }
 
-        .cred-back-logo-big .cred-org-logo.big.logo-missing {
-            width: 88px;
-            height: 88px;
+        .cred-back-list li b {
+            font-family: 'Absolute Empire', serif;
+            font-size: .92rem;
+            color: var(--bone);
+            font-weight: 400;
+            margin-right: 4px;
         }
 
-        @media (max-width: 560px) {
+        .cred-back-note {
+            font-family: var(--font-body);
+            font-size: .82rem;
+            color: var(--bone-dim);
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .cred-back-reg {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cred-back-reg b {
+            font-family: 'Absolute Empire', serif;
+            font-size: 1.6rem;
+            color: var(--blood-bright);
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 640px) {
             .card-flip {
-                width: min(100%, 320px);
-                max-width: 320px;
+                width: min(100%, 380px);
+                max-width: 380px;
             }
 
             .card-flip-inner {
-                height: 190px;
-                min-height: 190px;
+                height: 520px;
+                min-height: 520px;
             }
 
-            .cred-front-main {
-                gap: 8px;
-                padding: 8px 10px 6px;
+            .cred-body {
+                grid-template-columns: minmax(0,1fr) 116px;
+                gap: 10px;
+                padding: 10px 12px 0;
             }
 
-            .cred-photo-box {
-                width: 64px;
-                height: 86px;
-            }
-
-            .cred-cat-logo-large {
-                width: 60px;
-                height: 60px;
-                max-width: 60px;
-            }
-
-            .cred-front-field {
-                padding: 4px 0;
-            }
-
-            .cred-back-body {
-                grid-template-columns: minmax(0,1fr) 72px;
-                gap: 8px;
-                padding: 8px 10px;
-            }
-
-            .cred-back-logo-big .cred-org-logo.big {
-                width: 68px;
-                height: 68px;
-            }
-
-            .cred-back-logo-big .cred-org-logo.big.logo-missing {
-                width: 68px;
-                height: 68px;
-            }
+            .cred-photo-box { height: 190px; }
+            .cred-org-box .cred-org-logo { width: 72px; height: 72px; }
+            .cred-rank-letter { font-size: 3.4rem; }
+            .cred-input, .cred-select, .cred-read .cred-value { font-size: 1.02rem; }
+            .cred-cat-row { grid-template-columns: minmax(0,1fr) 78px; gap: 10px; margin: 10px 12px 12px; padding: 10px 12px; }
+            .cred-cat-logo { width: 60px; height: 60px; }
+            .cred-topbar { padding: 9px 14px 8px; }
+            .cred-topbar-l, .cred-topbar-r { font-size: .62rem; letter-spacing: 2.2px; }
+            .cred-edge-text { font-size: 1rem; right: 7px; }
         }
 
         /* ================= FOOTER ================= */
@@ -3552,11 +3647,12 @@
         #identidade .empty{padding:14px;border:1px dashed var(--line-strong);font-size:.85rem;color:var(--bone-dim)}
         #identidade .cb-label{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-family:var(--font-mono);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim)}
         #identidade .cb-label::before{content:"";width:6px;height:6px;background:var(--blood-bright);transform:rotate(45deg)}
-        #identidade .id-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,460px);gap:18px;align-items:start;width:100%}
-        #identidade .id-main{display:flex;flex-direction:column;min-width:0}
+        #identidade .id-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;align-items:start;justify-items:center;width:100%}
+        #identidade .id-main{display:flex;flex-direction:column;min-width:0;width:100%;max-width:620px;margin:0 auto}
         #identidade .id-layout .card{margin-bottom:18px}
+        #identidade .id-cardwrap{width:100%;max-width:600px;margin:0 auto;padding:0;background:transparent;border:none;box-shadow:none;display:block}
         #identidade .card:has(#credCardFlip){max-width:none;width:100%;margin:0;align-items:stretch}
-        @media (max-width:960px){#identidade .id-layout{grid-template-columns:1fr}#identidade .card:has(#credCardFlip){max-width:420px;margin:0 auto}}
+        @media (max-width:960px){#identidade .id-layout{grid-template-columns:1fr}#identidade .card:has(#credCardFlip){max-width:100%}#identidade .id-cardwrap{max-width:600px}#identidade .id-main{max-width:100%}}
         #identidade .form-grid{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:14px}
         #identidade .form-grid .span2{grid-column:1/-1}
         #identidade .form-grid .input{width:100%}
@@ -4115,6 +4211,93 @@
 
                     <div class="sub-panel active" id="sub-dados">
                         <div class="id-layout">
+                            <!-- CARTÃO DE IDENTIFICAÇÃO — protagonista, centralizado -->
+                            <div class="id-cardwrap">
+                                <div class="card-flip" id="credCardFlip">
+                                    <div class="card-flip-inner">
+
+                                        <!-- FRENTE DO CARTÃO -->
+                                        <div class="cred-face cred-front">
+                                            <div class="cred-topbar">
+                                                <span class="cred-topbar-l">Acesso e Informação</span>
+                                                <span class="cred-topbar-r">Confidencial</span>
+                                            </div>
+
+                                            <div class="cred-body">
+                                                <div class="cred-col-main">
+                                                    <div class="cred-photo-box" id="credPhotoBox" role="button" tabindex="0"
+                                                        aria-label="Adicionar ou alterar foto">FOTO</div>
+
+                                                    <div class="cred-fields">
+                                                        <div class="cred-field">
+                                                            <span class="cred-label">Nome</span>
+                                                            <input type="text" class="cred-input" data-field="personal.nome" placeholder="—">
+                                                        </div>
+                                                        <div class="cred-field">
+                                                            <span class="cred-label">Raça</span>
+                                                            <div class="cred-read"><span class="cred-value" data-mirror="personal.raca">—</span><span class="cred-chev">▾</span></div>
+                                                        </div>
+                                                        <div class="cred-field">
+                                                            <span class="cred-label">Classe</span>
+                                                            <div class="cred-read"><span class="cred-value" data-mirror="personal.classe">—</span><span class="cred-chev">▾</span></div>
+                                                        </div>
+                                                        <div class="cred-field">
+                                                            <span class="cred-label">Idade</span>
+                                                            <input type="number" min="0" class="cred-input" data-field="personal.idade" placeholder="—">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <aside class="cred-col-side">
+                                                    <div class="cred-org-box">
+                                                        <img class="cred-org-logo" data-org-logo="front"
+                                                            src="Absconditus Ficha do jogador/assets/logos/credo-do-cacador.svg" alt="Logo da organização">
+                                                        <div class="cred-read cred-org-name"><span class="cred-value" data-mirror="personal.organizacao">—</span><span class="cred-chev">▾</span></div>
+                                                    </div>
+                                                    <div class="cred-rank-box">
+                                                        <span class="cred-label">Ranking</span>
+                                                        <span class="cred-rank-letter" data-mirror="personal.ranking">—</span>
+                                                    </div>
+                                                </aside>
+                                            </div>
+
+                                            <div class="cred-cat-row">
+                                                <div class="cred-field cred-cat-field">
+                                                    <span class="cred-label">Categoria Superno</span>
+                                                    <select class="cred-select" data-field="personal.categoriaSuperno">
+                                                        <option value="">—</option>
+                                                        <option value="Velado">Velado</option>
+                                                        <option value="Testemunha">Testemunha</option>
+                                                        <option value="Absconditus">Absconditus</option>
+                                                    </select>
+                                                </div>
+                                                <div class="cred-cat-box">
+                                                    <img class="cred-cat-logo" data-cat-logo="front"
+                                                        src="Absconditus Ficha do jogador/assets/logos/absconditus-a.png" alt="Logo Categoria Superno">
+                                                </div>
+                                            </div>
+
+                                            <div class="cred-edge-text" aria-hidden="true">Absconditus</div>
+                                        </div>
+
+                                        <!-- VERSO DO CARTÃO -->
+                                        <div class="cred-face cred-back">
+                                            <div class="cred-topbar">
+                                                <span class="cred-topbar-l">Registro de Campo</span>
+                                                <span class="cred-topbar-r">Confidencial</span>
+                                            </div>
+                                            <div class="cred-back-body" id="credBackBody">
+                                                <!-- Injetado via JS por renderCredBack() -->
+                                            </div>
+                                            <div class="cred-front-foot">
+                                                <span class="cred-foot-mark">Absconditus · Sistema de Ficha v1.0</span>
+                                                <span class="cred-foot-note">◂ Clique para virar</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="id-main">
                                 <div class="card">
                                     <h2>Identidade</h2>
@@ -4124,10 +4307,6 @@
                                         <div class="field-row-col"><label>Idade</label><input type="number" min="0" data-field="personal.idade" class="input"></div>
                                         <div class="field-row-col span2"><label>Categoria Superno</label><div class="tag-group" data-radio="personal.categoriaSuperno"><button type="button" class="tag" data-value="Velado">Velado</button><button type="button" class="tag" data-value="Testemunha">Testemunha</button><button type="button" class="tag" data-value="Absconditus">Absconditus</button></div></div>
                                     </div>
-                                </div>
-                                <div class="card">
-                                    <h2>Resumo do Personagem</h2>
-                                    <div id="idSummary"></div>
                                 </div>
                             </div>
                             <div class="card id-cardwrap">
@@ -5263,6 +5442,16 @@
                 const val = getPath(state, el.dataset.mirror);
                 el.textContent = val && val !== '' ? val : '—';
             });
+            syncCredInputs();
+        }
+
+        /* Mantém os campos editáveis do cartão de identificação em sincronia com o estado */
+        function syncCredInputs() {
+            document.querySelectorAll('#sub-dados .cred-input, #sub-dados .cred-select').forEach(el => {
+                const val = getPath(state, el.dataset.field);
+                const v = (val === undefined || val === null) ? '' : String(val);
+                if (document.activeElement !== el && el.value !== v) el.value = v;
+            });
         }
 
         function bindSimpleFields() {
@@ -5284,20 +5473,20 @@
         // ✨ LOGOS DAS ORGANIZAÇÕES
         // =============================================
         const ORGANIZATION_LOGOS = {
-            'Credo do Caçador': 'assets/logos/credo-do-cacador.svg',
-            'Centro de Observação': 'assets/logos/centro-de-observacao.svg',
-            'Pax Vobiscum': 'assets/logos/pax-vobiscum.svg',
-            'Filhos da Terra': 'assets/logos/filhos-da-terra.svg',
-            'Ordem do Abismo': 'assets/logos/ordem-do-abismo.svg',
-            'A Divisão': 'assets/logos/a-divisao.svg',
-            'Clã Akamatsu': 'assets/logos/cla-akamatsu.svg',
-            'Kurotsuki': 'assets/logos/kurotsuki.svg'
+            'Credo do Caçador': 'Absconditus Ficha do jogador/assets/logos/credo-do-cacador.svg',
+            'Centro de Observação': 'Absconditus Ficha do jogador/assets/logos/centro-de-observacao.svg',
+            'Pax Vobiscum': 'Absconditus Ficha do jogador/assets/logos/pax-vobiscum.svg',
+            'Filhos da Terra': 'Absconditus Ficha do jogador/assets/logos/filhos-da-terra.svg',
+            'Ordem do Abismo': 'Absconditus Ficha do jogador/assets/logos/ordem-do-abismo.svg',
+            'A Divisão': 'Absconditus Ficha do jogador/assets/logos/a-divisao.svg',
+            'Clã Akamatsu': 'Absconditus Ficha do jogador/assets/logos/cla-akamatsu.svg',
+            'Kurotsuki': 'Absconditus Ficha do jogador/assets/logos/kurotsuki.svg'
         };
 
         const CATEGORIA_LOGOS = {
-            'Velado': 'assets/logos/absconditus-a.png',
-            'Testemunha': 'assets/logos/absconditus-a.png',
-            'Absconditus': 'assets/logos/absconditus-a.png'
+            'Velado': 'Absconditus Ficha do jogador/assets/logos/absconditus-a.png',
+            'Testemunha': 'Absconditus Ficha do jogador/assets/logos/absconditus-a.png',
+            'Absconditus': 'Absconditus Ficha do jogador/assets/logos/absconditus-a.png'
         };
 
         function updateCategoriaLogos(categoria) {
@@ -7086,7 +7275,7 @@ function updateOrganizationDetails(organization) {
         }
 
 function renderIdentity() {
-            if (!document.getElementById('idSummary')) return;
+            if (!document.getElementById('identidade')) return;
             const p = state.personal || {};
             const rank = p.ranking || '', cls = p.classe || '', race = p.raca || '', org = p.organizacao || '';
             const hasAll = rank && cls && race;
@@ -7142,6 +7331,42 @@ function renderIdentity() {
 
             // ----- Ranking -----
             renderRankScreen();
+
+            // Verso do cartão de identificação
+            renderCredBack();
+        }
+
+        /* =============================================
+         * ✨ CARTÃO — verso com os dados das outras abas
+         * ============================================= */
+        function renderCredBack() {
+            const box = document.getElementById('credBackBody');
+            if (!box) return;
+            const p = state.personal || {};
+            const org = p.organizacao || '';
+            const orgData = ID_ORG[org] || {};
+            const orgInfo = ORGANIZATIONS[org] || {};
+            const skills = ORGANIZATION_SKILLS[org] || [];
+            const gear = orgData.gear || [];
+            const lema = [orgInfo.especialidade, orgInfo.visaoSuperno].filter(Boolean).join(' · ');
+
+            const sec = (label, value) => `<div class="cred-back-sec"><span class="cred-label">${idEsc(label)}</span><div class="cred-back-value">${idEsc(value || '—')}</div></div>`;
+            const secList = (label, items, render) => `<div class="cred-back-sec"><span class="cred-label">${idEsc(label)}</span><ul class="cred-back-list">${items.length ? items.map(render).join('') : '<li>—</li>'}</ul></div>`;
+
+            const registro = 'ABS-' + (p.registro || p.codigo || '0000');
+
+            box.innerHTML = `
+                <div class="cred-back-sec">
+                    <span class="cred-label">Registro</span>
+                    <div class="cred-back-reg"><b>${idEsc(registro)}</b><span class="cred-back-value">${idEsc(p.nome || 'Sem nome')}</span></div>
+                </div>
+                ${sec('Codinome', p.codinome)}
+                ${sec('Organização', org)}
+                ${lema ? `<div class="cred-back-sec"><span class="cred-label">Lema da Organização</span><p class="cred-back-note">${idEsc(lema)}</p></div>` : ''}
+                ${secList('Bônus de Habilidades', skills, s => `<li><b>${idEsc(s)}</b>+1</li>`)}
+                ${secList('Equipamento Padrão', gear, g => `<li>${idEsc(g)}</li>`)}
+                ${orgData.desc ? `<div class="cred-back-sec"><span class="cred-label">Histórico</span><p class="cred-back-note">${idEsc(orgData.desc)}</p></div>` : ''}
+            `;
         }
 
         function setupIdentity() {
@@ -8700,7 +8925,7 @@ function renderIdentity() {
         }
 
         function characterPhoto(character) {
-            return character.miniatura || character.ficha?.credCard?.fotoBase64 || 'assets/logos/absconditus-a.png';
+            return character.miniatura || character.ficha?.credCard?.fotoBase64 || 'Absconditus Ficha do jogador/assets/logos/absconditus-a.png';
         }
 
         async function createThumbnail(dataUrl) {
