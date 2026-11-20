@@ -2919,6 +2919,259 @@
             font-size:.75rem;
         }
 
+        /* ================= COMBATE — LAYOUT 3 COLUNAS + RODAPE ================= */
+        #combate .cb-layout3{
+            display:grid;
+            grid-template-columns:minmax(230px,1fr) minmax(300px,1.35fr) minmax(230px,1fr);
+            gap:16px;align-items:start;
+        }
+        @media (max-width:1180px){#combate .cb-layout3{grid-template-columns:1fr 1fr}}
+        @media (max-width:780px){#combate .cb-layout3{grid-template-columns:1fr}}
+
+        #combate .cb-col{display:flex;flex-direction:column;gap:14px;min-width:0}
+
+        #combate .cb-panel{
+            background:linear-gradient(180deg,var(--ink-raised),var(--ink));
+            border:1px solid var(--line-strong);border-left:3px solid var(--blood-bright);
+            border-radius:5px;padding:12px;display:flex;flex-direction:column;gap:9px;min-width:0;
+        }
+        #combate .cb-panel-flush{padding:0;border-left-width:1px;overflow:hidden}
+        #combate .cb-panel-flush .cb-hud,
+        #combate .cb-panel-flush .cb-console{border:0;border-radius:0;box-shadow:none;background:transparent}
+        /* Console recolhido por padrao: abre sob demanda para nao esticar a coluna central */
+        #combate .cb-console-panel:not(.open) .cb-console > *:not(.cb-console-head){display:none}
+        #combate .cb-console-panel:not(.open) .cb-console{padding:0}
+        #combate .cb-console-panel:not(.open) .cb-console-head{padding:11px 14px;cursor:pointer;border-bottom:0}
+        #combate .cb-console-toggle{
+            margin-left:auto;width:24px;height:24px;padding:0;line-height:1;
+            background:var(--blood);border:1px solid var(--blood-bright);color:var(--bone);
+            font-family:var(--font-mono);font-size:.85rem;cursor:pointer;border-radius:2px;transition:all .15s;
+        }
+        #combate .cb-console-toggle:hover{background:var(--blood-bright);color:var(--void)}
+
+        #combate .cb-box-title{
+            font-family:var(--font-display);font-weight:400;font-size:.92rem;letter-spacing:2.6px;
+            text-transform:uppercase;color:var(--blood-bright);margin:0;
+        }
+
+        /* --- ATRIBUTOS (coluna 1) --- */
+        #combate .cb-attr-list{display:flex;flex-direction:column;gap:2px}
+        #combate .cb-attr-item{
+            display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+            padding:6px 8px;background:rgba(0,0,0,.34);border-bottom:1px solid rgba(242,239,232,.08);
+        }
+        #combate .cb-attr-label{font-family:var(--font-mono);font-size:.78rem;color:var(--bone-dim);letter-spacing:.5px}
+        #combate .cb-attr-value{font-family:var(--font-display);font-size:1.05rem;color:var(--bone)}
+        #combate .cb-attr-value .neg{color:var(--blood-bright)}
+
+        #combate .cb-skill-list{display:flex;flex-direction:column;gap:4px}
+        #combate .cb-skill-item{
+            display:flex;justify-content:space-between;align-items:center;gap:10px;
+            padding:7px 9px;background:rgba(0,0,0,.34);
+            border:1px solid var(--line);border-left:2px solid var(--blood-bright);
+        }
+        #combate .cb-skill-name{font-family:var(--font-mono);font-size:.76rem;color:var(--bone);letter-spacing:.5px}
+        #combate .cb-skill-value{font-family:var(--font-display);font-size:.95rem;color:var(--bone-dim)}
+
+        /* --- DIFICULDADE + D20 (coluna 2) --- */
+        #combate .cb-dc-panel{
+            align-items:center;text-align:center;padding:14px 12px 12px;
+            background:radial-gradient(ellipse at 50% 0%,rgba(138,20,32,.20),transparent 62%),linear-gradient(180deg,var(--ink-raised),var(--ink));
+        }
+        #combate .cb-dc-head{
+            display:flex;flex-direction:column;line-height:1.15;
+            font-family:var(--font-display);font-size:.86rem;letter-spacing:3px;text-transform:uppercase;
+            color:var(--bone-dim);
+        }
+        #combate .cb-dc-head span:last-child{color:var(--blood-bright)}
+        #combate .cb-dc-value{
+            font-family:var(--font-display);font-size:2.6rem;color:var(--bone);line-height:1;margin:2px 0 6px;
+            text-shadow:0 0 18px rgba(196,31,46,.45);
+        }
+        #combate .cb-d20{
+            width:104px;height:104px;padding:0;cursor:pointer;position:relative;
+            background:radial-gradient(circle at 35% 28%,#3a3540,#17141c 55%,#0a0910);
+            border:2px solid rgba(196,31,46,.65);
+            clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+            display:grid;place-items:center;transition:transform .2s ease,box-shadow .2s ease;
+        }
+        #combate .cb-d20:hover{transform:scale(1.06);box-shadow:0 0 28px rgba(196,31,46,.55)}
+        #combate .cb-d20:active{transform:scale(.96)}
+        #combate .cb-d20-face{
+            font-family:var(--font-display);font-size:2.9rem;color:#fff;line-height:1;
+            text-shadow:0 0 16px rgba(196,31,46,.8);
+        }
+        #combate .cb-d20[data-res="ok"] .cb-d20-face{color:#7ee08a;text-shadow:0 0 18px rgba(126,224,138,.7)}
+        #combate .cb-d20[data-res="fail"] .cb-d20-face{color:#ff5a68;text-shadow:0 0 18px rgba(255,90,104,.7)}
+        #combate .cb-d20[data-res="crit"] .cb-d20-face{color:#ffd166;text-shadow:0 0 22px rgba(255,209,102,.85)}
+        #combate .cb-dc-input{
+            width:92px;height:30px;text-align:center;margin-top:9px;
+            background:var(--void);border:1px solid var(--line-strong);color:var(--bone);
+            font-family:var(--font-mono);font-size:.85rem;outline:none;
+        }
+        #combate .cb-dc-input:focus{border-color:var(--blood-bright)}
+        #combate .cb-dc-msg{
+            font-family:var(--font-mono);font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;
+            color:var(--bone-dim);margin-top:6px;min-height:1.1em;
+        }
+        #combate .cb-dc-msg[data-res="ok"]{color:#7ee08a}
+        #combate .cb-dc-msg[data-res="fail"]{color:#ff5a68}
+        #combate .cb-dc-msg[data-res="crit"]{color:#ffd166}
+
+        /* --- ARMAS (coluna 2) --- */
+        #combate .cb-armas-box{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        #combate .cb-arma-card{
+            background:var(--void);border:1px solid var(--line-strong);border-radius:5px;padding:10px;
+            display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .18s;
+        }
+        #combate .cb-arma-card:hover{border-color:var(--bone-dim);background:rgba(255,255,255,.03)}
+        #combate .cb-arma-card.selected{border-color:var(--blood-bright);background:rgba(138,20,32,.15);box-shadow:0 0 12px rgba(138,20,32,.25)}
+        #combate .cb-arma-titulo{
+            font-family:var(--font-mono);font-size:.6rem;letter-spacing:2px;text-transform:uppercase;
+            color:var(--blood-bright);margin:0;
+        }
+        #combate .cb-arma-placeholder{font-size:1.9rem;line-height:1}
+        #combate .cb-arma-valor{
+            font-family:var(--font-display);font-size:1rem;color:var(--bone);text-align:center;
+            min-height:1.3em;line-height:1.2;
+        }
+        #combate .cb-btn-roll{
+            width:100%;background:var(--blood);border:1px solid var(--blood-bright);color:var(--bone);
+            font-family:var(--font-display);font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;
+            padding:7px;border-radius:3px;cursor:pointer;transition:all .15s;
+        }
+        #combate .cb-btn-roll:hover{background:var(--blood-bright);color:var(--void)}
+
+        /* --- ARSENAL / SLOTS (coluna 3) --- */
+        #combate .cb-slots-panel{padding:10px 12px 12px;gap:10px}
+        #combate .cb-slots-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+        #combate .cb-slots-title{
+            font-family:var(--font-display);font-size:.86rem;letter-spacing:2.4px;text-transform:uppercase;
+            color:var(--blood-bright);
+        }
+        #combate .cb-slots-close{
+            width:22px;height:22px;padding:0;line-height:1;
+            background:var(--blood);border:1px solid var(--blood-bright);color:var(--bone);
+            font-size:.7rem;cursor:pointer;border-radius:2px;transition:all .15s;
+        }
+        #combate .cb-slots-close:hover{background:var(--blood-bright);color:var(--void)}
+
+        #combate .cb-slots-grid{
+            display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,auto);
+            gap:8px;place-items:center;padding:4px 0;
+        }
+        #combate .cb-slot{
+            position:relative;width:100%;aspect-ratio:1;max-width:78px;
+            display:grid;place-items:center;border-radius:50%;cursor:pointer;
+            background:radial-gradient(circle at 40% 32%,rgba(255,255,255,.07),rgba(0,0,0,.45) 68%);
+            border:1px solid var(--line-strong);transition:all .18s;
+        }
+        #combate .cb-slot:hover{border-color:var(--bone-dim);transform:scale(1.04)}
+        #combate .cb-slot-top{grid-column:2;grid-row:1}
+        #combate .cb-slot-core{grid-column:2;grid-row:2;cursor:default;border-style:dashed;opacity:.55}
+        #combate .cb-slot-core:hover{transform:none;border-color:var(--line-strong)}
+        #combate .cb-slot-bottom{grid-column:2;grid-row:3}
+        #combate .cb-slot[data-slot="arma1"]{grid-column:1;grid-row:2}
+        #combate .cb-slot[data-slot="arma2"]{grid-column:3;grid-row:2}
+        #combate .cb-slot[data-slot="kit"]{grid-column:1;grid-row:3}
+        #combate .cb-slot[data-slot="erva"]{grid-column:3;grid-row:3}
+
+        #combate .cb-slot-ring{
+            position:absolute;inset:6px;border-radius:50%;
+            border:2px solid rgba(196,31,46,.55);box-shadow:inset 0 0 14px rgba(196,31,46,.28);
+        }
+        #combate .cb-slot-core .cb-slot-ring{border-style:dashed;border-color:var(--line-strong);box-shadow:none}
+        #combate .cb-slot-label{
+            position:relative;z-index:2;text-align:center;padding:0 6px;
+            font-family:var(--font-display);font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;
+            color:var(--bone);line-height:1.1;
+        }
+        #combate .cb-slot-qtd{
+            position:absolute;bottom:8px;right:10px;z-index:3;
+            font-family:var(--font-mono);font-size:.6rem;color:var(--blood-bright);
+        }
+        #combate .cb-slot-cross{position:relative;z-index:2;color:var(--bone-dim);font-size:1.1rem}
+        #combate .cb-slot.selected{border-color:var(--blood-bright);box-shadow:0 0 16px rgba(196,31,46,.4)}
+
+        #combate .cb-slots-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}
+        #combate .cb-slots-tab{
+            padding:7px 4px;background:var(--void);border:1px solid var(--line-strong);
+            color:var(--bone-dim);font-family:var(--font-display);font-size:.82rem;letter-spacing:2px;
+            text-transform:uppercase;cursor:pointer;transition:all .15s;
+        }
+        #combate .cb-slots-tab.on{background:var(--blood);border-color:var(--blood-bright);color:var(--bone)}
+
+        #combate .cb-panel.cb-highlight{border-color:var(--blood-bright);box-shadow:0 0 18px rgba(196,31,46,.25)}
+        #combate .cb-magias-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+        @media (max-width:560px){#combate .cb-magias-grid{grid-template-columns:repeat(2,1fr)}}
+        #combate .cb-consumiveis-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+        /* --- RODAPE: ORBE HP/SAN + BARRAS --- */
+        #combate .cb-footer{
+            display:grid;grid-template-columns:minmax(260px,1fr) minmax(300px,1.6fr);
+            gap:22px;align-items:center;margin-top:16px;padding:14px 18px;
+            background:linear-gradient(180deg,rgba(14,12,13,.96),rgba(5,5,5,.96));
+            border:1px solid var(--line-strong);border-top:2px solid var(--blood);
+            border-radius:5px;
+        }
+        @media (max-width:780px){#combate .cb-footer{grid-template-columns:1fr}}
+
+        #combate .cb-orb{
+            display:grid;grid-template-columns:1fr 1fr;align-items:stretch;
+            border-radius:50%/58%;overflow:hidden;
+            border:2px solid var(--line-strong);
+            box-shadow:inset 0 0 40px rgba(0,0,0,.7),0 0 26px rgba(0,0,0,.55);
+            min-height:132px;
+        }
+        #combate .cb-orb-half{
+            display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+            padding:12px 10px;
+        }
+        #combate .cb-orb-hp{
+            background:radial-gradient(circle at 42% 38%,#c2471f,#7a1a0c 58%,#2a0a05);
+            border-right:2px solid var(--line-strong);
+        }
+        #combate .cb-orb-san{
+            background:radial-gradient(circle at 58% 38%,#efe9dc,#c9c2b2 58%,#6d675c);
+        }
+        #combate .cb-orb-label{
+            font-family:var(--font-display);font-size:1.15rem;letter-spacing:3px;text-transform:uppercase;
+            color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.85);
+        }
+        #combate .cb-orb-san .cb-orb-label{color:#1a1512;text-shadow:0 1px 4px rgba(255,255,255,.35)}
+        #combate .cb-orb-value{font-family:var(--font-display);font-size:1.5rem;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.85)}
+        #combate .cb-orb-san .cb-orb-value{color:#1a1512;text-shadow:none}
+        #combate .cb-orb-value .cur{font-size:1.5rem}
+        #combate .cb-orb-value .max{font-size:.8rem;opacity:.8}
+        #combate .cb-orb-bar{width:100%;height:7px;background:rgba(0,0,0,.55);border:1px solid rgba(0,0,0,.4);overflow:hidden}
+        #combate .cb-orb-bar .vital-fill{height:100%;background:rgba(255,255,255,.55)}
+        #combate .cb-orb-san .cb-orb-bar .vital-fill{background:rgba(40,32,20,.55)}
+        #combate .cb-orb-btns{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+
+        #combate .cb-bars{display:flex;flex-direction:column;gap:10px}
+        #combate .cb-bar-row{display:grid;grid-template-columns:120px minmax(0,1fr) 78px auto;gap:10px;align-items:center}
+        @media (max-width:620px){#combate .cb-bar-row{grid-template-columns:1fr;gap:5px}}
+        #combate .cb-bar-label{
+            font-family:var(--font-display);font-size:1rem;letter-spacing:2.4px;text-transform:uppercase;
+        }
+        #combate .cb-bar-sp .cb-bar-label{color:#38bdf8;text-shadow:0 0 14px rgba(56,189,248,.5)}
+        #combate .cb-bar-cor .cb-bar-label{color:#c084fc;text-shadow:0 0 14px rgba(192,132,252,.5)}
+        #combate .cb-bar-track{
+            height:18px;background:var(--void);border:1px solid var(--line-strong);overflow:hidden;
+        }
+        #combate .cb-bar-sp .cb-bar-track .vital-fill{background:linear-gradient(90deg,#0ea5e9,#38bdf8)}
+        #combate .cb-bar-cor .cb-bar-track .vital-fill{background:linear-gradient(90deg,#7e22ce,#c084fc)}
+        #combate .cb-bar-value{font-family:var(--font-mono);font-size:.82rem;color:var(--bone);text-align:right}
+        #combate .cb-bar-value .cur{font-size:1rem;color:var(--bone)}
+        #combate .cb-bar-value .max{color:var(--bone-dim);font-size:.72rem}
+        #combate .cb-bar-btns{display:flex;gap:4px;flex-wrap:wrap}
+        #combate .cb-bar-btns .vbtn{
+            min-width:30px;padding:3px 6px;background:var(--void);border:1px solid var(--line-strong);
+            color:var(--bone-dim);font-family:var(--font-mono);font-size:.66rem;cursor:pointer;transition:all .15s;
+        }
+        #combate .cb-bar-btns .vbtn:hover:not(:disabled){background:var(--blood);border-color:var(--blood-bright);color:var(--bone)}
+        #combate .cb-bar-btns .vbtn:disabled{opacity:.3;cursor:not-allowed}
+
         /* --- BOX2: DIREITA — HUD DE COMBATE --- */
         #combate .cb-box2{display:flex;flex-direction:column;gap:14px;min-height:0}
 
@@ -4621,107 +4874,41 @@
                         <h2 class="cb-title">Estado de Combate</h2><span class="cb-sub">recursos · magias · armas · resistências · rolagens</span>
                     </header>
 
-                    <!-- LAYOUT PRINCIPAL: BOX1 (esquerda) + BOX2 (direita) -->
-                    <div class="cb-layout">
+                    <!-- ===== LAYOUT 3 COLUNAS + RODAPE ===== -->
+                    <div class="cb-layout3">
 
-                        <!-- ===== BOX1: ESQUERDA ===== -->
-                        <div class="cb-box1">
-
-                            <!-- Topo: Foto e Informações lado a lado (50/50) -->
-                            <div class="cb-topo">
-                                <!-- Foto do personagem -->
-                                <div class="cb-foto-box">
-                                    <div class="cb-foto-placeholder" id="cbFotoPlaceholder">FOTO</div>
-                                    <img class="cb-foto-img" id="cbFotoImg" alt="Foto do personagem" style="display:none;">
-                                    <div class="cb-foto-label">FOTO DO JOGADOR</div>
+                        <!-- ===== COLUNA 1: ATRIBUTOS + ARVORE DE HABILIDADES ===== -->
+                        <div class="cb-col cb-col-left">
+                            <section class="cb-panel">
+                                <h3 class="cb-box-title">ATRIBUTOS</h3>
+                                <div class="cb-attr-list" id="cbAttrList">
+                                    <!-- Injetado via JS -->
                                 </div>
+                            </section>
 
-                                <!-- Nome / Ranking / Categoria -->
-                                <div class="cb-ident-box">
-                                    <span class="cb-char-name" data-mirror="personal.nome">Investigador</span>
-                                    <div class="cb-ident-meta">
-                                        <span class="cb-char-rank" data-mirror="personal.ranking">—</span>
-                                        <span class="cb-char-cat" data-mirror="personal.categoriaSuperno">—</span>
-                                    </div>
+                            <section class="cb-panel">
+                                <h3 class="cb-box-title">ÁRVORE DE HABILIDADES</h3>
+                                <div class="cb-skill-list" id="cbSkillList">
+                                    <!-- Injetado via JS -->
                                 </div>
-                            </div>
+                            </section>
+                        </div>
 
-                            <!-- Barras de vitais (largura total) -->
-                            <div class="cb-vitals-row">
-                                <article class="vital vital-hp" data-vital="hp">
-                                    <div class="vital-top"><span class="vital-name">Vida</span><span class="vital-tag">HP</span></div>
-                                    <output class="vital-value" id="gaugeHpValue"></output>
-                                    <div class="vital-bar"><div class="vital-fill" id="gaugeHp" role="progressbar" aria-label="Vida" aria-valuemin="0"></div></div>
-                                    <div class="vital-btns">
-                                        <button type="button" class="vbtn" data-resource="hp" data-delta="-10">−10</button>
-                                        <button type="button" class="vbtn" data-resource="hp" data-delta="-5">−5</button>
-                                        <button type="button" class="vbtn" data-resource="hp" data-delta="-1">−1</button>
-                                        <button type="button" class="vbtn" data-resource="hp" data-delta="1">+1</button>
-                                        <button type="button" class="vbtn" data-resource="hp" data-delta="5">+5</button>
-                                        <button type="button" class="vbtn" data-resource="hp" data-delta="10">+10</button>
-                                    </div>
-                                </article>
-                                <article class="vital vital-sp" data-vital="sp">
-                                    <div class="vital-top"><span class="vital-name">Proteção</span><span class="vital-tag">PR</span></div>
-                                    <output class="vital-value" id="gaugeSpValue"></output>
-                                    <div class="vital-bar"><div class="vital-fill" id="gaugeSp" role="progressbar" aria-label="Proteção" aria-valuemin="0"></div></div>
-                                    <div class="vital-btns">
-                                        <button type="button" class="vbtn" data-resource="sp" data-delta="-5">−5</button>
-                                        <button type="button" class="vbtn" data-resource="sp" data-delta="-1">−1</button>
-                                        <button type="button" class="vbtn" data-resource="sp" data-delta="1">+1</button>
-                                        <button type="button" class="vbtn" data-resource="sp" data-delta="5">+5</button>
-                                    </div>
-                                </article>
-                                <article class="vital vital-san" data-vital="san">
-                                    <div class="vital-top"><span class="vital-name">Sanidade</span><span class="vital-tag">SAN</span></div>
-                                    <output class="vital-value" id="gaugeSanValue"></output>
-                                    <div class="vital-bar"><div class="vital-fill" id="gaugeSan" role="progressbar" aria-label="Sanidade" aria-valuemin="0"></div></div>
-                                    <div class="vital-btns">
-                                        <button type="button" class="vbtn" data-resource="san" data-delta="-5">−5</button>
-                                        <button type="button" class="vbtn" data-resource="san" data-delta="-1">−1</button>
-                                        <button type="button" class="vbtn" data-resource="san" data-delta="1">+1</button>
-                                        <button type="button" class="vbtn" data-resource="san" data-delta="5">+5</button>
-                                    </div>
-                                </article>
-                                <article class="vital vital-corrupcao" data-vital="corrupcao">
-                                    <div class="vital-top"><span class="vital-name">Corrupção</span><span class="vital-tag">COR</span></div>
-                                    <output class="vital-value" id="gaugeCorruptionValue"></output>
-                                    <div class="vital-bar"><div class="vital-fill" id="gaugeCorruption" role="progressbar" aria-label="Corrupção" aria-valuemin="0"></div></div>
-                                    <div class="vital-btns">
-                                        <button type="button" class="vbtn" data-resource="corrupcao" data-delta="-5">−5</button>
-                                        <button type="button" class="vbtn" data-resource="corrupcao" data-delta="-1">−1</button>
-                                        <button type="button" class="vbtn" data-resource="corrupcao" data-delta="1">+1</button>
-                                        <button type="button" class="vbtn" data-resource="corrupcao" data-delta="5">+5</button>
-                                    </div>
-                                </article>
-                            </div>
+                        <!-- ===== COLUNA 2: DIFICULDADE + ARMAS + HUD + CONSOLE ===== -->
+                        <div class="cb-col cb-col-mid">
 
-                            <!-- Linha divisória vermelha (zoneamento) -->
-                            <div class="cb-divider"></div>
+                            <section class="cb-panel cb-dc-panel">
+                                <div class="cb-dc-head"><span>Dificuldade</span><span>Classe</span></div>
+                                <div class="cb-dc-value" id="cbDcValue">15</div>
+                                <button type="button" class="cb-d20" id="cbD20" aria-label="Rolar d20 contra a dificuldade">
+                                    <span class="cb-d20-face">20</span>
+                                </button>
+                                <input type="number" class="cb-dc-input" id="cbDcInput" value="15" min="2" max="40" aria-label="Valor da dificuldade">
+                                <div class="cb-dc-msg" id="cbDcMsg">Clique no dado para rolar</div>
+                            </section>
 
-                            <!-- Atributos e Habilidades (esquerda) | Armas 1 e 2 (direita) -->
-                            <div class="cb-grid-duplo">
-
-                                <!-- Atributos e Habilidades -->
-                                <div class="cb-atrib-hab-box">
-                                    <h3 class="cb-box-title">ATRIBUTOS E HABILIDADES</h3>
-                                    <div class="cb-atrib-hab-grid">
-                                        <div class="cb-atrib-col">
-                                            <h4 class="cb-sub-title">HEPTAGRAMA</h4>
-                                            <div class="cb-attr-list" id="cbAttrList">
-                                                <!-- Injetado via JS -->
-                                            </div>
-                                        </div>
-                                        <div class="cb-hab-col">
-                                            <h4 class="cb-sub-title">ÁRVORE DE HABILIDADES</h4>
-                                            <div class="cb-skill-list" id="cbSkillList">
-                                                <!-- Injetado via JS -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Armas 1 e 2 -->
+                            <section class="cb-panel">
+                                <h3 class="cb-box-title">ARMAS</h3>
                                 <div class="cb-armas-box">
                                     <div class="cb-arma-card" id="cbArmaCard1">
                                         <h4 class="cb-arma-titulo">ARMA 1</h4>
@@ -4736,56 +4923,26 @@
                                         <button type="button" class="cb-btn-roll" id="cbBtnRollArmaSecundaria">🎲 Atacar</button>
                                     </div>
                                 </div>
-                            </div>
+                            </section>
 
-                            <!-- Magias (horizontal) -->
-                            <div class="cb-magias-box">
-                                <h3 class="cb-box-title">MAGIAS</h3>
-                                <div class="cb-magias-grid" id="cbMagicList">
-                                    <p class="cb-empty">Nenhuma magia aprendida ainda.</p>
-                                </div>
-                            </div>
-
-                            <!-- Consumíveis (horizontal) -->
-                            <div class="cb-consumiveis-box">
-                                <h3 class="cb-box-title">CONSUMÍVEIS</h3>
-                                <div class="cb-consumiveis-grid">
-                                    <div class="cb-consumivel-slot">
-                                        <div class="cb-consumivel-icon">💊</div>
-                                        <div class="cb-consumivel-label">Kit Médico</div>
-                                        <div class="cb-consumivel-qtd" id="cbKits" data-mirror="arsenal.kits">0</div>
-                                        <button type="button" class="cb-btn-use" id="cbBtnUseKit">Usar (+20 HP)</button>
+                            <section class="cb-panel cb-panel-flush">
+                                <!-- HUD: informações do item selecionado -->
+                                <div class="cb-hud">
+                                    <div class="cb-hud-head">
+                                        <span class="cb-hud-label">INFORMAÇÕES</span>
+                                        <div class="cb-hud-tabs">
+                                            <button type="button" class="cb-hud-tab active" data-hud-tab="traits">TRAITS</button>
+                                            <button type="button" class="cb-hud-tab" data-hud-tab="info">INFO</button>
+                                        </div>
                                     </div>
-                                    <div class="cb-consumivel-slot">
-                                        <div class="cb-consumivel-icon">🌿</div>
-                                        <div class="cb-consumivel-label">Erva do Véu</div>
-                                        <div class="cb-consumivel-qtd" id="cbErvas" data-mirror="arsenal.ervas">0</div>
-                                        <button type="button" class="cb-btn-use" id="cbBtnUseErva">Usar (+20 SAN)</button>
+
+                                    <div id="cbHudBody">
+                                        <!-- Injetado via JS por renderInfoBox() -->
                                     </div>
                                 </div>
-                            </div>
+                            </section>
 
-                        </div>
-
-                        <!-- ===== BOX2: DIREITA — HUD DE COMBATE ===== -->
-                        <div class="cb-box2">
-
-                            <!-- HUD: informações do item selecionado -->
-                            <div class="cb-hud">
-                                <div class="cb-hud-head">
-                                    <span class="cb-hud-label">INFORMAÇÕES</span>
-                                    <div class="cb-hud-tabs">
-                                        <button type="button" class="cb-hud-tab active" data-hud-tab="traits">TRAITS</button>
-                                        <button type="button" class="cb-hud-tab" data-hud-tab="info">INFO</button>
-                                    </div>
-                                </div>
-
-                                <div id="cbHudBody">
-                                    <!-- Injetado via JS por renderInfoBox() -->
-                                </div>
-                            </div>
-
-                            <!-- Console de rolagem (unificado) -->
+                            <section class="cb-panel cb-panel-flush cb-console-panel" id="cbConsolePanel">
                             <div class="cb-console">
                                 <div class="cb-console-head">Rolagem de Dados</div>
 
@@ -4840,7 +4997,133 @@
                                     <div class="cb-history" id="diceHistory"><p class="hint">Nenhuma rolagem ainda.</p></div>
                                 </div>
                             </div>
+                            </section>
+                        </div>
 
+                        <!-- ===== COLUNA 3: ARSENAL (SLOTS) + MAGIAS + CONSUMIVEIS ===== -->
+                        <div class="cb-col cb-col-right">
+                            <section class="cb-panel cb-slots-panel">
+                                <div class="cb-slots-head">
+                                    <span class="cb-slots-title">Arsenal de Combate</span>
+                                    <button type="button" class="cb-slots-close" id="cbSlotsToggle" aria-label="Alternar arsenal">✕</button>
+                                </div>
+
+                                <div class="cb-slots-grid">
+                                    <div class="cb-slot cb-slot-top" data-slot="magic">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-label">Magia</span>
+                                    </div>
+                                    <div class="cb-slot" id="cbSlotArma1" data-slot="arma1">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-label">Arma 1</span>
+                                    </div>
+                                    <div class="cb-slot cb-slot-core" aria-hidden="true">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-cross">✕</span>
+                                    </div>
+                                    <div class="cb-slot" id="cbSlotArma2" data-slot="arma2">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-label">Arma 2</span>
+                                    </div>
+                                    <div class="cb-slot" id="cbSlotKit" data-slot="kit">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-label">Kit Medic</span>
+                                        <span class="cb-slot-qtd" data-mirror="arsenal.kits">0</span>
+                                    </div>
+                                    <div class="cb-slot" id="cbSlotErva" data-slot="erva">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-label">Erva San</span>
+                                        <span class="cb-slot-qtd" data-mirror="arsenal.ervas">0</span>
+                                    </div>
+                                    <div class="cb-slot cb-slot-bottom" data-slot="magic">
+                                        <span class="cb-slot-ring"></span>
+                                        <span class="cb-slot-label">Magia</span>
+                                    </div>
+                                </div>
+
+                                <div class="cb-slots-tabs">
+                                    <button type="button" class="cb-slots-tab active" data-slots="armas">ARMAS</button>
+                                    <button type="button" class="cb-slots-tab" data-slots="magias">MAGIAS</button>
+                                </div>
+                            </section>
+
+                            <section class="cb-panel" id="cbMagiasPanel">
+                                <h3 class="cb-box-title">MAGIAS</h3>
+                                <div class="cb-magias-grid" id="cbMagicList">
+                                    <p class="cb-empty">Nenhuma magia aprendida ainda.</p>
+                                </div>
+                            </section>
+
+                            <section class="cb-panel cb-highlight" id="cbConsumiveisPanel">
+                                <h3 class="cb-box-title">CONSUMÍVEIS</h3>
+                                <div class="cb-consumiveis-grid">
+                                    <div class="cb-consumivel-slot">
+                                        <div class="cb-consumivel-icon">💊</div>
+                                        <div class="cb-consumivel-label">Kit Médico</div>
+                                        <div class="cb-consumivel-qtd" id="cbKits" data-mirror="arsenal.kits">0</div>
+                                        <button type="button" class="cb-btn-use" id="cbBtnUseKit">Usar (+20 HP)</button>
+                                    </div>
+                                    <div class="cb-consumivel-slot">
+                                        <div class="cb-consumivel-icon">🌿</div>
+                                        <div class="cb-consumivel-label">Erva do Véu</div>
+                                        <div class="cb-consumivel-qtd" id="cbErvas" data-mirror="arsenal.ervas">0</div>
+                                        <button type="button" class="cb-btn-use" id="cbBtnUseErva">Usar (+20 SAN)</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- ===== RODAPE: HP/SAN + PROTECAO/CORRUPCAO ===== -->
+                    <div class="cb-footer">
+                        <div class="cb-orb">
+                            <div class="cb-orb-half cb-orb-hp" data-vital="hp">
+                                <span class="cb-orb-label">HP</span>
+                                <output class="cb-orb-value" id="gaugeHpValue"></output>
+                                <div class="cb-orb-bar"><div class="vital-fill" id="gaugeHp" role="progressbar" aria-label="Vida" aria-valuemin="0"></div></div>
+                                <div class="cb-orb-btns">
+                                    <button type="button" class="vbtn" data-resource="hp" data-delta="-5">−5</button>
+                                    <button type="button" class="vbtn" data-resource="hp" data-delta="-1">−1</button>
+                                    <button type="button" class="vbtn" data-resource="hp" data-delta="1">+1</button>
+                                    <button type="button" class="vbtn" data-resource="hp" data-delta="5">+5</button>
+                                </div>
+                            </div>
+                            <div class="cb-orb-half cb-orb-san" data-vital="san">
+                                <span class="cb-orb-label">SAN</span>
+                                <output class="cb-orb-value" id="gaugeSanValue"></output>
+                                <div class="cb-orb-bar"><div class="vital-fill" id="gaugeSan" role="progressbar" aria-label="Sanidade" aria-valuemin="0"></div></div>
+                                <div class="cb-orb-btns">
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="-5">−5</button>
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="-1">−1</button>
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="1">+1</button>
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="5">+5</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cb-bars">
+                            <div class="cb-bar-row cb-bar-sp" data-vital="sp">
+                                <span class="cb-bar-label">Proteção</span>
+                                <div class="cb-bar-track"><div class="vital-fill" id="gaugeSp" role="progressbar" aria-label="Proteção" aria-valuemin="0"></div></div>
+                                <output class="cb-bar-value" id="gaugeSpValue"></output>
+                                <div class="cb-bar-btns">
+                                    <button type="button" class="vbtn" data-resource="sp" data-delta="-5">−5</button>
+                                    <button type="button" class="vbtn" data-resource="sp" data-delta="-1">−1</button>
+                                    <button type="button" class="vbtn" data-resource="sp" data-delta="1">+1</button>
+                                    <button type="button" class="vbtn" data-resource="sp" data-delta="5">+5</button>
+                                </div>
+                            </div>
+                            <div class="cb-bar-row cb-bar-cor" data-vital="corrupcao">
+                                <span class="cb-bar-label">Corrupção</span>
+                                <div class="cb-bar-track"><div class="vital-fill" id="gaugeCorruption" role="progressbar" aria-label="Corrupção" aria-valuemin="0"></div></div>
+                                <output class="cb-bar-value" id="gaugeCorruptionValue"></output>
+                                <div class="cb-bar-btns">
+                                    <button type="button" class="vbtn" data-resource="corrupcao" data-delta="-5">−5</button>
+                                    <button type="button" class="vbtn" data-resource="corrupcao" data-delta="-1">−1</button>
+                                    <button type="button" class="vbtn" data-resource="corrupcao" data-delta="1">+1</button>
+                                    <button type="button" class="vbtn" data-resource="corrupcao" data-delta="5">+5</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -8570,7 +8853,115 @@ function renderIdentity() {
         // =============================================
         // ✨ COMBATE — event listeners
         // =============================================
+        // =============================================
+        // ✨ COMBATE — Difficulty Class / D20 e slots do arsenal
+        // =============================================
+        function setupCombatDifficulty() {
+            const d20 = document.getElementById('cbD20');
+            const input = document.getElementById('cbDcInput');
+            const value = document.getElementById('cbDcValue');
+            const msg = document.getElementById('cbDcMsg');
+            if (!d20 || !input) return;
+
+            const dc = () => Math.max(2, Math.min(40, parseInt(input.value, 10) || 15));
+            const paint = () => { if (value) value.textContent = dc(); };
+            paint();
+            input.addEventListener('input', paint);
+
+            d20.addEventListener('click', () => {
+                const alvo = dc();
+                const r = rollDice(1, 20, 0).rolls[0];
+                const face = d20.querySelector('.cb-d20-face');
+                if (face) face.textContent = r;
+                let res = 'fail', texto = 'FALHA';
+                if (r === 20) { res = 'crit'; texto = 'SUCESSO CRÍTICO'; }
+                else if (r === 1) { res = 'fail'; texto = 'FALHA CRÍTICA'; }
+                else if (r >= alvo) { res = 'ok'; texto = 'SUCESSO'; }
+                d20.dataset.res = res;
+                if (msg) { msg.dataset.res = res; msg.textContent = `${r} vs ${alvo} · ${texto}`; }
+                showDiceResult(r, `d20 (${r}) vs DC ${alvo} · ${texto}`, {
+                    dice: [{ value: r }],
+                    flag: r === 20 ? 'crit' : r === 1 ? 'fumble' : res === 'ok' ? 'ok' : '',
+                    title: `DC ${alvo}`
+                });
+            });
+        }
+
+        function setupCombatSlots() {
+            // Tabs ARMAS / MAGIAS do painel de slots
+            document.querySelectorAll('#combate [data-slots]').forEach(btn => {
+                if (!btn.classList.contains('cb-slots-tab')) return;
+                btn.addEventListener('click', () => {
+                    const modo = btn.dataset.slots;
+                    document.querySelectorAll('#combate .cb-slots-tab').forEach(b => b.classList.toggle('on', b === btn));
+                    const magias = document.getElementById('cbMagiasPanel');
+                    const cons = document.getElementById('cbConsumiveisPanel');
+                    if (modo === 'magias') {
+                        if (magias) magias.classList.add('cb-highlight');
+                        if (cons) cons.classList.remove('cb-highlight');
+                        const tabMagias = document.querySelector('#combate .cb-slots-tab[data-slots="magias"]');
+                        if (tabMagias) tabMagias.classList.add('on');
+                    } else {
+                        if (magias) magias.classList.remove('cb-highlight');
+                        if (cons) cons.classList.add('cb-highlight');
+                    }
+                });
+            });
+
+            // Slots: arma 1 / arma 2 selecionam no HUD
+            const s1 = document.getElementById('cbSlotArma1');
+            const s2 = document.getElementById('cbSlotArma2');
+            if (s1) s1.addEventListener('click', () => document.getElementById('cbArmaCard1')?.click());
+            if (s2) s2.addEventListener('click', () => document.getElementById('cbArmaCard2')?.click());
+
+            // Slots: consumiveis selecionam no HUD
+            const sk = document.getElementById('cbSlotKit');
+            const se = document.getElementById('cbSlotErva');
+            if (sk) sk.addEventListener('click', () => {
+                const slot = [...document.querySelectorAll('#combate .cb-consumivel-slot')].find(s => /Kit/i.test(s.innerText));
+                if (slot) slot.click();
+            });
+            if (se) se.addEventListener('click', () => {
+                const slot = [...document.querySelectorAll('#combate .cb-consumivel-slot')].find(s => /Erva/i.test(s.innerText));
+                if (slot) slot.click();
+            });
+
+            // Botao de fechar do painel (colapsa o arsenal)
+            const toggle = document.getElementById('cbSlotsToggle');
+            const panel = document.querySelector('#combate .cb-slots-panel');
+            if (toggle && panel) {
+                toggle.addEventListener('click', () => {
+                    panel.classList.toggle('cb-collapsed');
+                });
+            }
+        }
+
         function setupCombate() {
+            setupCombatDifficulty();
+            setupCombatSlots();
+
+            // Console de rolagem: recolhido por padrao, abre sob demanda
+            const consolePanel = document.getElementById('cbConsolePanel');
+            const consoleHead = document.querySelector('#combate .cb-console-head');
+            if (consolePanel && consoleHead && !consoleHead.querySelector('.cb-console-toggle')) {
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'cb-console-toggle';
+                toggle.textContent = '+';
+                toggle.setAttribute('aria-label', 'Abrir console de rolagem');
+                const flipConsole = () => {
+                    const open = consolePanel.classList.toggle('open');
+                    toggle.textContent = open ? '−' : '+';
+                    toggle.setAttribute('aria-label', open ? 'Fechar console de rolagem' : 'Abrir console de rolagem');
+                };
+                toggle.addEventListener('click', e => { e.stopPropagation(); flipConsole(); });
+                consoleHead.appendChild(toggle);
+                consoleHead.addEventListener('click', e => {
+                    if (e.target.closest('.cb-console-toggle')) return;
+                    flipConsole();
+                });
+            }
+
             // Usar Kit Médico
             const btnKit = document.getElementById('cbBtnUseKit');
             if (btnKit) btnKit.addEventListener('click', () => {
