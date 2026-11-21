@@ -95,19 +95,30 @@
 
         /* ================= HEADER SUPERIOR ================= */
         .dossier-header {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: space-between;
             gap: 20px;
-            padding: 18px 24px;
-            border-bottom: 2px solid var(--blood);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--line-strong);
             margin-bottom: 0;
             background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
             position: sticky;
             top: 0;
             z-index: 1000;
-            flex-wrap: wrap;
         }
+        /* Borda inferior que separa a barra fixa dos boxes de baixo */
+        .dossier-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--blood-bright), rgba(138, 20, 32, .28) 38%, transparent 78%);
+            pointer-events: none;
+        }
+        .dossier-header .header-brand { grid-column: 1; }
 
         .header-brand {
             display: flex;
@@ -150,111 +161,35 @@
             width: auto;
         }
 
-        .header-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            min-width: 200px;
-            flex: 1;
-        }
 
-        .header-info-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            font-family: var(--font-mono);
-            font-size: 0.78em;
-            color: var(--bone-dim);
-        }
 
-        .header-info-row .label {
-            color: var(--blood-bright);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
 
-        .header-info-row .value {
-            color: var(--bone);
-            font-family: 'Absolute Empire', serif;
-            font-size: 1.1em;
-        }
 
-        .header-stamp {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-            flex-shrink: 0;
-            min-width: 140px;
-        }
 
-        .confidencial-stamp {
-            display: inline-block;
-            padding: 6px 14px;
-            border: 2px solid var(--blood-bright);
-            color: var(--blood-bright);
-            font-family: 'Absolute Empire', var(--font-display);
-            font-size: 1.1em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: rgba(138, 20, 32, 0.15);
-            transform: rotate(-8deg);
-            box-shadow: 0 0 12px rgba(138, 20, 32, 0.25);
-        }
 
-        .barcode-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-        }
 
-        .barcode {
-            display: flex;
-            gap: 1px;
-            height: 24px;
-        }
 
-        .barcode .bar {
-            width: 3px;
-            background: var(--bone-dim);
-        }
 
-        .barcode .bar.dark { background: var(--bone); }
 
-        .barcode-label {
-            font-family: var(--font-mono);
-            font-size: 0.65em;
-            color: var(--bone-dim);
-            letter-spacing: 1px;
-        }
 
-        .header-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-shrink: 0;
-        }
 
         /* ================= TABS / NAVEGAÇÃO ================= */
         .tabs {
             display: flex;
-            gap: 1px;
+            gap: 2px;
             margin: 0;
-            border-bottom: 1px solid var(--line-strong);
-            position: sticky;
-            top: var(--header-height);
+            border-bottom: none;
+            position: static;
             z-index: 999;
-            background: var(--void);
-            padding-top: 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
             flex-wrap: nowrap;
             overflow-x: auto;
-            /* Abas centralizadas horizontalmente na ficha */
-            justify-content: safe center;
-            padding-left: 12px;
-            padding-right: 12px;
+            /* Abas centralizadas na barra fixa */
+            justify-content: center;
         }
+        .dossier-header > .tabs { grid-column: 2; justify-self: center; }
         /* Esconde a barra de rolagem horizontal das abas */
         .tabs::-webkit-scrollbar { height: 0; }
         .tabs { scrollbar-width: none; }
@@ -264,7 +199,7 @@
             color: var(--bone-dim);
             border: none;
             border-bottom: 2px solid transparent;
-            padding: 14px 22px;
+            padding: 12px 20px;
             font-family: var(--font-mono);
             font-size: 0.82em;
             letter-spacing: 1.5px;
@@ -1890,6 +1825,23 @@
         }
 
         /* ================= FOOTER ================= */
+        .dossier-footer .file-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .dossier-footer .file-actions .btn {
+            padding: 7px 12px;
+            font-size: .72rem;
+            letter-spacing: .6px;
+            background: #16161a;
+            border: 1px solid var(--line-strong);
+            color: var(--bone-dim);
+            cursor: pointer;
+            transition: border-color .15s, color .15s;
+        }
+        .dossier-footer .file-actions .btn:hover { border-color: var(--blood-bright); color: var(--bone); }
         .dossier-footer {
             display: flex;
             align-items: center;
@@ -4135,13 +4087,11 @@
         .dossier-body { align-items: start; }
         .dossier-header { position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 14px rgba(0, 0, 0, .65); transition: padding .2s ease; }
         .dossier-header.is-compact { padding: 8px 24px; }
-        .dossier-header.is-compact .header-info,
-        .dossier-header.is-compact .header-stamp,
         .dossier-header.is-compact .tagline { display: none; }
         .dossier-header.is-compact .header-brand .emblem { width: 34px; height: 34px; }
         .dossier-header.is-compact .header-brand .titles { gap: 0; }
         .dossier-header.is-compact .wordmark { font-size: 1.35rem; }
-        .tabs { position: sticky; top: var(--header-height); z-index: 999; background: var(--void); }
+        .dossier-header > .tabs { position: static; background: transparent; box-shadow: none; }
         #identidade .subtabs, #atributos .subtabs {
             position: sticky; z-index: 990;
             top: calc(var(--header-height) + var(--tabs-height) + var(--sidebar-bar, 0px));
@@ -4247,13 +4197,6 @@
         </div>
     </section>
 
-    <div class="file-actions" id="fileActions" aria-label="Gerenciar ficha">
-        <button type="button" class="btn btn-secondary" id="newCharacterBtn">🆕 Nova ficha</button>
-        <button type="button" class="btn btn-secondary" id="exportCharacterBtn">💾 Exportar ficha</button>
-        <button type="button" class="btn btn-secondary" id="importCharacterBtn">📂 Importar ficha</button>
-        <input type="file" id="importCharacterInput" accept=".json,.absconditus,application/json" hidden>
-    </div>
-
     <dialog class="cloud-dialog" id="cloudAuthDialog">
         <form method="dialog" class="cloud-dialog-inner" id="cloudAuthForm">
             <h2>Arquivo da Nuvem</h2>
@@ -4306,46 +4249,14 @@
                 </div>
             </div>
 
-            <div class="header-info" id="headerInfo">
-                <div class="header-info-row">
-                    <span class="label">Registro</span>
-                    <span class="value" data-mirror="personal.codigoRegistro">REG-ABS-0000</span>
-                </div>
-                <div class="header-info-row">
-                    <span class="label">Rank</span>
-                    <span class="value" data-mirror="personal.ranking">—</span>
-                </div>
-                <div class="header-info-row">
-                    <span class="label">Classe</span>
-                    <span class="value" data-mirror="personal.classe">—</span>
-                </div>
-                <div class="header-info-row">
-                    <span class="label">Raça</span>
-                    <span class="value" data-mirror="personal.raca">—</span>
-                </div>
-            </div>
-
-            <div class="header-stamp">
-                <div class="confidencial-stamp">Confidencial</div>
-                <div class="barcode-wrap">
-                    <div class="barcode" id="barcode"></div>
-                    <div class="barcode-label" data-mirror="personal.codigoRegistro">REG-ABS-0000</div>
-                </div>
-            </div>
-
-            <div class="header-actions">
-                <button type="button" class="btn-save cloud-footer-btn" id="saveButton">🔒 Selar ficha</button>
-                <button type="button" class="btn-save cloud-footer-btn" id="switchCharacterBtn" hidden>← Trocar personagem</button>
-            </div>
+            <!-- NAVEGAÇÃO HORIZONTAL (centralizada na barra fixa) -->
+            <nav class="tabs" role="tablist">
+                <button class="tab-btn active" data-tab="identidade" type="button">Dados Pessoais</button>
+                <button class="tab-btn" data-tab="atributos" type="button">Atributos</button>
+                <button class="tab-btn" data-tab="grimoire" type="button">Grimório</button>
+                <button class="tab-btn" data-tab="equipamento" type="button">Equipamento</button>
+            </nav>
         </header>
-
-        <!-- NAVEGAÇÃO HORIZONTAL -->
-        <nav class="tabs" role="tablist">
-            <button class="tab-btn active" data-tab="identidade" type="button">Dados Pessoais</button>
-            <button class="tab-btn" data-tab="atributos" type="button">Atributos</button>
-            <button class="tab-btn" data-tab="grimoire" type="button">Grimório</button>
-            <button class="tab-btn" data-tab="equipamento" type="button">Equipamento</button>
-        </nav>
 
         <!-- LAYOUT PRINCIPAL: SIDEBAR + CONTEÚDO + PAINEL DIREITO -->
         <div class="dossier-body">
@@ -5140,6 +5051,12 @@
         </div>
 
         <footer class="dossier-footer">
+            <div class="file-actions" id="fileActions" aria-label="Gerenciar ficha">
+                <button type="button" class="btn btn-secondary" id="newCharacterBtn">🆕 Nova ficha</button>
+                <button type="button" class="btn btn-secondary" id="exportCharacterBtn">💾 Exportar ficha</button>
+                <button type="button" class="btn btn-secondary" id="importCharacterBtn">📂 Importar ficha</button>
+                <input type="file" id="importCharacterInput" accept=".json,.absconditus,application/json" hidden>
+            </div>
             <div class="cloud-actions" aria-label="Gerenciar personagem">
                 <select id="cloudCharacterSelect" aria-label="Personagem da nuvem" hidden>
                     <option value="">Selecione um personagem</option>
@@ -5493,27 +5410,8 @@
         // ✨ ABAS FIXAS DURANTE A ROLAGEM
         // =============================================
         function setupStickyTabs() {
-            const tabs = document.querySelector('.tabs');
-            const fileActions = document.querySelector('.file-actions');
-
-            if (!tabs || !fileActions) return;
-
-            const updateStickyOffset = () => {
-                const height = Math.ceil(fileActions.getBoundingClientRect().height);
-                document.documentElement.style.setProperty(
-                    '--file-actions-height',
-                    `${height}px`
-                );
-            };
-
-            updateStickyOffset();
-
-            if ('ResizeObserver' in window) {
-                const observer = new ResizeObserver(updateStickyOffset);
-                observer.observe(fileActions);
-            }
-
-            window.addEventListener('resize', updateStickyOffset, { passive: true });
+            // As acoes de arquivo foram movidas para o rodape: a barra fixa nao tem mais altura extra.
+            document.documentElement.style.setProperty('--file-actions-height', '0px');
         }
 
         // Mede header, abas, barra lateral (modo horizontal) e sub-abas e empilha as barras fixas, sem sobreposição.
@@ -5530,7 +5428,8 @@
                 const sub = document.querySelector('.tab-panel.active .subtabs');
                 const s = sub && sub.offsetParent !== null ? Math.round(sub.getBoundingClientRect().height) : 0;
                 root.style.setProperty('--header-height', h + 'px');
-                root.style.setProperty('--tabs-height', tb + 'px');
+                // As abas agora vivem dentro da barra fixa: nao empilham uma barra extra.
+                root.style.setProperty('--tabs-height', (tabs.closest('.dossier-header') ? 0 : tb) + 'px');
                 root.style.setProperty('--sidebar-bar', sbBar + 'px');
                 root.style.setProperty('--subtabs-height', s + 'px');
             };
