@@ -2782,10 +2782,11 @@
         /* ================= COMBATE — LAYOUT 3 COLUNAS + RODAPE ================= */
         #combate .cb-layout3{
             display:grid;
-            grid-template-columns:minmax(200px,.78fr) minmax(370px,1.3fr) minmax(300px,1.15fr);
+            grid-template-columns:200px minmax(370px,1.06fr) minmax(400px,1.15fr);
             gap:16px;align-items:start;
         }
-        @media (max-width:1180px){#combate .cb-layout3{grid-template-columns:1fr 1fr}}
+        @media (max-width:1420px){#combate .cb-layout3{grid-template-columns:190px minmax(330px,1fr) minmax(330px,1fr)}}
+        @media (max-width:1180px){#combate .cb-layout3{grid-template-columns:190px minmax(0,1fr)}}
         @media (max-width:780px){#combate .cb-layout3{grid-template-columns:1fr}}
 
         #combate .cb-col{display:flex;flex-direction:column;gap:14px;min-width:0}
@@ -2815,23 +2816,35 @@
         }
 
         /* --- ATRIBUTOS (coluna 1) --- */
-        #combate .cb-attr-list{display:flex;flex-direction:column;gap:2px}
+        /* Coluna 1: paineis compactos, linhas finas */
+        #combate .cb-col-left{gap:12px}
+        #combate .cb-col-left .cb-panel{padding:10px 10px 11px}
+        #combate .cb-col-left .cb-box-title{font-size:.78rem;letter-spacing:1.4px;margin:0 0 8px;padding-bottom:5px}
+
+        #combate .cb-attr-list{display:flex;flex-direction:column;gap:4px}
         #combate .cb-attr-item{
-            display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-            padding:6px 8px;background:rgba(0,0,0,.34);border-bottom:1px solid rgba(242,239,232,.08);
+            display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:8px;
+            padding:5px 8px;background:rgba(0,0,0,.38);
+            border:1px solid var(--line);border-radius:3px;
         }
-        #combate .cb-attr-label{font-family:var(--font-mono);font-size:.78rem;color:var(--bone-dim);letter-spacing:.5px}
-        #combate .cb-attr-value{font-family:var(--font-display);font-size:1.05rem;color:var(--bone)}
+        #combate .cb-attr-label{
+            font-family:var(--font-mono);font-size:.66rem;color:var(--bone-dim);
+            letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        }
+        #combate .cb-attr-value{font-family:var(--font-display);font-size:1.25rem;color:var(--bone);line-height:1}
         #combate .cb-attr-value .neg{color:var(--blood-bright)}
 
-        #combate .cb-skill-list{display:flex;flex-direction:column;gap:4px}
+        #combate .cb-skill-list{display:flex;flex-direction:column;gap:6px}
         #combate .cb-skill-item{
-            display:flex;justify-content:space-between;align-items:center;gap:10px;
-            padding:7px 9px;background:rgba(0,0,0,.34);
-            border:1px solid var(--line);border-left:2px solid var(--blood-bright);
+            display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:8px;
+            padding:6px 8px;background:rgba(0,0,0,.38);
+            border:1px solid var(--line);border-left:2px solid var(--blood-bright);border-radius:0 3px 3px 0;
         }
-        #combate .cb-skill-name{font-family:var(--font-mono);font-size:.76rem;color:var(--bone);letter-spacing:.5px}
-        #combate .cb-skill-value{font-family:var(--font-display);font-size:.95rem;color:var(--bone-dim)}
+        #combate .cb-skill-name{
+            font-family:var(--font-mono);font-size:.7rem;color:var(--bone);letter-spacing:.4px;
+            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        }
+        #combate .cb-skill-value{font-family:var(--font-display);font-size:.92rem;color:var(--bone-dim);white-space:nowrap}
 
         /* --- DIFICULDADE + D20 (coluna 2) --- */
 
@@ -2844,7 +2857,7 @@
         #combate .cb-btn-roll:hover{background:var(--blood-bright);color:var(--void)}
 
         /* --- ARSENAL / SLOTS (coluna 3) --- */
-        #combate .cb-slots-panel{padding:10px 12px 14px;gap:12px}
+        #combate .cb-slots-panel{padding:12px 14px 16px;gap:14px}
         #combate .cb-col-right{gap:16px}
         #combate .cb-slots-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
         #combate .cb-slots-title{
@@ -2860,7 +2873,7 @@
 
         /* Slots em forma hexagonal: cada slot numa ponta do hexagono */
         #combate .cb-slots-grid{
-            position:relative;width:100%;max-width:340px;aspect-ratio:1/1.08;
+            position:relative;width:100%;max-width:440px;aspect-ratio:1/1.06;
             margin:0 auto;padding:0;
         }
         /* Tracos do hexagono ao fundo */
@@ -2873,7 +2886,7 @@
             pointer-events:none;
         }
         #combate .cb-slot{
-            position:absolute;width:74px;height:74px;
+            position:absolute;width:88px;height:88px;
             transform:translate(-50%,-50%);
             display:grid;place-items:center;border-radius:50%;cursor:pointer;
             background:radial-gradient(circle at 40% 32%,rgba(255,255,255,.07),rgba(0,0,0,.45) 68%);
@@ -2897,13 +2910,13 @@
         #combate .cb-slot-core .cb-slot-ring{border-style:dashed;border-color:var(--line-strong);box-shadow:none}
         #combate .cb-slot-label{
             position:relative;z-index:2;text-align:center;padding:0 6px;
-            font-family:var(--font-display);font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;
+            font-family:var(--font-display);font-size:.78rem;letter-spacing:.8px;text-transform:uppercase;
             color:var(--bone);line-height:1.1;
         }
         /* Nome do item dentro do slot */
         #combate .cb-slot-item{
             position:relative;z-index:2;display:block;text-align:center;padding:0 5px;margin-top:2px;
-            font-family:var(--font-mono);font-size:.53rem;line-height:1.15;color:var(--bone-dim);
+            font-family:var(--font-mono);font-size:.58rem;line-height:1.15;color:var(--bone-dim);
             max-height:2.3em;overflow:hidden;
         }
         #combate .cb-slot.slot-cheio .cb-slot-item{color:rgba(242,239,232,.82)}
