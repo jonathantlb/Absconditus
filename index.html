@@ -1824,32 +1824,110 @@
             .cred-topbar-l, .cred-topbar-r { font-size: .62rem; letter-spacing: 2.2px; }
         }
 
-        /* ================= FOOTER ================= */
-        .dossier-footer .file-actions {
+        /* ================= CONFIGURAÇÕES — HUD SAVE GAME ================= */
+        .cfg-hud {
             display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .dossier-footer .file-actions .btn {
-            padding: 7px 12px;
-            font-size: .72rem;
-            letter-spacing: .6px;
-            background: #16161a;
+            flex-direction: column;
+            gap: 18px;
+            padding: 22px;
+            position: relative;
+            background:
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, .022) 0 1px, transparent 1px 4px),
+                radial-gradient(ellipse at 18% 0%, rgba(138, 20, 32, .20), transparent 60%),
+                linear-gradient(180deg, #0b0a0a, #060505);
             border: 1px solid var(--line-strong);
-            color: var(--bone-dim);
-            cursor: pointer;
-            transition: border-color .15s, color .15s;
         }
-        .dossier-footer .file-actions .btn:hover { border-color: var(--blood-bright); color: var(--bone); }
-        .dossier-footer {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-top: 30px;
-            padding-top: 18px;
-            border-top: 1px solid var(--line-strong);
+        .cfg-hud::before, .cfg-hud::after {
+            content: ''; position: absolute; width: 18px; height: 18px;
+            border: 2px solid var(--blood-bright); pointer-events: none;
         }
+        .cfg-hud::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .cfg-hud::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+        .cfg-hud-head {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap; padding-bottom: 16px;
+            border-bottom: 1px solid var(--line-strong);
+        }
+        .cfg-hud-title { display: flex; align-items: center; gap: 14px; }
+        .cfg-hud-icon { font-size: 1.6rem; filter: drop-shadow(0 0 10px rgba(196, 31, 46, .55)); }
+        .cfg-hud-title h2 {
+            font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 2.5px;
+            text-transform: uppercase; color: var(--bone); margin: 0;
+        }
+        .cfg-hud-title p {
+            font-family: var(--font-mono); font-size: .64rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--bone-dim); margin: 4px 0 0;
+        }
+        .cfg-user {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 14px; background: var(--void);
+            border: 1px solid var(--line-strong); border-left: 3px solid var(--blood-bright);
+        }
+        .cfg-user-ic { font-size: 1rem; }
+        .cfg-user-label {
+            display: block; font-family: var(--font-mono); font-size: .55rem;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--bone-dim);
+        }
+        .cfg-user-email {
+            display: block; font-family: var(--font-mono); font-size: .78rem;
+            color: var(--bone); margin-top: 2px; word-break: break-all;
+        }
+        .cfg-slot { background: rgba(0, 0, 0, .34); border: 1px solid var(--line-strong); }
+        .cfg-slot-cloud { border-color: rgba(196, 31, 46, .40); }
+        .cfg-slot-head {
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 10px 14px; border-bottom: 1px solid var(--line);
+        }
+        .cfg-slot-tag {
+            font-family: var(--font-display); font-size: .8rem; letter-spacing: 2.4px;
+            text-transform: uppercase; color: var(--blood-bright);
+        }
+        .cfg-slot-hint {
+            font-family: var(--font-mono); font-size: .62rem; letter-spacing: 1.4px;
+            text-transform: uppercase; color: var(--bone-dim); text-align: right;
+        }
+        .cfg-slot-body { padding: 16px 14px; display: flex; flex-direction: column; gap: 12px; }
+        .cfg-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .cfg-actions .btn, .cfg-actions .btn-save, .cfg-actions button, .cfg-actions select {
+            font-family: var(--font-display); font-size: .78rem; letter-spacing: 1.4px;
+            text-transform: uppercase; padding: 11px 18px; background: #16161a;
+            border: 1px solid var(--line-strong); color: var(--bone-dim);
+            cursor: pointer; transition: all .15s; border-radius: 2px;
+        }
+        .cfg-actions .btn-save, .cfg-actions .cloud-footer-primary {
+            background: var(--blood) !important; border-color: var(--blood-bright) !important; color: var(--bone) !important;
+        }
+        .cfg-actions button:hover {
+            border-color: var(--blood-bright); color: var(--bone); background: #22181c;
+        }
+        .cfg-actions .cloud-footer-primary:hover { background: var(--blood-bright) !important; color: var(--void) !important; }
+        .cfg-actions button[hidden], .cfg-actions select[hidden] { display: none !important; }
+        .cfg-actions select { min-width: 200px; text-transform: none; }
+        .cfg-status {
+            font-family: var(--font-mono); font-size: .7rem; letter-spacing: 1px;
+            color: var(--bone-dim); min-height: 1.1em;
+        }
+
+        /* E-mail do usuario na extrema direita da barra fixa */
+        .dossier-header .header-user {
+            grid-column: 3; justify-self: end;
+            display: flex; align-items: center; gap: 9px;
+            padding: 7px 13px; background: rgba(0, 0, 0, .42);
+            border: 1px solid var(--line-strong); max-width: 100%;
+        }
+        .dossier-header .header-user-ic { font-size: .9rem; opacity: .8; }
+        .dossier-header .header-user-email {
+            font-family: var(--font-mono); font-size: .68rem; letter-spacing: .4px;
+            color: var(--bone-dim); overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; max-width: 260px;
+        }
+        @media (max-width:900px){
+            .dossier-header { grid-template-columns: 1fr auto; }
+            .dossier-header .header-user { grid-column: 2; }
+            .dossier-header > .tabs { grid-column: 1 / -1; }
+        }
+
+        /* ================= FOOTER ================= */
 
         .btn-save {
             background: var(--blood);
@@ -1901,14 +1979,6 @@
         .cloud-actions button:hover { border-color: #c41f2e !important; background: #25252a !important; }
         .cloud-actions button[hidden], .cloud-actions select[hidden] { display: none !important; }
         .cloud-actions select { min-width: 190px; }
-        .dossier-footer .cloud-actions {
-            width: 100%;
-            max-width: none;
-            margin: 0;
-            padding: 14px;
-            justify-content: flex-start;
-            border-color: rgba(196, 31, 46, .45);
-        }
         .cloud-actions .cloud-footer-btn {
             width: auto !important;
             margin: 0 !important;
@@ -1954,7 +2024,7 @@
             50% { opacity: 1; transform: scale(1); }
         }
 
-        body.app-booting > .file-actions,
+        body.app-booting .file-actions,
         body.app-booting > .dossier,
         body.app-booting > .auth-gate,
         body.app-booting > .character-hub { visibility: hidden; }
@@ -4272,6 +4342,12 @@
                 </div>
             </div>
 
+            <!-- USUÁRIO (extrema direita da barra fixa) -->
+            <div class="header-user" id="headerUser" title="Conta em uso">
+                <span class="header-user-ic" aria-hidden="true">✉</span>
+                <span class="header-user-email" id="headerUserEmail">Não conectado</span>
+            </div>
+
             <!-- NAVEGAÇÃO HORIZONTAL (centralizada na barra fixa) -->
             <nav class="tabs" role="tablist">
                 <button class="tab-btn active" data-tab="identidade" type="button">Dados Pessoais</button>
@@ -5009,7 +5085,64 @@
 
 
 
-                    </main>
+                    
+            <!-- ============ CONFIGURAÇÕES — HUD SAVE GAME ============ -->
+            <section id="configuracoes" class="tab-panel">
+                <div class="cfg-hud">
+                    <header class="cfg-hud-head">
+                        <div class="cfg-hud-title">
+                            <span class="cfg-hud-icon" aria-hidden="true">⚙️</span>
+                            <div>
+                                <h2>Configurações</h2>
+                                <p>Gerenciamento de ficha · Arquivo local e Nuvem</p>
+                            </div>
+                        </div>
+                        <div class="cfg-user">
+                            <span class="cfg-user-ic" aria-hidden="true">✉</span>
+                            <div>
+                                <span class="cfg-user-label">Conta em uso</span>
+                                <span class="cfg-user-email" id="cfgUserEmail">Não conectado</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <section class="cfg-slot">
+                        <div class="cfg-slot-head">
+                            <span class="cfg-slot-tag">Arquivo local</span>
+                            <span class="cfg-slot-hint">Dados neste dispositivo</span>
+                        </div>
+                        <div class="cfg-slot-body">
+                            <div class="cfg-actions" id="fileActions" aria-label="Gerenciar ficha">
+                                <button type="button" class="btn btn-secondary" id="newCharacterBtn">🆕 Nova ficha</button>
+                                <button type="button" class="btn btn-secondary" id="exportCharacterBtn">💾 Exportar ficha</button>
+                                <button type="button" class="btn btn-secondary" id="importCharacterBtn">📂 Importar ficha</button>
+                                <input type="file" id="importCharacterInput" accept=".json,.absconditus,application/json" hidden>
+                            </div>
+                            <div class="cfg-status" id="saveStatus"></div>
+                        </div>
+                    </section>
+
+                    <section class="cfg-slot cfg-slot-cloud">
+                        <div class="cfg-slot-head">
+                            <span class="cfg-slot-tag">Arquivo da nuvem</span>
+                            <span class="cfg-slot-hint" id="cloudUserStatus">Nuvem desconectada</span>
+                        </div>
+                        <div class="cfg-slot-body">
+                            <div class="cfg-actions">
+                                <select id="cloudCharacterSelect" aria-label="Personagem da nuvem" hidden>
+                                    <option value="">Selecione um personagem</option>
+                                </select>
+                                <button type="button" class="btn-save cloud-footer-btn" id="cloudNewBtn" hidden>＋ Novo personagem</button>
+                                <button type="button" class="btn-save cloud-footer-btn cloud-footer-primary" id="saveButton">🔒 Selar ficha</button>
+                                <button type="button" class="btn-save cloud-footer-btn" id="cloudLoadBtn" hidden>⬇️ Carregar ficha</button>
+                                <button type="button" class="btn-save cloud-footer-btn" id="switchCharacterBtn" hidden>← Trocar personagem</button>
+                                <button type="button" class="btn-save cloud-footer-btn" id="cloudLogoutBtn" hidden>Sair</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+</main>
 
             <!-- PAINEL CONTEXTUAL À DIREITA: STATUS RÁPIDO -->
             <aside class="right-panel" data-right-panel="ficha-completa">
@@ -5082,27 +5215,6 @@
                 </div>
             </aside>
         </div>
-
-        <footer class="dossier-footer">
-            <div class="file-actions" id="fileActions" aria-label="Gerenciar ficha">
-                <button type="button" class="btn btn-secondary" id="newCharacterBtn">🆕 Nova ficha</button>
-                <button type="button" class="btn btn-secondary" id="exportCharacterBtn">💾 Exportar ficha</button>
-                <button type="button" class="btn btn-secondary" id="importCharacterBtn">📂 Importar ficha</button>
-                <input type="file" id="importCharacterInput" accept=".json,.absconditus,application/json" hidden>
-            </div>
-            <div class="cloud-actions" aria-label="Gerenciar personagem">
-                <select id="cloudCharacterSelect" aria-label="Personagem da nuvem" hidden>
-                    <option value="">Selecione um personagem</option>
-                </select>
-                <button type="button" class="btn-save cloud-footer-btn" id="cloudNewBtn" hidden>＋ Novo personagem</button>
-                <button id="saveButton" class="btn-save cloud-footer-btn cloud-footer-primary" type="button">🔒 Selar ficha</button>
-                <button type="button" class="btn-save cloud-footer-btn" id="cloudLoadBtn" hidden>⬇️ Carregar ficha</button>
-                <button type="button" class="btn-save cloud-footer-btn" id="switchCharacterBtn" hidden>← Trocar personagem</button>
-                <button type="button" class="btn-save cloud-footer-btn" id="cloudLogoutBtn" hidden>Sair</button>
-                <span class="cloud-user" id="cloudUserStatus">Nuvem desconectada</span>
-            </div>
-            <span id="saveStatus" class="save-status"></span>
-        </footer>
 
     </div>
 
@@ -7863,6 +7975,15 @@ function renderIdentity() {
             });
         }
 
+        // E-mail do jogador: barra fixa superior + aba Configurações
+        function setUserEmailUI(email) {
+            const mail = email || '';
+            ['headerUserEmail', 'cfgUserEmail'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = mail || 'Não conectado';
+            });
+        }
+
         function setupResumoSidebar() {
             const rightPanel = document.querySelector('.right-panel');
             const sync = () => {
@@ -9576,6 +9697,7 @@ function renderIdentity() {
                 sessionStorage.setItem('absconditusViewingCharacter', activeCharacterId);
                 await refreshCharacterList();
                 byId('cloudUserStatus').textContent = `Salvo na nuvem • ${user.email}`;
+            setUserEmailUI(user.email);
                 setDirty(false);
                 showToast('Ficha selada e salva na nuvem.');
             } catch (error) {
@@ -9621,6 +9743,7 @@ function renderIdentity() {
                 }
                 window.absconditusCloudBridge.applyState(cloudSheet);
                 byId('cloudUserStatus').textContent = `Ficha carregada • ${user.email}`;
+            setUserEmailUI(user.email);
                 showToast('Ficha carregada.');
             } catch (error) {
                 console.error(error);
@@ -9826,6 +9949,7 @@ function renderIdentity() {
             byId('switchCharacterBtn').hidden = !user;
             byId('cloudLogoutBtn').hidden = !user;
             byId('cloudUserStatus').textContent = user ? `Conectado: ${user.email}` : 'Nuvem desconectada';
+            setUserEmailUI(user ? user.email : '');
             byId('authGate').hidden = !!user;
             if (user) {
                 try {
