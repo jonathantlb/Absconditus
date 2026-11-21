@@ -2787,13 +2787,6 @@
         #combate .cb-attr-item{background:var(--ink);border:1px solid var(--line);padding:8px;border-radius:4px;display:flex;justify-content:space-between;align-items:center;gap:8px}
         #combate .cb-skill-item{background:var(--ink);border:1px solid var(--line);padding:8px;border-radius:4px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:0}
 
-        #combate .cb-armas-box{display:flex;flex-direction:column;gap:10px}
-        #combate .cb-arma-card{background:var(--void);border:1px solid var(--line-strong);border-left:3px solid var(--blood-bright);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
-        #combate .cb-arma-card .cb-arma-titulo{font-family:var(--font-display);font-size:1rem;letter-spacing:1px;color:var(--bone);margin:0}
-        #combate .cb-arma-card .cb-arma-placeholder{width:70px;height:70px;border:2px dashed var(--line-strong);border-radius:8px;display:grid;place-items:center;color:var(--bone-dim);font-size:1.8rem;background:var(--ink)}
-        #combate .cb-arma-card .cb-arma-valor{font-family:var(--font-display);font-size:1.1rem;color:var(--bone);min-height:1.4em}
-        #combate .cb-arma-card .cb-btn-roll{width:100%}
-        #combate .cb-arma-card.selected{border-color:var(--blood-bright);background:rgba(138,20,32,.15);box-shadow:0 0 12px rgba(138,20,32,.25)}
 
         #combate .cb-consumiveis-box{background:var(--void);border:1px solid var(--line-strong);border-left:3px solid var(--blood-bright);border-radius:6px;padding:8px}
         #combate .cb-consumivel-slot{background:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
@@ -2906,22 +2899,6 @@
         #combate .cb-dc-msg[data-res="crit"]{color:#ffd166}
 
         /* --- ARMAS (coluna 2) --- */
-        #combate .cb-armas-box{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-        #combate .cb-arma-card{
-            background:var(--void);border:1px solid var(--line-strong);border-radius:5px;padding:10px;
-            display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .18s;
-        }
-        #combate .cb-arma-card:hover{border-color:var(--bone-dim);background:rgba(255,255,255,.03)}
-        #combate .cb-arma-card.selected{border-color:var(--blood-bright);background:rgba(138,20,32,.15);box-shadow:0 0 12px rgba(138,20,32,.25)}
-        #combate .cb-arma-titulo{
-            font-family:var(--font-mono);font-size:.6rem;letter-spacing:2px;text-transform:uppercase;
-            color:var(--blood-bright);margin:0;
-        }
-        #combate .cb-arma-placeholder{font-size:1.9rem;line-height:1}
-        #combate .cb-arma-valor{
-            font-family:var(--font-display);font-size:1rem;color:var(--bone);text-align:center;
-            min-height:1.3em;line-height:1.2;
-        }
         #combate .cb-btn-roll{
             width:100%;background:var(--blood);border:1px solid var(--blood-bright);color:var(--bone);
             font-family:var(--font-display);font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;
@@ -8838,7 +8815,6 @@ function renderIdentity() {
                 const tipo = btn.dataset.tipo, nome = btn.dataset.nome;
                 if (!tipo || !nome) return;
                 cbSelecionado = { tipo, nome };
-                document.querySelectorAll('#combate .cb-arma-card').forEach(c => c.classList.remove('selected'));
                 renderInfoBox();
                 renderCombatSlots();
             });
@@ -8964,7 +8940,6 @@ function renderIdentity() {
             if (card1) card1.addEventListener('click', () => {
                 const nome = document.getElementById('cbArmaPrincipal').textContent;
                 if (nome && nome !== '—') {
-                    document.querySelectorAll('#combate .cb-arma-card').forEach(c => c.classList.remove('selected'));
                     card1.classList.add('selected');
                     cbSelecionado = { tipo: 'arma', nome: nome.trim() };
                     renderInfoBox();
@@ -8976,7 +8951,6 @@ function renderIdentity() {
             if (card2) card2.addEventListener('click', () => {
                 const nome = document.getElementById('cbArmaSecundaria').textContent;
                 if (nome && nome !== '—') {
-                    document.querySelectorAll('#combate .cb-arma-card').forEach(c => c.classList.remove('selected'));
                     card2.classList.add('selected');
                     cbSelecionado = { tipo: 'arma', nome: nome.trim() };
                     renderInfoBox();
@@ -8998,7 +8972,6 @@ function renderIdentity() {
                     const nome = slot.querySelector('.cb-consumivel-label')?.textContent.trim();
                     if (!nome) return;
                     document.querySelectorAll('#combate .cb-consumivel-slot').forEach(s => s.classList.remove('selected'));
-                    document.querySelectorAll('#combate .cb-arma-card').forEach(c => c.classList.remove('selected'));
                     document.querySelectorAll('#combate .cb-magic-item').forEach(m => m.classList.remove('selected'));
                     slot.classList.add('selected');
                     cbSelecionado = { tipo: 'consumivel', nome };
