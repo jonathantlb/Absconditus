@@ -2979,18 +2979,18 @@
         /* --- BARRAS DE VITALS (TOPO) — estilo simples da referencia --- */
         #combate .cb-vitals-top{
             display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;
-            width:100%;max-width:1180px;margin:0 auto 16px;padding:13px 16px;
+            width:100%;max-width:none;margin:0 0 16px;padding:13px 16px;
             background:linear-gradient(180deg,rgba(14,12,13,.96),rgba(5,5,5,.96));
             border:1px solid var(--line-strong);border-radius:5px;
         }
         @media (max-width:900px){#combate .cb-vitals-top{grid-template-columns:1fr}}
-        #combate .cb-vitals-half{display:flex;align-items:center;gap:12px;min-width:0}
+        #combate .cb-vitals-half{display:flex;align-items:center;gap:18px;min-width:0}
         #combate .cb-vitals-half-left{justify-content:flex-start}
         #combate .cb-vitals-half-right{justify-content:flex-end}
-        #combate .cb-vitals-rows{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+        #combate .cb-vitals-rows{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
         #combate .cb-vital-line{
-            display:grid;grid-template-columns:110px minmax(0,1fr) 74px;
-            gap:10px;align-items:center;
+            display:grid;grid-template-columns:118px minmax(0,1fr) 82px;
+            gap:12px;align-items:center;
         }
         @media (max-width:620px){#combate .cb-vital-line{grid-template-columns:1fr;gap:6px}}
         #combate .cb-vital-label{
@@ -3009,19 +3009,19 @@
         }
         #combate .cb-vital-value .cur{color:var(--bone);font-size:.95rem}
         #combate .cb-vital-value .max{color:var(--bone-dim);font-size:.72rem}
-        #combate .cb-vital-btns{display:grid;gap:4px}
-        #combate .cb-vbtns-4{grid-template-columns:repeat(4,36px)}
-        #combate .cb-vbtns-2{grid-template-columns:repeat(2,36px)}
+        #combate .cb-vital-btns{display:grid;gap:5px}
+        #combate .cb-vbtns-4{grid-template-columns:repeat(4,46px)}
+        #combate .cb-vbtns-2{grid-template-columns:repeat(2,46px)}
         #combate .cb-vital-btns .vbtn{
-            width:36px;height:30px;background:var(--void);border:1px solid var(--line-strong);
-            color:var(--bone);font-family:var(--font-mono);font-size:.78rem;cursor:pointer;border-radius:3px;
+            width:46px;height:34px;background:var(--void);border:1px solid var(--line-strong);
+            color:var(--bone);font-family:var(--font-mono);font-size:.88rem;cursor:pointer;border-radius:3px;
             transition:background .15s,border-color .15s,color .15s;
         }
         #combate .cb-vital-btns .vbtn:hover:not(:disabled){background:var(--blood);border-color:var(--blood-bright)}
         #combate .cb-vital-btns .vbtn:disabled{opacity:.28;cursor:not-allowed}
 
         /* Corrupcao: marcador em quadradinhos */
-        #combate .cb-vital-line-cor{grid-template-columns:110px minmax(0,1fr) 58px}
+        #combate .cb-vital-line-cor{grid-template-columns:118px minmax(0,1fr) 62px}
         #combate .cb-cor-pips{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
         #combate .cb-cor-pips i{
             width:15px;height:15px;display:block;background:#2c0a35;border:1px solid #7b1fa2;
