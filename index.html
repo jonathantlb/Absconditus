@@ -2978,16 +2978,37 @@
 
         /* --- BARRAS DE VITALS (TOPO) — estilo simples da referencia --- */
         #combate .cb-vitals-top{
-            display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;
+            display:grid;grid-template-columns:1fr auto 1fr;gap:0 16px;align-items:center;
             width:100%;max-width:none;margin:0 0 16px;padding:13px 16px;
             background:linear-gradient(180deg,rgba(14,12,13,.96),rgba(5,5,5,.96));
             border:1px solid var(--line-strong);border-radius:5px;
         }
-        @media (max-width:900px){#combate .cb-vitals-top{grid-template-columns:1fr}}
+        @media (max-width:1100px){#combate .cb-vitals-top{grid-template-columns:1fr;gap:18px}}
+        @media (max-width:1100px){#combate .cb-vitals-logo{display:none!important}}
         #combate .cb-vitals-half{display:flex;align-items:center;gap:18px;min-width:0}
         #combate .cb-vitals-half-left{justify-content:flex-start}
         #combate .cb-vitals-half-right{justify-content:flex-end}
         #combate .cb-vitals-rows{display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+        /* direita: grade compartilhada -> barras e rotulos alinhados */
+        #combate .cb-vitals-rows-right{
+            display:grid;grid-template-columns:62px minmax(0,1fr) 118px 199px;
+            grid-template-rows:auto auto;gap:8px 12px;align-items:center;
+        }
+        #combate .cb-vitals-rows-right .cb-vital-value{text-align:left}
+        #combate .cb-vitals-rows-right .cb-vital-label{text-align:right}
+
+        /* Logo Absconditus como divisor central */
+        #combate .cb-vitals-logo{position:relative;display:grid;place-items:center;padding:0 14px}
+        #combate .cb-vitals-logo::before,#combate .cb-vitals-logo::after{
+            content:'';position:absolute;top:4px;bottom:4px;width:1px;
+            background:linear-gradient(180deg,transparent,var(--line-strong) 22%,var(--line-strong) 78%,transparent);
+        }
+        #combate .cb-vitals-logo::before{left:0}
+        #combate .cb-vitals-logo::after{right:0}
+        #combate .cb-vitals-logo img{
+            width:132px;height:132px;object-fit:contain;display:block;margin:-26px 0;position:relative;z-index:2;
+            filter:drop-shadow(0 0 14px rgba(138,20,32,.65));
+        }
         #combate .cb-vital-line{
             display:grid;grid-template-columns:118px minmax(0,1fr) 82px;
             gap:12px;align-items:center;
@@ -3011,7 +3032,8 @@
         #combate .cb-vital-value .max{color:var(--bone-dim);font-size:.72rem}
         #combate .cb-vital-btns{display:grid;gap:5px}
         #combate .cb-vbtns-4{grid-template-columns:repeat(4,46px)}
-        #combate .cb-vbtns-2{grid-template-columns:repeat(2,46px)}
+        #combate .cb-vbtns-san{grid-template-columns:repeat(4,46px)}
+        #combate .cb-vbtns-cor{grid-template-columns:repeat(2,46px);justify-self:end}
         #combate .cb-vital-btns .vbtn{
             width:46px;height:34px;background:var(--void);border:1px solid var(--line-strong);
             color:var(--bone);font-family:var(--font-mono);font-size:.88rem;cursor:pointer;border-radius:3px;
@@ -3021,7 +3043,6 @@
         #combate .cb-vital-btns .vbtn:disabled{opacity:.28;cursor:not-allowed}
 
         /* Corrupcao: marcador em quadradinhos */
-        #combate .cb-vital-line-cor{grid-template-columns:118px minmax(0,1fr) 62px}
         #combate .cb-cor-pips{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
         #combate .cb-cor-pips i{
             width:15px;height:15px;display:block;background:#2c0a35;border:1px solid #7b1fa2;
@@ -4767,28 +4788,31 @@
                             </div>
                         </div>
 
-                        <!-- DIREITA: SANIDADE + CORRUPCAO -->
-                        <div class="cb-vitals-half cb-vitals-half-right">
-                            <div class="cb-vitals-rows">
-                                <div class="cb-vital-line" data-vital="san">
-                                    <span class="cb-vital-label">Sanidade</span>
-                                    <div class="cb-vital-track"><div class="cb-vital-fill cb-vital-fill-san" id="gaugeSan" role="progressbar" aria-label="Sanidade" aria-valuemin="0"></div></div>
-                                    <output class="cb-vital-value" id="gaugeSanValue"></output>
-                                </div>
-                                <div class="cb-vital-line cb-vital-line-cor" data-vital="corrupcao">
-                                    <span class="cb-vital-label">Corrupção</span>
-                                    <div class="cb-cor-pips" id="cbCorPips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                                    <output class="cb-vital-value" id="gaugeCorruptionValue"></output>
-                                </div>
-                            </div>
+                        <!-- LOGO ABSCONDITUS (DIVISOR CENTRAL) -->
+                        <div class="cb-vitals-logo" aria-hidden="true">
+                            <img src="Absconditus Ficha do jogador/assets/logos/absconditus-a.png" alt="">
+                        </div>
 
-                            <div class="cb-vital-btns cb-vbtns-2">
-                                <button type="button" class="vbtn" data-resource="san" data-delta="-5">−5</button>
-                                <button type="button" class="vbtn" data-resource="san" data-delta="-1">−1</button>
-                                <button type="button" class="vbtn" data-resource="san" data-delta="1">+1</button>
-                                <button type="button" class="vbtn" data-resource="san" data-delta="5">+5</button>
-                                <button type="button" class="vbtn" data-resource="corrupcao" data-delta="-1">−</button>
-                                <button type="button" class="vbtn" data-resource="corrupcao" data-delta="1">+</button>
+                        <!-- DIREITA: SANIDADE + CORRUPCAO (rotulos a direita da barra) -->
+                        <div class="cb-vitals-half cb-vitals-half-right">
+                            <div class="cb-vitals-rows cb-vitals-rows-right">
+                                <output class="cb-vital-value" id="gaugeSanValue"></output>
+                                <div class="cb-vital-track"><div class="cb-vital-fill cb-vital-fill-san" id="gaugeSan" role="progressbar" aria-label="Sanidade" aria-valuemin="0"></div></div>
+                                <span class="cb-vital-label">Sanidade</span>
+                                <div class="cb-vital-btns cb-vbtns-san">
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="-5">−5</button>
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="-1">−1</button>
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="1">+1</button>
+                                    <button type="button" class="vbtn" data-resource="san" data-delta="5">+5</button>
+                                </div>
+
+                                <output class="cb-vital-value" id="gaugeCorruptionValue"></output>
+                                <div class="cb-cor-pips" id="cbCorPips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                                <span class="cb-vital-label">Corrupção</span>
+                                <div class="cb-vital-btns cb-vbtns-cor">
+                                    <button type="button" class="vbtn" data-resource="corrupcao" data-delta="-1">−</button>
+                                    <button type="button" class="vbtn" data-resource="corrupcao" data-delta="1">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
