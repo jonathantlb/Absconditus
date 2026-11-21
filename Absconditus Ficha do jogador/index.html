@@ -2782,7 +2782,7 @@
         /* ================= COMBATE — LAYOUT 3 COLUNAS + RODAPE ================= */
         #combate .cb-layout3{
             display:grid;
-            grid-template-columns:minmax(210px,.85fr) minmax(300px,1.15fr) minmax(300px,1.2fr);
+            grid-template-columns:minmax(200px,.78fr) minmax(370px,1.3fr) minmax(300px,1.15fr);
             gap:16px;align-items:start;
         }
         @media (max-width:1180px){#combate .cb-layout3{grid-template-columns:1fr 1fr}}
@@ -2834,49 +2834,6 @@
         #combate .cb-skill-value{font-family:var(--font-display);font-size:.95rem;color:var(--bone-dim)}
 
         /* --- DIFICULDADE + D20 (coluna 2) --- */
-        #combate .cb-dc-panel{
-            align-items:center;text-align:center;padding:14px 12px 12px;
-            background:radial-gradient(ellipse at 50% 0%,rgba(138,20,32,.20),transparent 62%),linear-gradient(180deg,var(--ink-raised),var(--ink));
-        }
-        #combate .cb-dc-head{
-            display:flex;flex-direction:column;line-height:1.15;
-            font-family:var(--font-display);font-size:.86rem;letter-spacing:3px;text-transform:uppercase;
-            color:var(--bone-dim);
-        }
-        #combate .cb-dc-head span:last-child{color:var(--blood-bright)}
-        #combate .cb-dc-value{
-            font-family:var(--font-display);font-size:2.6rem;color:var(--bone);line-height:1;margin:2px 0 6px;
-            text-shadow:0 0 18px rgba(196,31,46,.45);
-        }
-        #combate .cb-d20{
-            width:104px;height:104px;padding:0;cursor:pointer;position:relative;
-            background:radial-gradient(circle at 35% 28%,#3a3540,#17141c 55%,#0a0910);
-            border:2px solid rgba(196,31,46,.65);
-            clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
-            display:grid;place-items:center;transition:transform .2s ease,box-shadow .2s ease;
-        }
-        #combate .cb-d20:hover{transform:scale(1.06);box-shadow:0 0 28px rgba(196,31,46,.55)}
-        #combate .cb-d20:active{transform:scale(.96)}
-        #combate .cb-d20-face{
-            font-family:var(--font-display);font-size:2.9rem;color:#fff;line-height:1;
-            text-shadow:0 0 16px rgba(196,31,46,.8);
-        }
-        #combate .cb-d20[data-res="ok"] .cb-d20-face{color:#7ee08a;text-shadow:0 0 18px rgba(126,224,138,.7)}
-        #combate .cb-d20[data-res="fail"] .cb-d20-face{color:#ff5a68;text-shadow:0 0 18px rgba(255,90,104,.7)}
-        #combate .cb-d20[data-res="crit"] .cb-d20-face{color:#ffd166;text-shadow:0 0 22px rgba(255,209,102,.85)}
-        #combate .cb-dc-input{
-            width:92px;height:30px;text-align:center;margin-top:9px;
-            background:var(--void);border:1px solid var(--line-strong);color:var(--bone);
-            font-family:var(--font-mono);font-size:.85rem;outline:none;
-        }
-        #combate .cb-dc-input:focus{border-color:var(--blood-bright)}
-        #combate .cb-dc-msg{
-            font-family:var(--font-mono);font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;
-            color:var(--bone-dim);margin-top:6px;min-height:1.1em;
-        }
-        #combate .cb-dc-msg[data-res="ok"]{color:#7ee08a}
-        #combate .cb-dc-msg[data-res="fail"]{color:#ff5a68}
-        #combate .cb-dc-msg[data-res="crit"]{color:#ffd166}
 
         /* --- ARMAS (coluna 2) --- */
         #combate .cb-btn-roll{
@@ -3192,12 +3149,91 @@
         #combate .cb-btn-roll-info:hover:not(:disabled){background:var(--blood-bright);color:var(--void);box-shadow:0 0 18px rgba(196,31,46,.45)}
         #combate .cb-btn-roll-info:disabled{opacity:.35;cursor:not-allowed}
 
+        /* --- PALCO DO DADO (resultado acima + desenho do poliedro) --- */
+        #combate .cb-stage-dice{
+            display:flex;flex-direction:column;align-items:center;gap:12px;
+            min-height:380px;padding:16px 14px 24px;
+        }
+        #combate .cb-stage-dice .dice-stage{width:100%}
+        #combate .cb-stage-dice .dice-total{font-size:4.4rem}
+        #combate .cb-stage-dice .stage-kind{font-size:.66rem;letter-spacing:2.4px}
+        #combate .cb-dice-pool-head{display:flex;align-items:center;gap:10px;width:100%}
+        #combate .cb-dice-pool-head .cb-console-label{flex:1}
+        #combate .cb-dice-pool{
+            display:flex;flex-wrap:wrap;justify-content:center;gap:6px;width:100%;min-height:28px;
+        }
+        #combate .cb-pool-empty{
+            font-family:var(--font-mono);font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;
+            color:var(--bone-dim);opacity:.55;
+        }
+        #combate .cb-pool-item{
+            display:flex;align-items:center;gap:6px;padding:4px 5px 4px 10px;
+            background:var(--ink-raised);border:1px solid var(--line-strong);border-left:2px solid var(--blood-bright);
+            font-family:var(--font-mono);font-size:.74rem;color:var(--bone);white-space:nowrap;
+        }
+        #combate .cb-pool-item.applied{border-left-color:#e8c46a;color:#e8c46a}
+        #combate .cb-pool-x{
+            width:18px;height:18px;padding:0;line-height:1;background:none;border:1px solid var(--line-strong);
+            color:var(--bone-dim);font-size:.7rem;cursor:pointer;border-radius:2px;transition:all .15s;
+        }
+        #combate .cb-pool-x:hover{background:var(--blood);border-color:var(--blood-bright);color:var(--bone)}
+
+        /* Desenho do dado */
+        #combate .cb-die{
+            position:relative;width:168px;height:168px;padding:0;cursor:pointer;
+            background:none;border:0;display:grid;place-items:center;
+            filter:drop-shadow(0 0 18px rgba(196,31,46,.45));
+            transition:transform .18s ease,filter .18s ease;flex:0 0 auto;
+        }
+        #combate .cb-die svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+        #combate .cb-die polygon{
+            fill:#17141c;stroke:rgba(196,31,46,.85);stroke-width:2.4;stroke-linejoin:round;
+            transition:fill .2s ease,stroke .2s ease;
+        }
+        #combate .cb-die polyline{fill:none;stroke:rgba(196,31,46,.38);stroke-width:1.4;stroke-linejoin:round}
+        #combate .cb-die:hover{transform:scale(1.06) rotate(-2deg);filter:drop-shadow(0 0 28px rgba(196,31,46,.72))}
+        #combate .cb-die:active{transform:scale(.95)}
+        #combate .cb-die-inner{position:relative;z-index:2;display:grid;place-items:center;gap:1px;pointer-events:none}
+        #combate .cb-die-face{
+            font-family:var(--font-display);font-size:2.4rem;color:#fff;line-height:1;
+            text-shadow:0 0 16px rgba(196,31,46,.8);
+        }
+        #combate .cb-die-tag{
+            font-family:var(--font-mono);font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim);
+        }
+        #combate .cb-die[data-state="crit"] polygon{fill:#2b2413;stroke:#e8c46a}
+        #combate .cb-die[data-state="crit"] .cb-die-face{color:#ffd166}
+        #combate .cb-die[data-state="ok"] polygon{fill:#16211a;stroke:#7ee08a}
+        #combate .cb-die[data-state="ok"] .cb-die-face{color:#7ee08a}
+        #combate .cb-die[data-state="fumble"] polygon{fill:#1b1b1b;stroke:#555}
+        #combate .cb-die[data-state="fumble"] .cb-die-face{color:#888}
+
+        /* Botoes compactos (atributo, modificadores, dados extra) */
+        #combate .cb-mini-btn{
+            padding:6px 10px;background:var(--void);border:1px solid var(--line-strong);color:var(--bone);
+            font-family:var(--font-mono);font-size:.72rem;cursor:pointer;border-radius:2px;
+            transition:all .15s;white-space:nowrap;
+        }
+        #combate .cb-mini-btn:hover{background:var(--blood);border-color:var(--blood-bright);color:var(--bone)}
+        #combate .cb-mini-btn:active{transform:scale(.95)}
+        #combate .cb-extra-row{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+        #combate .cb-extra-cap{
+            font-family:var(--font-mono);font-size:.56rem;letter-spacing:1.2px;text-transform:uppercase;
+            color:var(--bone-dim);margin-right:2px;
+        }
+        #combate .cb-attr-row{display:flex;gap:6px;align-items:stretch}
+        #combate .cb-attr-row select{flex:1;min-width:0;width:auto}
+
+        /* Chip de dado ativo */
+        #combate .cb-chip.on{background:var(--blood);border-color:var(--blood-bright);color:var(--bone)}
+
         /* --- CONSOLE DE ROLAGEM (unificado) --- */
         #combate .cb-console{
             position:relative;background:linear-gradient(180deg,#0b0a0a,#060505);
             border:1px solid var(--line-strong);border-left:3px solid var(--blood-bright);
-            border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px;flex:1;
+            border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:14px;flex:1;
         }
+        #combate .cb-console-panel.open .cb-console{min-height:720px}
         #combate .cb-console::before{
             content:'';position:absolute;inset:0;pointer-events:none;border-radius:4px;
             background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 2px,transparent 2px 4px);
@@ -3229,13 +3265,6 @@
         #combate .cb-chip[data-dice="d20"]:hover{background:var(--blood);color:var(--bone)}
 
         /* Fórmula compacta */
-        #combate .cb-formula{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px}
-        #combate .cb-formula .field{display:flex;flex-direction:column;gap:3px}
-        #combate .cb-formula .field>label{font-family:var(--font-mono);font-size:.55rem;letter-spacing:1px;text-transform:uppercase;color:var(--bone-dim)}
-        #combate .cb-formula .stepper{display:flex}
-        #combate .cb-formula .step{width:26px;height:34px}
-        #combate .cb-formula .num{width:50px;height:34px;text-align:center;background:var(--void);color:var(--bone);border:1px solid var(--line-strong);border-left:0;border-right:0;font-family:var(--font-mono);font-size:.95rem}
-        #combate .cb-formula .formula-d{font-family:var(--font-display);font-size:1.2rem;color:var(--bone-dim);padding-bottom:4px}
 
         /* Teste de atributo */
         #combate .cb-attr-test{display:flex;flex-direction:column;gap:8px}
@@ -4840,66 +4869,90 @@
                         <!-- ===== COLUNA 2: DIFICULDADE + ARMAS + HUD + CONSOLE ===== -->
                         <div class="cb-col cb-col-mid">
 
-                            <section class="cb-panel cb-dc-panel">
-                                <div class="cb-dc-head"><span>Dificuldade</span><span>Classe</span></div>
-                                <div class="cb-dc-value" id="cbDcValue">15</div>
-                                <button type="button" class="cb-d20" id="cbD20" aria-label="Rolar d20 contra a dificuldade">
-                                    <span class="cb-d20-face">20</span>
-                                </button>
-                                <input type="number" class="cb-dc-input" id="cbDcInput" value="15" min="2" max="40" aria-label="Valor da dificuldade">
-                                <div class="cb-dc-msg" id="cbDcMsg">Clique no dado para rolar</div>
-                            </section>
-
                             <section class="cb-panel cb-panel-flush cb-console-panel" id="cbConsolePanel">
                             <div class="cb-console">
                                 <div class="cb-console-head">Rolagem de Dados</div>
 
+                                <!-- TIPO DE DADO -->
                                 <div class="cb-console-sec">
-                                    <div class="cb-console-label">Dados rápidos</div>
+                                    <div class="cb-console-label">Tipo de dado</div>
                                     <div class="cb-chips" id="cbDiceChips">
-                                        <button type="button" class="cb-chip" data-dice="d4">d4</button>
-                                        <button type="button" class="cb-chip" data-dice="d6">d6</button>
-                                        <button type="button" class="cb-chip" data-dice="d8">d8</button>
-                                        <button type="button" class="cb-chip" data-dice="d10">d10</button>
-                                        <button type="button" class="cb-chip" data-dice="d12">d12</button>
-                                        <button type="button" class="cb-chip" data-dice="d20">d20</button>
-                                        <button type="button" class="cb-chip" data-dice="d100">d100</button>
+                                        <button type="button" class="cb-chip" data-dice="d4">D4</button>
+                                        <button type="button" class="cb-chip" data-dice="d6">D6</button>
+                                        <button type="button" class="cb-chip" data-dice="d8">D8</button>
+                                        <button type="button" class="cb-chip" data-dice="d10">D10</button>
+                                        <button type="button" class="cb-chip" data-dice="d12">D12</button>
+                                        <button type="button" class="cb-chip" data-dice="d20">D20</button>
+                                        <button type="button" class="cb-chip" data-dice="d100">D100</button>
                                     </div>
                                 </div>
 
-                                <div class="cb-console-sec">
-                                    <div class="cb-console-label">Teste de atributo</div>
-                                    <div class="cb-attr-test">
-                                        <select id="diceAttrSelect"><option value="">-- escolher atributo --</option></select>
-                                        <div class="segmented" role="group" aria-label="Modo do d20">
-                                            <button type="button" class="seg on" data-dice-mode="normal">Normal</button>
-                                            <button type="button" class="seg" data-dice-mode="vantagem">Vantagem</button>
-                                            <button type="button" class="seg" data-dice-mode="desvantagem">Desvantagem</button>
-                                        </div>
-                                        <button type="button" class="cb-console-roll alt" id="rollAttrBtn">🎲 d20 + Atributo</button>
+                                <!-- PALCO: termos em espera + resultado + desenho do dado -->
+                                <div class="cb-stage cb-stage-dice">
+                                    <div class="cb-dice-pool-head">
+                                        <div class="cb-console-label">Modificadores em espera</div>
+                                        <button type="button" class="dice-clear" id="cbDicePoolClear">Limpar</button>
                                     </div>
-                                </div>
+                                    <div class="cb-dice-pool" id="cbDicePool"></div>
 
-                                <div class="cb-console-sec">
-                                    <div class="cb-console-label">Fórmula personalizada</div>
-                                    <div class="cb-formula">
-                                        <div class="field"><label for="diceQtd">Qtd</label><div class="stepper"><button type="button" class="step" data-step-for="diceQtd" data-step="-1">−</button><input class="num" type="number" id="diceQtd" value="1" min="1" max="20"><button type="button" class="step" data-step-for="diceQtd" data-step="1">+</button></div></div>
-                                        <span class="formula-d">d</span>
-                                        <div class="field"><label for="diceLados">Lados</label><input class="num" type="number" id="diceLados" value="20" min="2" max="1000"></div>
-                                        <div class="field"><label for="diceMod">Mod</label><div class="stepper"><button type="button" class="step" data-step-for="diceMod" data-step="-1">−</button><input class="num" type="number" id="diceMod" value="0" min="-99" max="99"><button type="button" class="step" data-step-for="diceMod" data-step="1">+</button></div></div>
-                                    </div>
-                                    <button type="button" class="cb-console-roll" id="rollCustomBtn">Rolar <span id="dicePreview">1d20</span></button>
-                                </div>
-
-                                <div class="cb-stage">
                                     <div class="dice-stage" id="diceResult" data-state="idle" aria-live="polite">
-                                        <div class="stage-kind" id="diceKind">Aguardando rolagem</div>
+                                        <div class="stage-kind" id="diceKind">Escolha um dado</div>
                                         <div class="dice-total" id="diceTotal">—</div>
                                         <div class="dice-chips" id="diceChips"></div>
                                         <div class="dice-details" id="diceDetails"></div>
                                     </div>
+
+                                    <button type="button" class="cb-die" id="cbDieFace" data-sides="20" data-state="" aria-label="Rolar o dado selecionado">
+                                        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+                                            <polygon id="cbDiePoly" points="50,8 84,29 84,71 50,92 16,71 16,29"></polygon>
+                                            <polyline id="cbDieInner" points=""></polyline>
+                                        </svg>
+                                        <span class="cb-die-inner">
+                                            <span class="cb-die-face" id="cbDieNum">D20</span>
+                                            <span class="cb-die-tag" id="cbDieTag">d20</span>
+                                        </span>
+                                    </button>
                                 </div>
 
+                                <!-- TESTE DE ATRIBUTO -->
+                                <div class="cb-console-sec">
+                                    <div class="cb-console-label">Teste de atributo</div>
+                                    <div class="cb-attr-test">
+                                        <div class="cb-attr-row">
+                                            <select id="diceAttrSelect"><option value="">-- escolher atributo --</option></select>
+                                            <button type="button" class="cb-mini-btn" id="diceAttrAdd">+ Atributo</button>
+                                        </div>
+                                        <div class="segmented" role="group" aria-label="Modo do teste">
+                                            <button type="button" class="seg on" data-dice-mode="normal">Normal</button>
+                                            <button type="button" class="seg" data-dice-mode="vantagem">Vantagem</button>
+                                            <button type="button" class="seg" data-dice-mode="desvantagem">Desvantagem</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- MODIFICADORES E DADOS EXTRAS -->
+                                <div class="cb-console-sec">
+                                    <div class="cb-console-label">Modificadores e dados extras</div>
+                                    <div class="cb-extra-row">
+                                        <button type="button" class="cb-mini-btn" data-mod="1">+1</button>
+                                        <button type="button" class="cb-mini-btn" data-mod="2">+2</button>
+                                        <button type="button" class="cb-mini-btn" data-mod="3">+3</button>
+                                        <button type="button" class="cb-mini-btn" data-mod="5">+5</button>
+                                        <button type="button" class="cb-mini-btn" data-mod="-1">−1</button>
+                                        <button type="button" class="cb-mini-btn" data-mod="-2">−2</button>
+                                    </div>
+                                    <div class="cb-extra-row">
+                                        <span class="cb-extra-cap">Dados extra:</span>
+                                        <button type="button" class="cb-mini-btn" data-extra="d4">d4</button>
+                                        <button type="button" class="cb-mini-btn" data-extra="d6">d6</button>
+                                        <button type="button" class="cb-mini-btn" data-extra="d8">d8</button>
+                                        <button type="button" class="cb-mini-btn" data-extra="d10">d10</button>
+                                        <button type="button" class="cb-mini-btn" data-extra="d12">d12</button>
+                                        <button type="button" class="cb-mini-btn" data-extra="d100">d100</button>
+                                    </div>
+                                </div>
+
+                                <!-- HISTORICO -->
                                 <div class="cb-console-sec">
                                     <div class="cb-history-head"><div class="cb-console-label">Histórico</div><button type="button" class="dice-clear" id="clearHistoryBtn">Limpar</button></div>
                                     <div class="cb-history" id="diceHistory"><p class="hint">Nenhuma rolagem ainda.</p></div>
@@ -7088,91 +7141,196 @@ function updateOrganizationDetails(organization) {
             }
         }
 
+        // Poliedros de cada dado (viewBox 0 0 100 100)
+        const CB_DICE_POLY = {
+            4:   '50,8 90,86 10,86',
+            6:   '18,18 82,18 82,82 18,82',
+            8:   '50,8 88,50 50,92 12,50',
+            10:  '50,8 89,38 74,88 26,88 11,38',
+            12:  '50,8 84,29 84,71 50,92 16,71 16,29',
+            20:  '50,92 90,14 10,14',
+            100: '50,8 74.7,16 89.9,37 89.9,63 74.7,84 50,92 25.3,84 10.1,63 10.1,37 25.3,16'
+        };
+        // Linhas internas de cada poliedro (detalhe visual)
+        const CB_DICE_INNER = {
+            4:   '50,8 50,86 10,86',
+            6:   '18,18 82,82',
+            8:   '12,50 88,50',
+            10:  '11,38 74,88',
+            12:  '16,29 84,71',
+            20:  '50,92 50,14',
+            100: '50,8 50,92'
+        };
+        let cbDiceSides = 20;      // dado principal selecionado
+        let cbDiceMode = 'normal'; // normal | vantagem | desvantagem
+        let cbDicePool = [];       // termos em espera: {kind,label,value,sides,applied}
+
         function setupDice() {
-            const readInt = (id, def, min, max) => {
-                const n = parseInt(document.getElementById(id).value, 10);
-                return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : def;
-            };
             const fmtMod = m => (m > 0 ? '+' + m : m < 0 ? String(m) : '');
-            const flagOf = (sides, qtd, roll) => (sides === 20 && qtd === 1) ? (roll === 20 ? 'crit' : roll === 1 ? 'fumble' : roll >= 10 ? 'ok' : '') : '';
 
-            const rollFormula = (qtd, sides, mod, label) => {
-                const { rolls, total } = rollDice(qtd, sides, mod);
-                const formula = `${qtd}d${sides}${fmtMod(mod)}`;
-                const flag = flagOf(sides, qtd, rolls[0]);
-                const details = `${formula} → [${rolls.join(', ')}]${mod ? ' ' + fmtMod(mod) : ''}`;
-                showDiceResult(total, details, { dice: rolls.map(value => ({ value })), mod, flag, title: formula });
-                addDiceHistory(label || formula.toUpperCase(), total, details, flag);
+            // Desenha o poliedro do dado selecionado
+            const renderDie = () => {
+                const btn = document.getElementById('cbDieFace');
+                const poly = document.getElementById('cbDiePoly');
+                const inner = document.getElementById('cbDieInner');
+                const num = document.getElementById('cbDieNum');
+                const tag = document.getElementById('cbDieTag');
+                if (!btn || !poly || !num) return;
+                btn.dataset.sides = cbDiceSides;
+                poly.setAttribute('points', CB_DICE_POLY[cbDiceSides] || CB_DICE_POLY[20]);
+                if (inner) inner.setAttribute('points', CB_DICE_INNER[cbDiceSides] || '');
+                num.textContent = 'D' + cbDiceSides;
+                if (tag) tag.textContent = 'd' + cbDiceSides;
+                btn.setAttribute('aria-label', `Rolar d${cbDiceSides}`);
+                document.querySelectorAll('#combate .cb-chip[data-dice]').forEach(c =>
+                    c.classList.toggle('on', c.dataset.dice === 'd' + cbDiceSides));
             };
 
-            document.querySelectorAll('#combate .cb-chip').forEach(btn => {
+            // Lista de modificadores/atributos/dados extras aguardando a rolagem
+            const renderPool = () => {
+                const pool = document.getElementById('cbDicePool');
+                if (!pool) return;
+                pool.replaceChildren();
+                if (!cbDicePool.length) {
+                    const h = document.createElement('div');
+                    h.className = 'cb-pool-empty';
+                    h.textContent = 'Sem modificadores — clique no dado para rolar';
+                    pool.appendChild(h);
+                    return;
+                }
+                cbDicePool.forEach((t, i) => {
+                    const el = document.createElement('div');
+                    el.className = 'cb-pool-item' + (t.applied ? ' applied' : '');
+                    const txt = document.createElement('span');
+                    txt.textContent = t.label;
+                    const x = document.createElement('button');
+                    x.type = 'button';
+                    x.className = 'cb-pool-x';
+                    x.textContent = '\u00d7';
+                    x.setAttribute('aria-label', 'Remover ' + t.label);
+                    x.addEventListener('click', () => { cbDicePool.splice(i, 1); renderPool(); });
+                    el.append(txt, x);
+                    pool.appendChild(el);
+                });
+            };
+
+            // Rola o dado selecionado + todos os termos em espera
+            const rollSelected = () => {
+                const sides = cbDiceSides;
+                let primary, rolls = [];
+                if (sides === 20 && cbDiceMode !== 'normal') {
+                    const r1 = rollDice(1, 20, 0).rolls[0];
+                    const r2 = rollDice(1, 20, 0).rolls[0];
+                    primary = cbDiceMode === 'vantagem' ? Math.max(r1, r2) : Math.min(r1, r2);
+                    rolls = [{ value: r1, dropped: r1 !== primary }, { value: r2, dropped: r1 === primary }];
+                    if (r1 === r2) rolls[1].dropped = true;
+                } else {
+                    primary = rollDice(1, sides, 0).rolls[0];
+                    rolls = [{ value: primary }];
+                }
+
+                let total = primary, modSum = 0;
+                const extras = [], termLabels = [];
+                cbDicePool.forEach(t => {
+                    t.applied = true;
+                    if (t.kind === 'dice') {
+                        const r = rollDice(1, t.sides, 0).rolls[0];
+                        total += r;
+                        extras.push({ value: r });
+                        termLabels.push(`d${t.sides}=${r}`);
+                    } else {
+                        total += t.value;
+                        modSum += t.value;
+                        termLabels.push(`${t.label}=${fmtMod(t.value)}`);
+                    }
+                });
+
+                const flag = (sides === 20 && rolls.length === 1)
+                    ? (primary === 20 ? 'crit' : primary === 1 ? 'fumble' : primary >= 10 ? 'ok' : '')
+                    : '';
+                const modeTxt = cbDiceMode === 'normal' ? '' : (cbDiceMode === 'vantagem' ? ' (vantagem)' : ' (desvantagem)');
+                const formula = `d${sides}${modeTxt}`;
+                const details = termLabels.length
+                    ? `${formula} \u2192 [${rolls.map(r => r.value).join(', ')}] + ${termLabels.join(' + ')}`
+                    : `${formula} \u2192 [${rolls.map(r => r.value).join(', ')}]`;
+
+                showDiceResult(total, details, { dice: [...rolls, ...extras], mod: modSum, flag, title: formula });
+                addDiceHistory(formula.toUpperCase(), total, details, flag);
+
+                const face = document.getElementById('cbDieNum');
+                const die = document.getElementById('cbDieFace');
+                if (face) face.textContent = primary;
+                if (die) die.dataset.state = flag || 'rolled';
+                renderPool();
+            };
+
+            // Escolha do tipo de dado
+            document.querySelectorAll('#combate .cb-chip[data-dice]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const sides = parseInt(btn.dataset.dice.replace('d', ''), 10);
-                    rollFormula(1, sides, 0, btn.dataset.dice.toUpperCase());
+                    cbDiceSides = parseInt(btn.dataset.dice.replace('d', ''), 10) || 20;
+                    const die = document.getElementById('cbDieFace');
+                    if (die) die.dataset.state = '';
+                    const face = document.getElementById('cbDieNum');
+                    if (face) face.textContent = 'D' + cbDiceSides;
+                    renderDie();
                 });
             });
 
-            const preview = document.getElementById('dicePreview');
-            const updatePreview = () => {
-                if (preview) preview.textContent = `${readInt('diceQtd', 1, 1, 20)}d${readInt('diceLados', 20, 2, 1000)}${fmtMod(readInt('diceMod', 0, -99, 99))}`;
-            };
-            ['diceQtd', 'diceLados', 'diceMod'].forEach(id => {
-                const el = document.getElementById(id);
-                el.addEventListener('input', updatePreview);
-                el.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('rollCustomBtn').click(); });
-            });
-            document.querySelectorAll('#combate [data-step-for]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const el = document.getElementById(btn.dataset.stepFor);
-                    const next = (parseInt(el.value, 10) || 0) + Number(btn.dataset.step);
-                    el.value = Math.max(Number(el.min), Math.min(Number(el.max), next));
-                    updatePreview();
-                });
-            });
-            document.getElementById('rollCustomBtn').addEventListener('click', () => {
-                const qtd = readInt('diceQtd', 1, 1, 20);
-                const sides = readInt('diceLados', 20, 2, 1000);
-                const mod = readInt('diceMod', 0, -99, 99);
-                document.getElementById('diceQtd').value = qtd;
-                document.getElementById('diceLados').value = sides;
-                document.getElementById('diceMod').value = mod;
-                rollFormula(qtd, sides, mod);
-            });
-
-            let mode = 'normal';
+            // Modo (normal / vantagem / desvantagem)
             document.querySelectorAll('#combate [data-dice-mode]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    mode = btn.dataset.diceMode;
+                    cbDiceMode = btn.dataset.diceMode;
                     document.querySelectorAll('#combate [data-dice-mode]').forEach(b => b.classList.toggle('on', b === btn));
                 });
             });
 
-            document.getElementById('rollAttrBtn').addEventListener('click', async () => {
+            // Teste de atributo -> vira termo em espera
+            document.getElementById('diceAttrAdd')?.addEventListener('click', async () => {
                 const select = document.getElementById('diceAttrSelect');
-                if (!select.value) {
-                    await window.absconditusNotice('Selecione um atributo antes de realizar a rolagem.', 'Dados incompletos');
+                if (!select || !select.value) {
+                    await window.absconditusNotice('Selecione um atributo antes de adicionar.', 'Dados incompletos');
                     return;
                 }
                 const attrVal = state.attributes[select.value] !== undefined ? state.attributes[select.value] : 1;
                 const attrName = select.options[select.selectedIndex].text.split(' (')[0];
-                const r1 = rollDice(1, 20, 0).rolls[0];
-                const r2 = mode === 'normal' ? null : rollDice(1, 20, 0).rolls[0];
-                const chosen = mode === 'vantagem' ? Math.max(r1, r2) : mode === 'desvantagem' ? Math.min(r1, r2) : r1;
-                const dice = r2 === null ? [{ value: r1 }] : [{ value: r1, dropped: r1 !== chosen }, { value: r2, dropped: r1 === chosen }];
-                if (r2 !== null && r1 === r2) dice[1].dropped = true;
-                const total = chosen + attrVal;
-                const flag = chosen === 20 ? 'crit' : chosen === 1 ? 'fumble' : chosen >= 10 ? 'ok' : '';
-                const modeTxt = mode === 'normal' ? 'd20' : (mode === 'vantagem' ? 'Vantagem' : 'Desvantagem');
-                const details = `${modeTxt} (${chosen}) + ${attrName} (${attrVal})`;
-                showDiceResult(total, details, { dice, mod: attrVal, flag, title: attrName });
-                addDiceHistory(attrName.toUpperCase(), total, details, flag);
+                cbDicePool.push({ kind: 'attr', label: attrName, value: attrVal });
+                renderPool();
             });
 
-            document.getElementById('clearHistoryBtn').addEventListener('click', () => {
-                document.getElementById('diceHistory').innerHTML = '<p class="hint">Nenhuma rolagem ainda.</p>';
+            // Modificadores numericos
+            document.querySelectorAll('#combate [data-mod]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const v = Number(btn.dataset.mod) || 0;
+                    cbDicePool.push({ kind: 'mod', label: 'Modificador', value: v });
+                    renderPool();
+                });
             });
 
-            updatePreview();
+            // Dados extras
+            document.querySelectorAll('#combate [data-extra]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const s = parseInt(btn.dataset.extra.replace('d', ''), 10) || 6;
+                    cbDicePool.push({ kind: 'dice', label: 'd' + s, value: 0, sides: s });
+                    renderPool();
+                });
+            });
+
+            // Clica no dado para rolar
+            document.getElementById('cbDieFace')?.addEventListener('click', rollSelected);
+
+            // Limpar termos em espera
+            document.getElementById('cbDicePoolClear')?.addEventListener('click', () => {
+                cbDicePool = [];
+                renderPool();
+            });
+
+            document.getElementById('clearHistoryBtn')?.addEventListener('click', () => {
+                const h = document.getElementById('diceHistory');
+                if (h) h.innerHTML = '<p class="hint">Nenhuma rolagem ainda.</p>';
+            });
+
+            renderDie();
+            renderPool();
             updateDiceAttrSelect();
         }
 
@@ -8721,37 +8879,6 @@ function renderIdentity() {
         // =============================================
         // ✨ COMBATE — Difficulty Class / D20 e slots do arsenal
         // =============================================
-        function setupCombatDifficulty() {
-            const d20 = document.getElementById('cbD20');
-            const input = document.getElementById('cbDcInput');
-            const value = document.getElementById('cbDcValue');
-            const msg = document.getElementById('cbDcMsg');
-            if (!d20 || !input) return;
-
-            const dc = () => Math.max(2, Math.min(40, parseInt(input.value, 10) || 15));
-            const paint = () => { if (value) value.textContent = dc(); };
-            paint();
-            input.addEventListener('input', paint);
-
-            d20.addEventListener('click', () => {
-                const alvo = dc();
-                const r = rollDice(1, 20, 0).rolls[0];
-                const face = d20.querySelector('.cb-d20-face');
-                if (face) face.textContent = r;
-                let res = 'fail', texto = 'FALHA';
-                if (r === 20) { res = 'crit'; texto = 'SUCESSO CRÍTICO'; }
-                else if (r === 1) { res = 'fail'; texto = 'FALHA CRÍTICA'; }
-                else if (r >= alvo) { res = 'ok'; texto = 'SUCESSO'; }
-                d20.dataset.res = res;
-                if (msg) { msg.dataset.res = res; msg.textContent = `${r} vs ${alvo} · ${texto}`; }
-                showDiceResult(r, `d20 (${r}) vs DC ${alvo} · ${texto}`, {
-                    dice: [{ value: r }],
-                    flag: r === 20 ? 'crit' : r === 1 ? 'fumble' : res === 'ok' ? 'ok' : '',
-                    title: `DC ${alvo}`
-                });
-            });
-        }
-
         /* =============================================
          * ✨ COMBATE — Arsenal de Combate (slots)
          * Modo ARMAS: arma 1, arma 2, kit medico, erva do veu
@@ -8840,7 +8967,6 @@ function renderIdentity() {
         }
 
         function setupCombate() {
-            setupCombatDifficulty();
             setupCombatSlots();
 
             // Console de rolagem: recolhido por padrao, abre sob demanda
