@@ -2809,7 +2809,7 @@
         /* ================= COMBATE — LAYOUT 3 COLUNAS + RODAPE ================= */
         #combate .cb-layout3{
             display:grid;
-            grid-template-columns:minmax(230px,1fr) minmax(300px,1.35fr) minmax(230px,1fr);
+            grid-template-columns:minmax(210px,.85fr) minmax(300px,1.15fr) minmax(300px,1.2fr);
             gap:16px;align-items:start;
         }
         @media (max-width:1180px){#combate .cb-layout3{grid-template-columns:1fr 1fr}}
@@ -2930,7 +2930,8 @@
         #combate .cb-btn-roll:hover{background:var(--blood-bright);color:var(--void)}
 
         /* --- ARSENAL / SLOTS (coluna 3) --- */
-        #combate .cb-slots-panel{padding:10px 12px 12px;gap:10px}
+        #combate .cb-slots-panel{padding:10px 12px 14px;gap:12px}
+        #combate .cb-col-right{gap:16px}
         #combate .cb-slots-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
         #combate .cb-slots-title{
             font-family:var(--font-display);font-size:.86rem;letter-spacing:2.4px;text-transform:uppercase;
@@ -2943,26 +2944,37 @@
         }
         #combate .cb-slots-close:hover{background:var(--blood-bright);color:var(--void)}
 
+        /* Slots em forma hexagonal: cada slot numa ponta do hexagono */
         #combate .cb-slots-grid{
-            display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,auto);
-            gap:8px;place-items:center;padding:4px 0;
+            position:relative;width:100%;max-width:340px;aspect-ratio:1/1.08;
+            margin:0 auto;padding:0;
+        }
+        /* Tracos do hexagono ao fundo */
+        #combate .cb-slots-grid::before{
+            content:'';position:absolute;left:50%;top:50%;width:86%;height:86%;
+            transform:translate(-50%,-50%);
+            clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+            border:1px solid rgba(196,31,46,.18);
+            background:radial-gradient(circle at 50% 50%,rgba(138,20,32,.10),transparent 68%);
+            pointer-events:none;
         }
         #combate .cb-slot{
-            position:relative;width:100%;aspect-ratio:1;max-width:78px;
+            position:absolute;width:74px;height:74px;
+            transform:translate(-50%,-50%);
             display:grid;place-items:center;border-radius:50%;cursor:pointer;
             background:radial-gradient(circle at 40% 32%,rgba(255,255,255,.07),rgba(0,0,0,.45) 68%);
-            border:1px solid var(--line-strong);transition:all .18s;
+            border:1px solid var(--line-strong);transition:border-color .18s,box-shadow .18s,background .18s;
         }
-        #combate .cb-slot:hover{border-color:var(--bone-dim);transform:scale(1.04)}
-        /* Posicoes conforme a referencia: 6 slots em circulo + nucleo */
-        #combate .cb-slot-m6{grid-column:2;grid-row:1}
-        #combate .cb-slot-m1{grid-column:1;grid-row:2}
-        #combate .cb-slot-core{grid-column:2;grid-row:2;cursor:default;border-style:dashed;opacity:.5}
-        #combate .cb-slot-core:hover{transform:none;border-color:var(--line-strong)}
-        #combate .cb-slot-m2{grid-column:3;grid-row:2}
-        #combate .cb-slot-m3{grid-column:1;grid-row:3}
-        #combate .cb-slot-m5{grid-column:2;grid-row:3}
-        #combate .cb-slot-m4{grid-column:3;grid-row:3}
+        #combate .cb-slot:hover{border-color:var(--bone-dim);box-shadow:0 0 18px rgba(196,31,46,.45)}
+        /* Pontas do hexagono (leitura em zigue-zague: 1,2 acima | 3,4 abaixo | 5 embaixo | 6 topo) */
+        #combate .cb-slot-m6{left:50%;top:9%}
+        #combate .cb-slot-m2{left:86%;top:30%}
+        #combate .cb-slot-m4{left:86%;top:70%}
+        #combate .cb-slot-m5{left:50%;top:91%}
+        #combate .cb-slot-m3{left:14%;top:70%}
+        #combate .cb-slot-m1{left:14%;top:30%}
+        #combate .cb-slot-core{left:50%;top:50%;cursor:default;border-style:dashed;opacity:.5}
+        #combate .cb-slot-core:hover{border-color:var(--line-strong)}
 
         #combate .cb-slot-ring{
             position:absolute;inset:6px;border-radius:50%;
@@ -4808,41 +4820,6 @@
                                 <div class="cb-dc-msg" id="cbDcMsg">Clique no dado para rolar</div>
                             </section>
 
-                            <section class="cb-panel">
-                                <h3 class="cb-box-title">ARMAS</h3>
-                                <div class="cb-armas-box">
-                                    <div class="cb-arma-card" id="cbArmaCard1">
-                                        <h4 class="cb-arma-titulo">ARMA 1</h4>
-                                        <div class="cb-arma-placeholder" id="cbArmaPlaceholder1">🗡️</div>
-                                        <div class="cb-arma-valor" id="cbArmaPrincipal" data-mirror="inventory.armaPrincipal">—</div>
-                                        <button type="button" class="cb-btn-roll" id="cbBtnRollArmaPrincipal">🎲 Atacar</button>
-                                    </div>
-                                    <div class="cb-arma-card" id="cbArmaCard2">
-                                        <h4 class="cb-arma-titulo">ARMA 2</h4>
-                                        <div class="cb-arma-placeholder" id="cbArmaPlaceholder2">🗡️</div>
-                                        <div class="cb-arma-valor" id="cbArmaSecundaria" data-mirror="inventory.armaSecundaria">—</div>
-                                        <button type="button" class="cb-btn-roll" id="cbBtnRollArmaSecundaria">🎲 Atacar</button>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section class="cb-panel cb-panel-flush">
-                                <!-- HUD: informações do item selecionado -->
-                                <div class="cb-hud">
-                                    <div class="cb-hud-head">
-                                        <span class="cb-hud-label">INFORMAÇÕES</span>
-                                        <div class="cb-hud-tabs">
-                                            <button type="button" class="cb-hud-tab active" data-hud-tab="traits">TRAITS</button>
-                                            <button type="button" class="cb-hud-tab" data-hud-tab="info">INFO</button>
-                                        </div>
-                                    </div>
-
-                                    <div id="cbHudBody">
-                                        <!-- Injetado via JS por renderInfoBox() -->
-                                    </div>
-                                </div>
-                            </section>
-
                             <section class="cb-panel cb-panel-flush cb-console-panel" id="cbConsolePanel">
                             <div class="cb-console">
                                 <div class="cb-console-head">Rolagem de Dados</div>
@@ -4951,6 +4928,23 @@
                                 <div class="cb-slots-tabs">
                                     <button type="button" class="cb-slots-tab on" data-slots="armas">ARMAS</button>
                                     <button type="button" class="cb-slots-tab" data-slots="magias">MAGIAS</button>
+                                </div>
+                            </section>
+
+                            <section class="cb-panel cb-panel-flush">
+                                <!-- HUD: informações do item selecionado -->
+                                <div class="cb-hud">
+                                    <div class="cb-hud-head">
+                                        <span class="cb-hud-label">INFORMAÇÕES</span>
+                                        <div class="cb-hud-tabs">
+                                            <button type="button" class="cb-hud-tab active" data-hud-tab="traits">TRAITS</button>
+                                            <button type="button" class="cb-hud-tab" data-hud-tab="info">INFO</button>
+                                        </div>
+                                    </div>
+
+                                    <div id="cbHudBody">
+                                        <!-- Injetado via JS por renderInfoBox() -->
+                                    </div>
                                 </div>
                             </section>
 
@@ -8819,6 +8813,7 @@ function renderIdentity() {
                 btn.classList.toggle('slot-cheio', !!d.nome);
                 const sel = cbSelecionado && d.tipo && cbSelecionado.tipo === d.tipo && cbSelecionado.nome === d.nome;
                 btn.classList.toggle('selected', !!sel);
+                btn.disabled = !d.tipo;
             });
 
             // Tabs refletem o modo atual
