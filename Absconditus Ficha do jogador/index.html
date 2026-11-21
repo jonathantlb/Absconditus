@@ -2554,20 +2554,43 @@
         #combate .vbtn:hover:not(:disabled){background:var(--accent);border-color:var(--accent);color:var(--void)}
         #combate .vbtn:disabled,#combate .step:disabled{opacity:.3;cursor:not-allowed}
 
-        /* resistências */
-        #combate .resistance-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-        #combate .resistance-item{--tint:var(--bone);display:grid;gap:10px;padding:12px;background:var(--void);border:1px solid var(--line-strong);border-left:3px solid var(--tint)}
-        #combate .resistance-head{display:flex;align-items:center;gap:8px}
-        #combate .resistance-icon{font-size:1.15rem}
-        #combate .resistance-name{flex:1;font-family:var(--font-mono);font-size:.76rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone)}
-        #combate .resistance-total{font-family:var(--font-display);font-size:1.6rem;line-height:1;color:var(--tint)}
-        #combate .resistance-controls{display:grid;grid-template-columns:32px 1fr 32px;gap:8px;align-items:center}
-        #combate .resistance-step{height:32px;background:var(--ink-raised);border:1px solid var(--line-strong);color:var(--bone);font-size:1rem;cursor:pointer}
-        #combate .resistance-step:hover:not(:disabled){border-color:var(--tint);color:var(--tint)}
-        #combate .resistance-step:disabled{opacity:.3;cursor:not-allowed}
-        #combate .resistance-squares{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
-        #combate .resistance-square{height:16px;background:var(--ink);border:1px solid var(--line-strong);cursor:pointer}
-        #combate .resistance-square.filled{background:var(--tint);border-color:var(--tint);box-shadow:0 0 8px -2px var(--tint)}
+        /* resistências — editor de pontos (aba Atributos) */
+        .resistance-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;justify-items:center}
+        .resistance-item{
+            --tint:var(--bone);
+            display:grid;justify-items:center;gap:12px;padding:16px 12px 14px;width:100%;
+            background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(0,0,0,.35));
+            border:1px solid var(--line-strong);border-bottom:3px solid var(--tint);
+        }
+        .resistance-head{display:flex;align-items:baseline;justify-content:center;gap:10px;width:100%}
+        .resistance-name{font-family:var(--font-mono);font-size:.72rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--bone)}
+        .resistance-total{font-family:var(--font-display);font-size:1.7rem;line-height:1;color:var(--tint)}
+        .resistance-controls{display:grid;grid-template-columns:30px auto 30px;gap:10px;align-items:center}
+        .resistance-step{
+            width:30px;height:30px;background:var(--ink-raised);border:1px solid var(--line-strong);
+            color:var(--bone);font-size:1rem;cursor:pointer;border-radius:2px;transition:all .15s;
+        }
+        .resistance-step:hover:not(:disabled){border-color:var(--tint);color:var(--tint);background:var(--void)}
+        .resistance-step:disabled{opacity:.3;cursor:not-allowed}
+        .resistance-squares{display:flex;flex-direction:column-reverse;gap:2px;width:24px;height:212px}
+        .resistance-square{
+            flex:1;background:var(--ink);border:1px solid var(--line-strong);cursor:pointer;
+            transition:background .15s,box-shadow .15s,border-color .15s;
+        }
+        .resistance-square:hover{border-color:var(--bone-dim)}
+        .resistance-square.filled{background:var(--tint);border-color:var(--tint);box-shadow:0 0 9px -2px var(--tint)}
+        .resistance-badge{
+            width:48px;height:48px;display:grid;place-items:center;font-size:1.35rem;
+            border-radius:50%;background:var(--ink);border:2px solid var(--tint);
+            box-shadow:0 0 16px -5px var(--tint);
+        }
+        .resist-budget{
+            display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 18px;
+            padding:10px 14px;background:var(--void);border:1px solid var(--line-strong);
+            font-family:var(--font-mono);font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--bone-dim);
+        }
+        .resist-budget b{color:var(--bone);font-family:var(--font-display);font-size:1.05rem;font-weight:400;letter-spacing:0}
+        .resist-budget b.over{color:#ff5a68}
 
         /* rolador de dados */
         #combate .dice{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:22px}
@@ -4590,6 +4613,7 @@
                 <nav class="subtabs" role="tablist" aria-label="Seções de atributos">
                     <button type="button" class="sub-btn active" data-sub="heptagrama">Heptagrama</button>
                     <button type="button" class="sub-btn" data-sub="habilidades">Árvore de Habilidades</button>
+                    <button type="button" class="sub-btn" data-sub="resistencias">Resistências</button>
                 </nav>
 
                 <div class="sub-panel active" id="sub-heptagrama">
@@ -4624,6 +4648,15 @@
                     <h2>Árvore de Habilidades</h2>
                     <p class="hint">Nível 0 a 5 (Resistências 0 a 20). Para desbloquear filhos, tenha ao menos 1 ponto no pai.</p>
                     <div id="specList" class="skilltree-grid"></div>
+                </div>
+                </div>
+
+                <div class="sub-panel" id="sub-resistencias">
+                <div class="card">
+                    <h2>Resistências</h2>
+                    <p class="hint">Distribua seus pontos de resistência. Cada tipo escala de 0 a 20. Clique no pilar ou use − / +.</p>
+                    <div class="resist-budget" id="resistBudget"></div>
+                    <div class="resistance-list" id="resistList"></div>
                 </div>
                 </div>
             </section>
@@ -6796,14 +6829,40 @@ function updateOrganizationDetails(organization) {
         // ✨ RESISTÊNCIAS E FAMA
         // =============================================
         const RESIST_META = {
-            'Físico': ['🛡️', '#c9bfae'], 'Espiritual': ['✨', '#e8d27a'], 'Mágica': ['🔮', '#b48cf0'],
-            'Veneno': ['🧪', '#6fbf4a'], 'Elemental': ['⚡', '#ffe14d']
+            'Físico': ['🛡️', '#c9bfae'], 'Espiritual': ['👁️', '#e8d27a'], 'Mágica': ['✨', '#b48cf0'],
+            'Veneno': ['☠️', '#6fbf4a'], 'Elemental': ['🔥', '#ffe14d']
         };
+        const RESIST_MAX = 20; // cada resistencia escala de 0 a 20 pontos
+
+        // Barra de orcamento: pontos na arvore vs distribuidos
+        function renderResistBudget() {
+            const budget = document.getElementById('resistBudget');
+            if (!budget) return;
+            const total = RESISTANCES.reduce((a, n) => a + (Number(state.resistances[slug(n)]) || 0), 0);
+            const disponiveis = Number((state.specializations || {})[slug('Resistências')]) || 0;
+            budget.replaceChildren();
+            const mk = (label, valor, over) => {
+                const s = document.createElement('span');
+                s.textContent = label + ' ';
+                const b = document.createElement('b');
+                b.textContent = valor;
+                if (over) b.classList.add('over');
+                s.appendChild(b);
+                return s;
+            };
+            budget.append(
+                mk('Pontos na Árvore:', disponiveis),
+                mk('\u00b7 Distribuídos:', total, total > disponiveis),
+                mk('\u00b7 Limite por tipo:', RESIST_MAX)
+            );
+        }
 
         function renderResistances() {
             const container = document.getElementById('resistList');
             if (!container) return;
             container.replaceChildren();
+            renderResistBudget();
+
             RESISTANCES.forEach(name => {
                 const key = slug(name);
                 const [icon, tint] = RESIST_META[name] || ['◆', '#f2efe8'];
@@ -6811,7 +6870,6 @@ function updateOrganizationDetails(organization) {
                 item.className = 'resistance-item';
                 item.style.setProperty('--tint', tint);
                 item.innerHTML = `<div class="resistance-head">
-                        <span class="resistance-icon" aria-hidden="true">${icon}</span>
                         <strong class="resistance-name">${name}</strong>
                         <output class="resistance-total" aria-live="polite"></output>
                     </div>
@@ -6819,28 +6877,33 @@ function updateOrganizationDetails(organization) {
                         <button type="button" class="resistance-step" data-resist-dec aria-label="Diminuir resistência ${name}">−</button>
                         <div class="resistance-squares"></div>
                         <button type="button" class="resistance-step" data-resist-inc aria-label="Aumentar resistência ${name}">+</button>
-                    </div>`;
+                    </div>
+                    <div class="resistance-badge" aria-hidden="true">${icon}</div>`;
                 const squares = item.querySelector('.resistance-squares');
                 const dec = item.querySelector('[data-resist-dec]');
                 const inc = item.querySelector('[data-resist-inc]');
-                const current = () => Math.max(0, Math.min(10, Math.trunc(Number(state.resistances[key]) || 0)));
+                const totalEl = item.querySelector('.resistance-total');
+                const current = () => Math.max(0, Math.min(RESIST_MAX, Math.trunc(Number(state.resistances[key]) || 0)));
                 const set = v => {
-                    state.resistances[key] = Math.max(0, Math.min(10, v));
+                    state.resistances[key] = Math.max(0, Math.min(RESIST_MAX, v));
                     refresh();
+                    renderResistBudget();
+                    if (typeof renderResumoResistencias === 'function') renderResumoResistencias();
                     saveState();
                 };
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < RESIST_MAX; i++) {
                     const sq = document.createElement('span');
                     sq.className = 'resistance-square';
+                    sq.title = `${i + 1} ponto(s)`;
                     sq.addEventListener('click', () => set(current() === i + 1 ? i : i + 1));
                     squares.appendChild(sq);
                 }
                 const refresh = () => {
                     const v = current();
                     [...squares.children].forEach((sq, i) => sq.classList.toggle('filled', i < v));
-                    item.querySelector('output').textContent = v;
+                    if (totalEl) totalEl.textContent = v;
                     dec.disabled = v === 0;
-                    inc.disabled = v === 10;
+                    inc.disabled = v === RESIST_MAX;
                 };
                 dec.addEventListener('click', () => set(current() - 1));
                 inc.addEventListener('click', () => set(current() + 1));
@@ -7837,6 +7900,7 @@ function renderIdentity() {
                     root.querySelectorAll('.sub-panel').forEach(p => p.classList.toggle('active', p.id === 'sub-' + name));
                     if (name === 'heptagrama') renderAttributes();
                     if (name === 'habilidades') renderSpecializations();
+                    if (name === 'resistencias') renderResistances();
                 };
                 root.addEventListener('click', e => {
                     const sub = e.target.closest('.sub-btn');
@@ -7844,6 +7908,7 @@ function renderIdentity() {
                 });
                 renderAttributes();
                 renderSpecializations();
+                renderResistances();
             }
 
             // =============================================
