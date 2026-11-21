@@ -2582,10 +2582,7 @@
 
         /* ================= COMBATE ================= */
         #combate .cb{display:flex;flex-direction:column;gap:22px}
-        #combate .cb-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line-strong);position:relative}
-        #combate .cb-head::after{content:"";position:absolute;left:0;bottom:-1px;width:120px;height:2px;background:var(--blood-bright)}
-        #combate .cb-title{font-family:var(--font-display);font-size:1.7rem;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--bone)}
-        #combate .cb-sub,#combate .cb-label{font-family:var(--font-mono);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim)}
+        #combate .cb-label{font-family:var(--font-mono);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim)}
         #combate .cb-label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
         #combate .cb-label::before{content:"";width:6px;height:6px;background:var(--blood-bright);transform:rotate(45deg)}
         #combate .cb-panel{background:linear-gradient(180deg,var(--ink-raised),var(--ink));border:1px solid var(--line-strong);padding:18px}
@@ -2683,12 +2680,6 @@
 
         
         /* ================= COMBATE — NOVOS ELEMENTOS ================= */
-        #combate .cb-header-info{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:10px;border-bottom:1px solid var(--line-strong);position:relative}
-        #combate .cb-header-info::after{content:"";position:absolute;left:0;bottom:-1px;width:120px;height:2px;background:var(--blood-bright)}
-        #combate .cb-char-info{display:flex;flex-direction:column;gap:4px}
-        #combate .cb-char-name{font-family:var(--font-display);font-size:1.25rem;color:var(--bone);letter-spacing:1px}
-        #combate .cb-char-rank{font-family:var(--font-mono);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--bone-dim)}
-        #combate .cb-char-actions{display:flex;gap:8px}
         #combate .cb-btn-combat{padding:8px 14px;font-family:var(--font-mono);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:1px solid var(--line-strong);color:var(--bone-dim);background:transparent;border-radius:4px;transition:all .15s}
         #combate .cb-btn-combat:hover{border-color:var(--blood);color:var(--bone)}
         #combate .cb-btn-combat.cb-btn-danger{border-color:var(--blood);color:var(--blood-bright)}
@@ -2739,7 +2730,6 @@
         #combate .cb-foto-label{font-family:var(--font-mono);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--blood-bright)}
 
         #combate .cb-ident-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px;background:linear-gradient(180deg,var(--ink-raised),var(--ink));border:1px solid var(--line-strong);border-left:3px solid var(--blood);border-radius:6px;min-height:150px}
-        #combate .cb-ident-box .cb-char-name{font-family:var(--font-display);font-size:1.1rem;color:var(--bone);letter-spacing:1px;text-align:center}
         #combate .cb-ident-meta{display:flex;gap:10px;font-family:var(--font-mono);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--bone-dim)}
         #combate .cb-ident-meta span{padding:2px 8px;background:var(--void);border:1px solid var(--line-strong);border-radius:3px}
 
@@ -2800,15 +2790,6 @@
         #combate .cb-panel-flush .cb-hud,
         #combate .cb-panel-flush .cb-console{border:0;border-radius:0;box-shadow:none;background:transparent}
         /* Console recolhido por padrao: abre sob demanda para nao esticar a coluna central */
-        #combate .cb-console-panel:not(.open) .cb-console > *:not(.cb-console-head){display:none}
-        #combate .cb-console-panel:not(.open) .cb-console{padding:0}
-        #combate .cb-console-panel:not(.open) .cb-console-head{padding:11px 14px;cursor:pointer;border-bottom:0}
-        #combate .cb-console-toggle{
-            margin-left:auto;width:24px;height:24px;padding:0;line-height:1;
-            background:var(--blood);border:1px solid var(--blood-bright);color:var(--bone);
-            font-family:var(--font-mono);font-size:.85rem;cursor:pointer;border-radius:2px;transition:all .15s;
-        }
-        #combate .cb-console-toggle:hover{background:var(--blood-bright);color:var(--void)}
 
         #combate .cb-box-title{
             font-family:var(--font-display);font-weight:400;font-size:.92rem;letter-spacing:2.6px;
@@ -3237,8 +3218,51 @@
         #combate .cb-attr-row{display:flex;gap:6px;align-items:stretch}
         #combate .cb-attr-row select{flex:1;min-width:0;width:auto}
 
-        /* Chip de dado ativo */
+
+        /* Cabecalho do console: titulo + acoes (sem toggle) */
+        #combate .cb-console-head{
+            display:flex;align-items:center;gap:12px;
+            font-family:var(--font-display);font-size:1rem;letter-spacing:3px;text-transform:uppercase;
+            color:var(--blood-bright);text-shadow:0 0 12px rgba(196,31,46,.35);
+        }
+        #combate .cb-console-title{white-space:nowrap}
+        #combate .cb-console-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--blood-bright),transparent)}
+        #combate .cb-console-head-actions{display:flex;gap:8px;flex:0 0 auto}
+        #combate .cb-console-head-actions .cb-btn-combat{padding:6px 12px;font-size:.64rem;letter-spacing:.8px}
+
+        /* Contador de copias adicionadas no chip de dado */
+        #combate .cb-chip{display:flex;align-items:center;justify-content:center;gap:5px}
+        #combate .cb-chip-count{
+            display:none;min-width:16px;height:16px;padding:0 3px;
+            background:var(--blood-bright);color:var(--void);
+            font-family:var(--font-mono);font-size:.56rem;line-height:16px;text-align:center;border-radius:2px;
+        }
+        #combate .cb-chip.has-count .cb-chip-count{display:inline-block}
         #combate .cb-chip.on{background:var(--blood);border-color:var(--blood-bright);color:var(--bone)}
+        #combate .cb-chip.on .cb-chip-count{background:var(--bone);color:var(--blood)}
+
+        /* Select do modo do teste */
+        #combate .cb-mode-select{
+            width:100%;height:34px;padding:0 10px;background:var(--blood);color:var(--bone);
+            border:1px solid var(--blood-bright);font-family:var(--font-display);font-size:.78rem;
+            letter-spacing:2px;text-transform:uppercase;cursor:pointer;outline:none;
+            -webkit-appearance:none;appearance:none;
+            background-image:linear-gradient(45deg,transparent 50%,var(--bone) 50%),linear-gradient(135deg,var(--bone) 50%,transparent 50%);
+            background-position:calc(100% - 16px) 15px,calc(100% - 11px) 15px;
+            background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+        }
+        #combate .cb-mode-select:focus{border-color:var(--bone)}
+
+        /* Animacao de rolagem do dado */
+        @keyframes cb-die-roll{
+            0%{transform:rotate(0deg) scale(1)}
+            20%{transform:rotate(-16deg) scale(1.10)}
+            40%{transform:rotate(14deg) scale(1.06)}
+            60%{transform:rotate(-10deg) scale(1.03)}
+            80%{transform:rotate(7deg) scale(1.01)}
+            100%{transform:rotate(0deg) scale(1)}
+        }
+        #combate .cb-die.rolling{animation:cb-die-roll .45s ease-in-out}
 
         /* --- CONSOLE DE ROLAGEM (unificado) --- */
         #combate .cb-console{
@@ -3246,7 +3270,7 @@
             border:1px solid var(--line-strong);border-left:3px solid var(--blood-bright);
             border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:14px;flex:1;
         }
-        #combate .cb-console-panel.open .cb-console{min-height:720px}
+        #combate .cb-console-panel .cb-console{min-height:720px}
         #combate .cb-console::before{
             content:'';position:absolute;inset:0;pointer-events:none;border-radius:4px;
             background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 2px,transparent 2px 4px);
@@ -4786,21 +4810,7 @@
             <!-- ============ COMBATE ============ -->
             <section id="combate" class="tab-panel">
                 <div class="cb">
-                    <header class="cb-head">
-                        <div class="cb-header-info">
-                            <div class="cb-char-info">
-                                <span class="cb-char-name" data-mirror="personal.nome">Investigador</span>
-                                <span class="cb-char-rank" data-mirror="personal.ranking">—</span>
-                            </div>
-                            <div class="cb-char-actions">
-                                <button type="button" class="cb-btn-combat" id="cbBtnNovaRodada">Nova Rodada</button>
-                                <button type="button" class="cb-btn-combat cb-btn-danger" id="cbBtnResetVitais">Resetar Vitais</button>
-                            </div>
-                        </div>
-                        <h2 class="cb-title">Estado de Combate</h2><span class="cb-sub">recursos · magias · armas · resistências · rolagens</span>
-                    </header>
-
-                    <!-- ===== BARRAS DE VITALS (TOPO) ===== -->
+                                        <!-- ===== BARRAS DE VITALS (TOPO) ===== -->
                     <div class="cb-vitals-top">
 
                         <!-- ESQUERDA: HP + PROTECAO -->
@@ -4884,19 +4894,26 @@
 
                             <section class="cb-panel cb-panel-flush cb-console-panel" id="cbConsolePanel">
                             <div class="cb-console">
-                                <div class="cb-console-head">Rolagem de Dados</div>
+                                <div class="cb-console-head">
+                                    <span class="cb-console-title">Rolagem de Dados</span>
+                                    <span class="cb-console-rule"></span>
+                                    <div class="cb-console-head-actions">
+                                        <button type="button" class="cb-btn-combat" id="cbBtnNovaRodada">Nova Rodada</button>
+                                        <button type="button" class="cb-btn-combat cb-btn-danger" id="cbBtnResetVitais">Resetar Vitais</button>
+                                    </div>
+                                </div>
 
                                 <!-- TIPO DE DADO -->
                                 <div class="cb-console-sec">
                                     <div class="cb-console-label">Tipo de dado</div>
                                     <div class="cb-chips" id="cbDiceChips">
-                                        <button type="button" class="cb-chip" data-dice="d4">D4</button>
-                                        <button type="button" class="cb-chip" data-dice="d6">D6</button>
-                                        <button type="button" class="cb-chip" data-dice="d8">D8</button>
-                                        <button type="button" class="cb-chip" data-dice="d10">D10</button>
-                                        <button type="button" class="cb-chip" data-dice="d12">D12</button>
-                                        <button type="button" class="cb-chip" data-dice="d20">D20</button>
-                                        <button type="button" class="cb-chip" data-dice="d100">D100</button>
+                                        <button type="button" class="cb-chip" data-dice="d4">D4<span class="cb-chip-count"></span></button>
+                                        <button type="button" class="cb-chip" data-dice="d6">D6<span class="cb-chip-count"></span></button>
+                                        <button type="button" class="cb-chip" data-dice="d8">D8<span class="cb-chip-count"></span></button>
+                                        <button type="button" class="cb-chip" data-dice="d10">D10<span class="cb-chip-count"></span></button>
+                                        <button type="button" class="cb-chip" data-dice="d12">D12<span class="cb-chip-count"></span></button>
+                                        <button type="button" class="cb-chip" data-dice="d20">D20<span class="cb-chip-count"></span></button>
+                                        <button type="button" class="cb-chip" data-dice="d100">D100<span class="cb-chip-count"></span></button>
                                     </div>
                                 </div>
 
@@ -4935,11 +4952,20 @@
                                             <select id="diceAttrSelect"><option value="">-- escolher atributo --</option></select>
                                             <button type="button" class="cb-mini-btn" id="diceAttrAdd">+ Atributo</button>
                                         </div>
-                                        <div class="segmented" role="group" aria-label="Modo do teste">
-                                            <button type="button" class="seg on" data-dice-mode="normal">Normal</button>
-                                            <button type="button" class="seg" data-dice-mode="vantagem">Vantagem</button>
-                                            <button type="button" class="seg" data-dice-mode="desvantagem">Desvantagem</button>
-                                        </div>
+                                        <select id="diceModeSelect" class="cb-mode-select" aria-label="Modo do teste">
+                                            <option value="normal">Normal</option>
+                                            <option value="vantagem">Vantagem</option>
+                                            <option value="desvantagem">Desvantagem</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- PONTOS DE HABILIDADE (so aparece se o personagem tiver) -->
+                                <div class="cb-console-sec" id="cbSkillSec" hidden>
+                                    <div class="cb-console-label">Pontos de habilidade</div>
+                                    <div class="cb-attr-row">
+                                        <select id="diceSkillSelect"><option value="">-- escolher habilidade --</option></select>
+                                        <button type="button" class="cb-mini-btn" id="diceSkillAdd">+ Habilidade</button>
                                     </div>
                                 </div>
 
@@ -4954,16 +4980,7 @@
                                         <button type="button" class="cb-mini-btn" data-mod="-1">−1</button>
                                         <button type="button" class="cb-mini-btn" data-mod="-2">−2</button>
                                     </div>
-                                    <div class="cb-extra-row">
-                                        <span class="cb-extra-cap">Dados extra:</span>
-                                        <button type="button" class="cb-mini-btn" data-extra="d4">d4</button>
-                                        <button type="button" class="cb-mini-btn" data-extra="d6">d6</button>
-                                        <button type="button" class="cb-mini-btn" data-extra="d8">d8</button>
-                                        <button type="button" class="cb-mini-btn" data-extra="d10">d10</button>
-                                        <button type="button" class="cb-mini-btn" data-extra="d12">d12</button>
-                                        <button type="button" class="cb-mini-btn" data-extra="d100">d100</button>
-                                    </div>
-                                </div>
+                                                                    </div>
 
                                 <!-- HISTORICO -->
                                 <div class="cb-console-sec">
@@ -7174,14 +7191,37 @@ function updateOrganizationDetails(organization) {
             20:  '50,92 50,14',
             100: '50,8 50,92'
         };
-        let cbDiceSides = 20;      // dado principal selecionado
+        let cbDiceFocus = 20;      // dado selecionado (aparece no centro)
         let cbDiceMode = 'normal'; // normal | vantagem | desvantagem
-        let cbDicePool = [];       // termos em espera: {kind,label,value,sides,applied}
+        let cbDiceStack = [];      // dados adicionados a soma
+        let cbDicePool = [];       // termos em espera: {kind,label,value,applied}
+
+        // Select de pontos de habilidade (so mostra as que o personagem tem)
+        function updateDiceSkillSelect() {
+            const sel = document.getElementById('diceSkillSelect');
+            const sec = document.getElementById('cbSkillSec');
+            if (!sel || !sec) return;
+            const current = sel.value;
+            sel.innerHTML = '<option value="">-- escolher habilidade --</option>';
+            let n = 0;
+            (SPECIALIZATIONS || []).forEach(name => {
+                const key = slug(name);
+                const val = state.specializations ? state.specializations[key] : 0;
+                if (!val || val <= 0) return;
+                n++;
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = `${name} (${val})`;
+                sel.appendChild(opt);
+            });
+            sec.hidden = n === 0;
+            if (current) sel.value = current;
+        }
 
         function setupDice() {
             const fmtMod = m => (m > 0 ? '+' + m : m < 0 ? String(m) : '');
 
-            // Desenha o poliedro do dado selecionado
+            // Desenha o poliedro do dado em foco
             const renderDie = () => {
                 const btn = document.getElementById('cbDieFace');
                 const poly = document.getElementById('cbDiePoly');
@@ -7189,17 +7229,27 @@ function updateOrganizationDetails(organization) {
                 const num = document.getElementById('cbDieNum');
                 const tag = document.getElementById('cbDieTag');
                 if (!btn || !poly || !num) return;
-                btn.dataset.sides = cbDiceSides;
-                poly.setAttribute('points', CB_DICE_POLY[cbDiceSides] || CB_DICE_POLY[20]);
-                if (inner) inner.setAttribute('points', CB_DICE_INNER[cbDiceSides] || '');
-                num.textContent = 'D' + cbDiceSides;
-                if (tag) tag.textContent = 'd' + cbDiceSides;
-                btn.setAttribute('aria-label', `Rolar d${cbDiceSides}`);
-                document.querySelectorAll('#combate .cb-chip[data-dice]').forEach(c =>
-                    c.classList.toggle('on', c.dataset.dice === 'd' + cbDiceSides));
+                btn.dataset.sides = cbDiceFocus;
+                poly.setAttribute('points', CB_DICE_POLY[cbDiceFocus] || CB_DICE_POLY[20]);
+                if (inner) inner.setAttribute('points', CB_DICE_INNER[cbDiceFocus] || '');
+                num.textContent = 'D' + cbDiceFocus;
+                if (tag) tag.textContent = 'd' + cbDiceFocus;
+                btn.setAttribute('aria-label', `Rolar d${cbDiceFocus}`);
             };
 
-            // Lista de modificadores/atributos/dados extras aguardando a rolagem
+            // Chips: marca o foco e mostra quantas copias estao na soma
+            const renderChips = () => {
+                document.querySelectorAll('#combate .cb-chip[data-dice]').forEach(c => {
+                    const s = parseInt(c.dataset.dice.replace('d', ''), 10);
+                    const n = cbDiceStack.filter(x => x === s).length;
+                    c.classList.toggle('on', s === cbDiceFocus);
+                    c.classList.toggle('has-count', n > 0);
+                    const cnt = c.querySelector('.cb-chip-count');
+                    if (cnt) cnt.textContent = n > 0 ? '\u00d7' + n : '';
+                });
+            };
+
+            // Lista de modificadores/atributos/habilidades aguardando a rolagem
             const renderPool = () => {
                 const pool = document.getElementById('cbDicePool');
                 if (!pool) return;
@@ -7207,7 +7257,7 @@ function updateOrganizationDetails(organization) {
                 if (!cbDicePool.length) {
                     const h = document.createElement('div');
                     h.className = 'cb-pool-empty';
-                    h.textContent = 'Sem modificadores — clique no dado para rolar';
+                    h.textContent = 'Sem modificadores \u2014 clique no dado para rolar';
                     pool.appendChild(h);
                     return;
                 }
@@ -7227,74 +7277,84 @@ function updateOrganizationDetails(organization) {
                 });
             };
 
-            // Rola o dado selecionado + todos os termos em espera
-            const rollSelected = () => {
-                const sides = cbDiceSides;
-                let primary, rolls = [];
-                if (sides === 20 && cbDiceMode !== 'normal') {
+            // Rola o dado em foco + todos os adicionados + modificadores
+            const rollAll = () => {
+                const focus = cbDiceFocus;
+                const mode = cbDiceMode;
+                let rolls = [], total = 0, modSum = 0, primary = 0;
+                const parts = [];
+
+                if (focus === 20 && mode !== 'normal') {
                     const r1 = rollDice(1, 20, 0).rolls[0];
                     const r2 = rollDice(1, 20, 0).rolls[0];
-                    primary = cbDiceMode === 'vantagem' ? Math.max(r1, r2) : Math.min(r1, r2);
+                    primary = mode === 'vantagem' ? Math.max(r1, r2) : Math.min(r1, r2);
                     rolls = [{ value: r1, dropped: r1 !== primary }, { value: r2, dropped: r1 === primary }];
                     if (r1 === r2) rolls[1].dropped = true;
+                    total += primary;
+                    parts.push(`d20 ${mode} = ${primary}`);
                 } else {
-                    primary = rollDice(1, sides, 0).rolls[0];
+                    primary = rollDice(1, focus, 0).rolls[0];
                     rolls = [{ value: primary }];
+                    total += primary;
+                    parts.push(`d${focus} = ${primary}`);
                 }
 
-                let total = primary, modSum = 0;
-                const extras = [], termLabels = [];
-                cbDicePool.forEach(t => {
-                    t.applied = true;
-                    if (t.kind === 'dice') {
-                        const r = rollDice(1, t.sides, 0).rolls[0];
-                        total += r;
-                        extras.push({ value: r });
-                        termLabels.push(`d${t.sides}=${r}`);
-                    } else {
-                        total += t.value;
-                        modSum += t.value;
-                        termLabels.push(`${t.label}=${fmtMod(t.value)}`);
-                    }
+                cbDiceStack.forEach(sides => {
+                    const r = rollDice(1, sides, 0).rolls[0];
+                    rolls.push({ value: r });
+                    total += r;
+                    parts.push(`d${sides} = ${r}`);
                 });
 
-                const flag = (sides === 20 && rolls.length === 1)
+                cbDicePool.forEach(t => {
+                    t.applied = true;
+                    total += t.value;
+                    modSum += t.value;
+                    parts.push(`${t.label} ${fmtMod(t.value)}`);
+                });
+
+                const flag = (focus === 20 && cbDiceStack.length === 0 && mode === 'normal')
                     ? (primary === 20 ? 'crit' : primary === 1 ? 'fumble' : primary >= 10 ? 'ok' : '')
                     : '';
-                const modeTxt = cbDiceMode === 'normal' ? '' : (cbDiceMode === 'vantagem' ? ' (vantagem)' : ' (desvantagem)');
-                const formula = `d${sides}${modeTxt}`;
-                const details = termLabels.length
-                    ? `${formula} \u2192 [${rolls.map(r => r.value).join(', ')}] + ${termLabels.join(' + ')}`
-                    : `${formula} \u2192 [${rolls.map(r => r.value).join(', ')}]`;
+                const details = parts.join(' + ');
 
-                showDiceResult(total, details, { dice: [...rolls, ...extras], mod: modSum, flag, title: formula });
-                addDiceHistory(formula.toUpperCase(), total, details, flag);
-
-                const face = document.getElementById('cbDieNum');
+                // Animacao de rolagem
                 const die = document.getElementById('cbDieFace');
-                if (face) face.textContent = primary;
-                if (die) die.dataset.state = flag || 'rolled';
-                renderPool();
+                if (die) { die.classList.remove('rolling'); void die.offsetWidth; die.classList.add('rolling'); }
+
+                setTimeout(() => {
+                    showDiceResult(total, details, { dice: rolls, mod: modSum, flag, title: 'Resultado' });
+                    addDiceHistory('ROLAGEM', total, details, flag);
+                    const face = document.getElementById('cbDieNum');
+                    if (face) face.textContent = primary;
+                    if (die) die.dataset.state = flag || 'rolled';
+                    renderPool();
+                    renderChips();
+                }, 240);
+                setTimeout(() => { if (die) die.classList.remove('rolling'); }, 480);
             };
 
-            // Escolha do tipo de dado
+            // 1o clique: seleciona o dado | 2o+ clique: adiciona a soma
             document.querySelectorAll('#combate .cb-chip[data-dice]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    cbDiceSides = parseInt(btn.dataset.dice.replace('d', ''), 10) || 20;
-                    const die = document.getElementById('cbDieFace');
-                    if (die) die.dataset.state = '';
-                    const face = document.getElementById('cbDieNum');
-                    if (face) face.textContent = 'D' + cbDiceSides;
-                    renderDie();
+                    const sides = parseInt(btn.dataset.dice.replace('d', ''), 10) || 20;
+                    if (sides === cbDiceFocus) {
+                        cbDiceStack.push(sides);
+                    } else {
+                        cbDiceFocus = sides;
+                        const die = document.getElementById('cbDieFace');
+                        if (die) die.dataset.state = '';
+                        const face = document.getElementById('cbDieNum');
+                        if (face) face.textContent = 'D' + sides;
+                        renderDie();
+                    }
+                    renderChips();
                 });
             });
 
             // Modo (normal / vantagem / desvantagem)
-            document.querySelectorAll('#combate [data-dice-mode]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    cbDiceMode = btn.dataset.diceMode;
-                    document.querySelectorAll('#combate [data-dice-mode]').forEach(b => b.classList.toggle('on', b === btn));
-                });
+            document.getElementById('diceModeSelect')?.addEventListener('change', e => {
+                cbDiceMode = e.target.value;
             });
 
             // Teste de atributo -> vira termo em espera
@@ -7310,6 +7370,19 @@ function updateOrganizationDetails(organization) {
                 renderPool();
             });
 
+            // Pontos de habilidade -> viram termo em espera
+            document.getElementById('diceSkillAdd')?.addEventListener('click', async () => {
+                const select = document.getElementById('diceSkillSelect');
+                if (!select || !select.value) {
+                    await window.absconditusNotice('Selecione uma habilidade antes de adicionar.', 'Dados incompletos');
+                    return;
+                }
+                const val = Number(state.specializations[select.value]) || 1;
+                const name = select.options[select.selectedIndex].text.split(' (')[0];
+                cbDicePool.push({ kind: 'skill', label: name, value: val });
+                renderPool();
+            });
+
             // Modificadores numericos
             document.querySelectorAll('#combate [data-mod]').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -7319,22 +7392,15 @@ function updateOrganizationDetails(organization) {
                 });
             });
 
-            // Dados extras
-            document.querySelectorAll('#combate [data-extra]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const s = parseInt(btn.dataset.extra.replace('d', ''), 10) || 6;
-                    cbDicePool.push({ kind: 'dice', label: 'd' + s, value: 0, sides: s });
-                    renderPool();
-                });
-            });
+            // Clica na animacao do dado para rolar
+            document.getElementById('cbDieFace')?.addEventListener('click', rollAll);
 
-            // Clica no dado para rolar
-            document.getElementById('cbDieFace')?.addEventListener('click', rollSelected);
-
-            // Limpar termos em espera
+            // Limpar: zera os dados adicionados e os modificadores em espera
             document.getElementById('cbDicePoolClear')?.addEventListener('click', () => {
+                cbDiceStack = [];
                 cbDicePool = [];
                 renderPool();
+                renderChips();
             });
 
             document.getElementById('clearHistoryBtn')?.addEventListener('click', () => {
@@ -7343,8 +7409,10 @@ function updateOrganizationDetails(organization) {
             });
 
             renderDie();
+            renderChips();
             renderPool();
             updateDiceAttrSelect();
+            updateDiceSkillSelect();
         }
 
         // =============================================
@@ -8981,28 +9049,6 @@ function renderIdentity() {
 
         function setupCombate() {
             setupCombatSlots();
-
-            // Console de rolagem: recolhido por padrao, abre sob demanda
-            const consolePanel = document.getElementById('cbConsolePanel');
-            const consoleHead = document.querySelector('#combate .cb-console-head');
-            if (consolePanel && consoleHead && !consoleHead.querySelector('.cb-console-toggle')) {
-                const toggle = document.createElement('button');
-                toggle.type = 'button';
-                toggle.className = 'cb-console-toggle';
-                toggle.textContent = '+';
-                toggle.setAttribute('aria-label', 'Abrir console de rolagem');
-                const flipConsole = () => {
-                    const open = consolePanel.classList.toggle('open');
-                    toggle.textContent = open ? '−' : '+';
-                    toggle.setAttribute('aria-label', open ? 'Fechar console de rolagem' : 'Abrir console de rolagem');
-                };
-                toggle.addEventListener('click', e => { e.stopPropagation(); flipConsole(); });
-                consoleHead.appendChild(toggle);
-                consoleHead.addEventListener('click', e => {
-                    if (e.target.closest('.cb-console-toggle')) return;
-                    flipConsole();
-                });
-            }
 
             // Usar Kit Médico
             const btnKit = document.getElementById('cbBtnUseKit');
