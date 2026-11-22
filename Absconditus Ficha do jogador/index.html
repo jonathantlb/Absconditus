@@ -2899,7 +2899,7 @@
 
         /* Slots em forma hexagonal: cada slot numa ponta do hexagono */
         #combate .cb-slots-grid{
-            position:relative;width:100%;max-width:440px;aspect-ratio:1/1.24;
+            position:relative;width:100%;max-width:440px;aspect-ratio:1/1.32;
             margin:0 auto;padding:0;
         }
         /* Tracos do hexagono ao fundo */
@@ -2912,7 +2912,7 @@
             pointer-events:none;
         }
         #combate .cb-slot{
-            position:absolute;width:88px;height:88px;
+            position:absolute;width:100px;height:100px;
             transform:translate(-50%,-50%);
             display:grid;place-items:center;border-radius:50%;cursor:pointer;
             background:radial-gradient(circle at 40% 32%,rgba(255,255,255,.07),rgba(0,0,0,.45) 68%);
@@ -2928,11 +2928,16 @@
         #combate .cb-slot-m1{left:14%;top:30%}
         /* Moldura circular central: mostra a arte do item selecionado */
         #combate .cb-slot-core{
-            left:50%;top:50%;cursor:default;width:138px;height:138px;
+            left:50%;top:50%;cursor:default;width:196px;height:196px;
             opacity:1;border-style:solid;border-color:rgba(212,175,55,.42);
-            background:radial-gradient(circle at 50% 42%,rgba(212,175,55,.10),rgba(0,0,0,.72) 68%);
-            box-shadow:0 0 26px -6px rgba(212,175,55,.55),inset 0 0 22px rgba(0,0,0,.8);
+            background:radial-gradient(circle at 50% 42%,rgba(212,175,55,.12),rgba(0,0,0,.74) 68%);
+            box-shadow:0 0 30px -6px rgba(212,175,55,.60),inset 0 0 26px rgba(0,0,0,.85);
             transition:border-color .2s,box-shadow .2s;
+        }
+        #combate .cb-slot-core.has-art{cursor:pointer}
+        #combate .cb-slot-core.has-art:hover{
+            border-color:rgba(212,175,55,.95);
+            box-shadow:0 0 44px -6px rgba(212,175,55,.85),inset 0 0 26px rgba(0,0,0,.85);
         }
         #combate .cb-slot-core:hover{border-color:rgba(212,175,55,.42)}
         #combate .cb-slot-core .cb-slot-ring{
@@ -2942,12 +2947,22 @@
         #combate .cb-slot-core.has-art{border-color:rgba(212,175,55,.75)}
         #combate .cb-core-art{
             position:relative;z-index:3;width:100%;height:100%;
-            display:grid;place-items:center;pointer-events:none;
+            display:grid;place-items:center;cursor:pointer;
         }
-        #combate .cb-core-art .eq-svg{width:86px;height:54px;color:var(--bone)}
-        #combate .cb-core-art .cb-core-glyph{font-size:3.2rem;line-height:1;filter:drop-shadow(0 0 12px rgba(212,175,55,.55))}
+        #combate .cb-core-art .eq-svg{width:118px;height:74px;color:var(--bone);transition:transform .2s ease,filter .2s ease}
+        #combate .cb-core-art:hover .eq-svg{transform:scale(1.06);filter:drop-shadow(0 0 16px rgba(212,175,55,.75))}
+        #combate .cb-core-art .cb-core-glyph{font-size:4.4rem;line-height:1;filter:drop-shadow(0 0 12px rgba(212,175,55,.55))}
+        #combate .cb-core-art:hover .cb-core-glyph{transform:scale(1.06)}
         #combate .cb-slot-cross{
             position:relative;z-index:3;color:var(--bone-dim);font-size:1.2rem;opacity:.45;
+        }
+        /* Seletor inline de granada */
+        #combate .cb-grenade-select{
+            position:absolute;z-index:20;transform:translateX(-50%);
+            height:30px;max-width:220px;padding:0 8px;
+            background:var(--void);border:1px solid var(--blood-bright);color:var(--bone);
+            font-family:var(--font-mono);font-size:.7rem;cursor:pointer;outline:none;
+            box-shadow:0 6px 18px rgba(0,0,0,.7);
         }
         #combate .cb-slot-core.has-art .cb-slot-cross{display:none}
 
@@ -3201,13 +3216,6 @@
             text-align:center;line-height:1;text-shadow:0 0 18px rgba(196,31,46,.4);
         }
         #combate .cb-hud-mods{font-family:var(--font-mono);font-size:.68rem;letter-spacing:1px;color:var(--bone-dim);text-align:center;line-height:1.5}
-        #combate .cb-btn-roll-info{
-            width:100%;background:linear-gradient(180deg,var(--blood),#6d1019);border:1px solid var(--blood-bright);
-            color:var(--bone);font-family:var(--font-display);font-size:.9rem;letter-spacing:2px;text-transform:uppercase;
-            padding:10px;border-radius:2px;cursor:pointer;transition:all .15s;
-        }
-        #combate .cb-btn-roll-info:hover:not(:disabled){background:var(--blood-bright);color:var(--void);box-shadow:0 0 18px rgba(196,31,46,.45)}
-        #combate .cb-btn-roll-info:disabled{opacity:.35;cursor:not-allowed}
 
         /* --- PALCO DO DADO (resultado acima + desenho do poliedro) --- */
         #combate .cb-stage-dice{
@@ -5302,6 +5310,7 @@
         };
 
         const RESISTANCES = ['Físico', 'Espiritual', 'Mágica', 'Veneno', 'Elemental'];
+        const GRENADES = ['Granada de Fragmentação', 'Granada de Luz', 'Granada de Fumaça'];
 
         const FAME_FACTIONS = [
             { key: 'credo', label: 'Credo' },
@@ -5444,7 +5453,7 @@
                 resistances,
                 corrupcao: 0,
                 despertar: { tipo: '' },
-                inventory: { armaPrincipal: '', armaSecundaria: '', armaReserva: '', objetoSuperno: '', talisma: '', municao: '', curativos: '' },
+                inventory: { armaPrincipal: '', armaSecundaria: '', armaReserva: '', objetoSuperno: '', talisma: '', municao: '', curativos: '', granada1: '', granada2: '' },
                 equipment: { capacete: '', peitoral: '', luvas: '', calca: '', botas: '', acessorios: '' },
                 objetosSuperno: [],
                 arsenal: { kits: 0, ervas: 0, mestre: false, orgGrant: '', cena: { n: 0, streak: 0 }, imagens: {} },
@@ -8937,7 +8946,7 @@ function renderIdentity() {
                 return;
             }
 
-            if (cbSelecionado.tipo === 'arma') {
+            if (cbSelecionado.tipo === 'arma' || cbSelecionado.tipo === 'granada') {
                 const it = EQ_ITEMS.find(i => i.nome === cbSelecionado.nome);
                 if (!it) {
                     body.innerHTML = `<div class="cb-hud-vazio">Arma não encontrada</div>`;
@@ -8968,8 +8977,7 @@ function renderIdentity() {
                     <div class="cb-hud-roll">
                         <div class="cb-hud-dado">${idEsc(qtd)}D6</div>
                         <div class="cb-hud-mods">Mod: ${attr ? idEsc(attr) + ' (+' + attrVal + ')' : '—'} · Habilidade +0${flat ? ' · +' + flat : ''}</div>
-                        <button type="button" class="cb-btn-roll-info" id="cbBtnRollInfo">🎲 Rolar este item</button>
-                    </div>`;
+                            </div>`;
             } else if (cbSelecionado.tipo === 'magia') {
                 const s = GR_SPELLS.find(sp => sp[0] === cbSelecionado.nome);
                 if (!s) {
@@ -9008,7 +9016,6 @@ function renderIdentity() {
                     <div class="cb-hud-roll">
                         <div class="cb-hud-dado">${idEsc(R.dado)}</div>
                         <div class="cb-hud-mods">+ Superno (+${sup}) · ${idEsc(f)}</div>
-                        <button type="button" class="cb-btn-roll-info" id="cbBtnRollInfo">✦ Conjurar magia</button>
                     </div>`;
             } else if (cbSelecionado.tipo === 'consumivel') {
                 const it = EQ_ITEMS.find(i => i.nome === cbSelecionado.nome);
@@ -9030,21 +9037,20 @@ function renderIdentity() {
                     <div class="cb-hud-roll">
                         <div class="cb-hud-dado">${qtd}</div>
                         <div class="cb-hud-mods">${idEsc(uso)} · ${qtd} em estoque</div>
-                        <button type="button" class="cb-btn-roll-info" id="cbBtnRollInfo">🧪 Usar item</button>
                     </div>`;
             }
 
-            const btn = document.getElementById('cbBtnRollInfo');
-            if (btn) btn.addEventListener('click', () => rolarSelecionado());
             cbHudApplyTab();
         }
 
         function rolarSelecionado() {
             if (!cbSelecionado.tipo || !cbSelecionado.nome) return;
 
-            if (cbSelecionado.tipo === 'arma') {
+            if (cbSelecionado.tipo === 'arma' || cbSelecionado.tipo === 'granada') {
                 const it = EQ_ITEMS.find(i => i.nome === cbSelecionado.nome);
-                if (it) eqRollDamage(it);
+                if (!it) return;
+                if (/(\d+)D6/.test(it.dano)) eqRollDamage(it);
+                else eqSay(`${it.nome}: sem dano direto (${it.dano}).`);
             } else if (cbSelecionado.tipo === 'magia') {
                 grCast(cbSelecionado.nome);
             } else if (cbSelecionado.tipo === 'consumivel') {
@@ -9101,8 +9107,8 @@ function renderIdentity() {
                 m2: { label: 'Arma 2', tipo: 'arma', nome: inv.armaSecundaria || '' },
                 m3: { label: 'Kit Medic', tipo: 'consumivel', nome: 'Kit Médico' },
                 m4: { label: 'Erva San', tipo: 'consumivel', nome: 'Erva do Véu' },
-                m5: { label: '', tipo: null, nome: '' },
-                m6: { label: '', tipo: null, nome: '' }
+                m5: { label: 'Granada 1', tipo: 'granada', nome: inv.granada1 || '' },
+                m6: { label: 'Granada 2', tipo: 'granada', nome: inv.granada2 || '' }
             };
 
             // Modo MAGIAS — ordem conforme a referencia
@@ -9138,6 +9144,36 @@ function renderIdentity() {
             renderCoreArt();
         }
 
+        // Seletor inline de granada (slots 5 e 6 no topo e base)
+        function abrirSeletorGranada(slotId) {
+            const grid = document.getElementById('cbSlotsGrid');
+            if (!grid) return;
+            const anterior = grid.querySelector('.cb-grenade-select');
+            if (anterior) anterior.remove();
+            const btn = grid.querySelector(`[data-slot-id="${slotId}"]`);
+            if (!btn) return;
+            const chave = slotId === 'm5' ? 'granada1' : 'granada2';
+            const atual = (state.inventory || {})[chave] || '';
+            const sel = document.createElement('select');
+            sel.className = 'cb-grenade-select';
+            sel.innerHTML = '<option value="">— escolher —</option>' +
+                GRENADES.map(n => `<option value="${n}"${n === atual ? ' selected' : ''}>${n}</option>`).join('');
+            const r = btn.getBoundingClientRect(), gr = grid.getBoundingClientRect();
+            sel.style.left = (r.left - gr.left + r.width / 2) + 'px';
+            // Mantem o seletor dentro do box: abaixo do slot de cima, acima do de baixo
+            const dentro = r.top - gr.top < 44;
+            sel.style.top = dentro ? (r.bottom - gr.top + 6) + 'px' : (r.top - gr.top - 36) + 'px';
+            sel.addEventListener('change', () => {
+                state.inventory[chave] = sel.value;
+                saveState();
+                sel.remove();
+                renderCombatSlots();
+            });
+            sel.addEventListener('blur', () => setTimeout(() => sel.remove(), 150));
+            grid.appendChild(sel);
+            sel.focus();
+        }
+
         function setupCombatSlots() {
             // Tabs ARMAS / MAGIAS
             document.querySelectorAll('#combate .cb-slots-tab').forEach(btn => {
@@ -9149,9 +9185,19 @@ function renderIdentity() {
 
             // Clique no slot seleciona o item no painel de informacoes
             document.getElementById('cbSlotsGrid')?.addEventListener('click', (e) => {
+                // Clicar na arte do centro rola o dado / usa o item
+                if (e.target.closest('.cb-core-art')) {
+                    if (cbSelecionado && cbSelecionado.tipo) rolarSelecionado();
+                    return;
+                }
                 const btn = e.target.closest('[data-slot-id]');
                 if (!btn) return;
                 const tipo = btn.dataset.tipo, nome = btn.dataset.nome;
+                // Slot de granada vazio: abre o seletor
+                if (tipo === 'granada' && !nome) {
+                    abrirSeletorGranada(btn.dataset.slotId);
+                    return;
+                }
                 if (!tipo || !nome) return;
                 cbSelecionado = { tipo, nome };
                 renderInfoBox();
