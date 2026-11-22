@@ -98,8 +98,8 @@
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            gap: 20px;
-            padding: 12px 24px;
+            gap: 16px;
+            padding: 6px 20px;
             border-bottom: 1px solid var(--line-strong);
             margin-bottom: 0;
             background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
@@ -118,20 +118,20 @@
             background: linear-gradient(90deg, var(--blood-bright), rgba(138, 20, 32, .28) 38%, transparent 78%);
             pointer-events: none;
         }
-        .dossier-header .header-brand { grid-column: 1; }
+        .dossier-header .header-brand { justify-self: start; }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 10px;
             flex-shrink: 0;
         }
 
         .header-brand .emblem {
-            width: 60px;
-            height: 60px;
+            width: 34px;
+            height: 34px;
             flex-shrink: 0;
-            filter: drop-shadow(0 0 12px rgba(138, 20, 32, 0.4));
+            filter: drop-shadow(0 0 10px rgba(138, 20, 32, 0.5));
         }
 
         .header-brand .titles {
@@ -142,22 +142,22 @@
 
         .wordmark {
             font-family: 'Absolute Empire', var(--font-display);
-            font-size: 2.2em;
+            font-size: 1.35em;
             font-weight: 400;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--bone);
             line-height: 1;
             margin: 0;
-            text-shadow: 0 0 18px rgba(138, 20, 32, 0.5);
+            text-shadow: 0 0 14px rgba(138, 20, 32, 0.55);
         }
 
         .tagline {
             font-family: var(--font-mono);
-            font-size: 0.72em;
-            letter-spacing: 2.5px;
+            font-size: 0.58em;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--blood-bright);
-            margin: 4px 0 0;
+            margin: 2px 0 0;
             width: auto;
         }
 
@@ -189,7 +189,7 @@
             /* Abas centralizadas na barra fixa */
             justify-content: center;
         }
-        .dossier-header > .tabs { grid-column: 2; justify-self: center; }
+        .dossier-header > .tabs { justify-self: center; }
         /* Esconde a barra de rolagem horizontal das abas */
         .tabs::-webkit-scrollbar { height: 0; }
         .tabs { scrollbar-width: none; }
@@ -199,10 +199,10 @@
             color: var(--bone-dim);
             border: none;
             border-bottom: 2px solid transparent;
-            padding: 12px 20px;
+            padding: 7px 15px;
             font-family: var(--font-mono);
-            font-size: 0.82em;
-            letter-spacing: 1.5px;
+            font-size: 0.72em;
+            letter-spacing: 1.4px;
             text-transform: uppercase;
             cursor: pointer;
             transition: color 0.2s, border-color 0.2s, background-color 0.2s;
@@ -1910,20 +1910,19 @@
 
         /* E-mail do usuario na extrema direita da barra fixa */
         .dossier-header .header-user {
-            grid-column: 3; justify-self: end;
-            display: flex; align-items: center; gap: 9px;
-            padding: 7px 13px; background: rgba(0, 0, 0, .42);
+            justify-self: end;
+            display: flex; align-items: center; gap: 7px;
+            padding: 4px 10px; background: rgba(0, 0, 0, .42);
             border: 1px solid var(--line-strong); max-width: 100%;
         }
-        .dossier-header .header-user-ic { font-size: .9rem; opacity: .8; }
+        .dossier-header .header-user-ic { font-size: .72rem; opacity: .8; }
         .dossier-header .header-user-email {
-            font-family: var(--font-mono); font-size: .68rem; letter-spacing: .4px;
+            font-family: var(--font-mono); font-size: .62rem; letter-spacing: .3px;
             color: var(--bone-dim); overflow: hidden; text-overflow: ellipsis;
-            white-space: nowrap; max-width: 260px;
+            white-space: nowrap; max-width: 220px;
         }
         @media (max-width:900px){
             .dossier-header { grid-template-columns: 1fr auto; }
-            .dossier-header .header-user { grid-column: 2; }
             .dossier-header > .tabs { grid-column: 1 / -1; }
         }
 
@@ -4208,11 +4207,11 @@
         html { scroll-padding-top: calc(var(--header-height) + var(--tabs-height) + var(--subtabs-height, 0px) + 12px); }
         .dossier-body { align-items: start; }
         .dossier-header { position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 14px rgba(0, 0, 0, .65); transition: padding .2s ease; }
-        .dossier-header.is-compact { padding: 8px 24px; }
+        .dossier-header.is-compact { padding: 4px 20px; }
         .dossier-header.is-compact .tagline { display: none; }
-        .dossier-header.is-compact .header-brand .emblem { width: 34px; height: 34px; }
+        .dossier-header.is-compact .header-brand .emblem { width: 28px; height: 28px; }
         .dossier-header.is-compact .header-brand .titles { gap: 0; }
-        .dossier-header.is-compact .wordmark { font-size: 1.35rem; }
+        .dossier-header.is-compact .wordmark { font-size: 1.2rem; }
         .dossier-header > .tabs { position: static; background: transparent; box-shadow: none; }
         #identidade .subtabs, #atributos .subtabs {
             position: sticky; z-index: 990;
@@ -4371,12 +4370,6 @@
                 </div>
             </div>
 
-            <!-- USUÁRIO (extrema direita da barra fixa) -->
-            <div class="header-user" id="headerUser" title="Conta em uso">
-                <span class="header-user-ic" aria-hidden="true">✉</span>
-                <span class="header-user-email" id="headerUserEmail">Não conectado</span>
-            </div>
-
             <!-- NAVEGAÇÃO HORIZONTAL (centralizada na barra fixa) -->
             <nav class="tabs" role="tablist">
                 <button class="tab-btn active" data-tab="identidade" type="button">Dados Pessoais</button>
@@ -4384,6 +4377,12 @@
                 <button class="tab-btn" data-tab="grimoire" type="button">Grimório</button>
                 <button class="tab-btn" data-tab="equipamento" type="button">Equipamento</button>
             </nav>
+
+            <!-- USUÁRIO (extrema direita da barra fixa) -->
+            <div class="header-user" id="headerUser" title="Conta em uso">
+                <span class="header-user-ic" aria-hidden="true">✉</span>
+                <span class="header-user-email" id="headerUserEmail">Não conectado</span>
+            </div>
         </header>
 
         <!-- LAYOUT PRINCIPAL: SIDEBAR + CONTEÚDO + PAINEL DIREITO -->
