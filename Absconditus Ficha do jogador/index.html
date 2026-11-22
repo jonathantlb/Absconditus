@@ -4054,11 +4054,8 @@
         #grimoire .art-cat{position:absolute;left:14px;bottom:12px;font-size:1.2rem;opacity:.85}
         #grimoire .art-rk{position:absolute;top:12px;right:12px;padding:2px 8px;background:var(--rk,var(--blood));color:var(--rkText,#fff);border:1px solid var(--rk,var(--blood-bright));font-family:var(--font-mono);font-size:.62rem;letter-spacing:1px;box-shadow:0 0 10px -3px var(--rk,var(--blood-bright))}
         #grimoire .art-cap{position:absolute;right:14px;bottom:12px;font-family:var(--font-mono);font-size:.5rem;letter-spacing:2px;color:var(--bone-dim);text-transform:uppercase}
-        #grimoire .learn,#grimoire .castb{display:block;width:100%;margin-top:12px;padding:14px;background:transparent;border:2px solid var(--blood-bright);color:#fff;font-family:var(--font-display);font-size:1.2rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .15s}
-        #grimoire .learn:hover:not(:disabled),#grimoire .castb:hover{background:var(--blood)}
         #grimoire .learn.forget{border-color:var(--line-strong);color:var(--bone-dim)}
         #grimoire .learn:disabled{opacity:.4;cursor:not-allowed}
-        #grimoire .castb{margin-top:8px;padding:10px;font-size:1rem;background:var(--blood)}
         #grimoire .why{margin-top:6px;font-family:var(--font-mono);font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:var(--bone-dim);text-align:center}
         #grimoire .sp-info{max-height:430px;overflow-y:auto;padding-right:8px;scrollbar-width:thin;scrollbar-color:var(--blood) transparent}
         #grimoire .tl{position:relative;list-style:none;padding-left:26px}
@@ -8196,8 +8193,7 @@ function renderIdentity() {
             T.innerHTML = `<h2>${idEsc(nome)}</h2><p>${idEsc(x)}</p>`;
             A.innerHTML = `<div class="art" data-gr-art style="--el:${m[1]};--rk:${rkC};--rkText:${rkT}" title="Clique para colocar a arte da magia (Shift+clique remove)">${img ? `<img src="${img}" alt="${idEsc(nome)}">` : `<span class="art-el">${m[0]}</span><span class="art-cat">${GR_CAT[cat]}</span><span class="art-cap">arte · placeholder</span>`}<span class="art-rk">RANK ${rk}</span></div>
                 <button type="button" class="learn ${known ? 'forget' : ''}" data-gr-learn="${idEsc(nome)}" ${!known && why ? 'disabled' : ''}>${known ? 'Esquecer' : 'Aprender'}</button>
-                ${known && grRankIdx() >= GR_ORDER.indexOf(rk) ? `<button type="button" class="castb" data-gr-cast="${idEsc(nome)}">🎲 Conjurar</button>` : ''}
-                ${!known && why ? `<div class="why">${idEsc(why)}</div>` : ''}`;
+                    ${!known && why ? `<div class="why">${idEsc(why)}</div>` : ''}`;
             const rows = [['Categoria', `${GR_CAT[cat]} ${cat}`], ['Elemento', `${m[0]} ${el}`],
                 ['Rank', `<span class="rk" style="--rk:${rkC}">Rank ${rk}</span> · custo ${R.custo} SAN${known ? ' · ★ equipada' : why ? ' · ' + idEsc(why) : ' · você pode aprender'}`, true],
                 ['Alcance', alc], ['Área', area]];
@@ -8275,7 +8271,7 @@ function renderIdentity() {
             root.addEventListener('click', e => {
                 const q = s => e.target.closest(s);
                 const pane = q('[data-gr-pane]'), tile = q('[data-gr-el]'), step = q('[data-gr-step]'), slot = q('[data-gr-slot]'), box = q('[data-gr-box]'), cat = q('[data-gr-cat]');
-                const sp = q('[data-gr-sp]'), learn = q('[data-gr-learn]'), cast = q('[data-gr-cast]'), art = q('[data-gr-art]');
+                const sp = q('[data-gr-sp]'), learn = q('[data-gr-learn]'), art = q('[data-gr-art]');
                 if (pane) { grPane = pane.dataset.grPane; const k = grKeys(), ee = grE(); grViewEl = grPane === 'prim' ? (ee[k[0]] || GR_PRIMS[0]) : ((ee[k[0]] && GR_EVO[ee[k[0]]]) || GR_EVOS[0]); grPin = false; grMsg = ''; }
                 else if (tile) pickEl(tile.dataset.grEl);
                 else if (step) { stepEl(+step.dataset.grStep); }
@@ -8289,7 +8285,7 @@ function renderIdentity() {
                     grCommit();
                     renderCombate();
                     renderResumo();
-                } else if (cast) return grCast(cast.dataset.grCast);
+                }
                 else if (art) {
                     if (e.shiftKey) { delete grE().imagens[grSel]; grCommit(); } else document.getElementById('grImg').click();
                 } else return;
@@ -8484,7 +8480,11 @@ function renderIdentity() {
             const flat = (it.dano.match(/D6\s*\+\s*(\d+)(?!\s*D)/) || [0, 0])[1] | 0;
             const attrName = ['Força', 'Destreza', 'Precisão', 'Superno', 'Reflexo'].find(a => it.dano.includes(a)) || it.atr.split(' ')[0];
             const attr = Number(state.attributes[slug(attrName)]) || 0;
-            const hab = parseInt((document.getElementById('eqHab') || {}).value, 10) || 0;
+            // Bônus de habilidade: vem do pool de modificadores do box de Rolagem de Dados (aba Combate).
+            const habPool = (typeof cbDicePool !== 'undefined' && Array.isArray(cbDicePool))
+                ? cbDicePool.filter(t => t.kind === 'skill').reduce((a, t) => a + (Number(t.value) || 0), 0)
+                : 0;
+            const hab = habPool || (parseInt((document.getElementById('eqHab') || {}).value, 10) || 0);
             const r = rollDice(+m[1], 6, 0).rolls, total = r.reduce((a, b) => a + b, 0) + flat + attr + hab;
             const det = `${m[1]}D6 [${r.join(', ')}]${flat ? ' +' + flat : ''} + ${attrName} ${attr} + Hab. ${hab}`;
             addDiceHistory('Dano: ' + it.nome, total, det);
@@ -8547,7 +8547,7 @@ function renderIdentity() {
                 <div class="hud-scroll">${eqTab === 'attr'
                     ? `<div class="hud-rows">${trows.map((x, i) => `<div class="hud-row"><i>${ROMAN[i] || i + 1}</i><b>${idEsc(x[0])}</b><span>${idEsc(x[1])}</span></div>`).join('')}</div>
                        <div class="hud-req">${idEsc(it.req)}</div>
-                       ${canRoll ? `<div class="hud-slot"><button type="button" class="hud-btn" data-eq-act="roll" style="flex:none;padding:8px 14px">🎲 Rolar dano</button><label>Habilidade +<input type="number" id="eqHab" value="${Number((document.getElementById('eqHab') || {}).value) || 0}" min="0" max="20"></label></div>` : ''}`
+                       `
                     : `<div class="hud-text">${it.info.map(x => `<p>${idEsc(x)}</p>`).join('')}</div>`}</div>
                 ${pct !== null ? `<div class="hud-bar"><div><span>Potência (dano médio ${avg % 1 ? avg.toFixed(1) : avg})</span><span>${pct}%</span></div><div class="track"><i style="width:${pct}%"></i></div></div>` : ''}
                 ${msg}
@@ -8579,8 +8579,7 @@ function renderIdentity() {
                     else if (a === 'mode') { const ar = eqAr(); ar.mestre = !ar.mestre; eqSay(ar.mestre ? 'Modo Mestre: itens livres e Lendárias liberadas.' : 'Modo Criação: regras do Arsenal aplicadas.'); eqCommit(); }
                     else if (it && a === 'toggle') eqToggle(it);
                     else if (it && a === 'use') eqUse(it);
-                    else if (it && a === 'roll') eqRollDamage(it);
-                }
+                    }
             });
             document.getElementById('eqImgInput').addEventListener('change', ev => {
                 const file = ev.target.files[0], it = eqSel ? eqByName(eqSel) : null;
