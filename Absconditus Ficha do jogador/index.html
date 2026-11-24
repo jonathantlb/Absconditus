@@ -4061,8 +4061,36 @@
         #grimoire .art-cat{position:absolute;left:14px;bottom:12px;font-size:1.2rem;opacity:.85}
         #grimoire .art-rk{position:absolute;top:12px;right:12px;padding:2px 8px;background:var(--rk,var(--blood));color:var(--rkText,#fff);border:1px solid var(--rk,var(--blood-bright));font-family:var(--font-mono);font-size:.62rem;letter-spacing:1px;box-shadow:0 0 10px -3px var(--rk,var(--blood-bright))}
         #grimoire .art-cap{position:absolute;right:14px;bottom:12px;font-family:var(--font-mono);font-size:.5rem;letter-spacing:2px;color:var(--bone-dim);text-transform:uppercase}
-        #grimoire .learn.forget{border-color:var(--line-strong);color:var(--bone-dim)}
-        #grimoire .learn:disabled{opacity:.4;cursor:not-allowed}
+        #grimoire .learn {
+            width: 100%;
+            margin-top: 10px;
+            border: 2px solid var(--blood-bright);
+            box-shadow: inset 0 0 0 1px #fff;
+            background: var(--blood);
+            color: #fff;
+            font-family: var(--font-display);
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding: 10px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: block;
+        }
+        #grimoire .learn:hover:not(:disabled) {
+            box-shadow: inset 0 0 0 1px #fff, 0 0 15px rgba(196, 31, 46, 0.6);
+            background: #e53935;
+        }
+        #grimoire .learn.forget {
+            border-color: var(--blood-bright);
+            color: #fff;
+            background: var(--blood);
+        }
+        #grimoire .learn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
         #grimoire .why{margin-top:6px;font-family:var(--font-mono);font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:var(--bone-dim);text-align:center}
         #grimoire .sp-info{max-height:430px;overflow-y:auto;padding-right:8px;scrollbar-width:thin;scrollbar-color:var(--blood) transparent}
         #grimoire .tl{position:relative;list-style:none;padding-left:26px}
@@ -8429,7 +8457,7 @@ function renderIdentity() {
         const eqByName = n => EQ_ITEMS.find(i => i.nome === n);
         const eqAr = () => (state.arsenal = Object.assign({ kits: 0, ervas: 0, mestre: false, orgGrant: '', cena: { n: 0, streak: 0 }, imagens: {} }, state.arsenal || {}));
         const eqSlots = () => [state.inventory.armaPrincipal || '', state.inventory.armaSecundaria || ''];
-        const eqIsEq = n => eqSlots().includes(n);
+        const eqIsEq = n => eqSlots().includes(n) || state.inventory.granada1 === n || state.inventory.granada2 === n;
         const eqOrgGear = o => (ID_ORG[o] ? ID_ORG[o].gear : []);
         const eqAllGear = () => new Set(Object.values(ID_ORG).flatMap(o => o.gear));
         const eqOrgsOf = n => Object.values(ID_ORG).filter(o => o.gear.includes(n)).map(o => o.nome);
@@ -8458,14 +8486,34 @@ function renderIdentity() {
 
         function eqToggle(it) {
             const inv = state.inventory;
-            if (eqIsEq(it.nome)) {
-                if (inv.armaPrincipal === it.nome) inv.armaPrincipal = ''; else inv.armaSecundaria = '';
-                eqSay(it.nome + ' removido(a).');
+            if (it.cat === 'granadas') {
+                // Granada 1 e 2: permite duas cópias da mesma granada
+                if (inv.granada1 === it.nome) {
+                    inv.granada1 = '';
+                    eqSay(it.nome + ' removido(a) da Granada 1.');
+                } else if (inv.granada2 === it.nome) {
+                    inv.granada2 = '';
+                    eqSay(it.nome + ' removido(a) da Granada 2.');
+                } else if (!inv.granada1) {
+                    inv.granada1 = it.nome;
+                    eqSay(it.nome + ' equipado(a) na Granada 1.');
+                } else if (!inv.granada2) {
+                    inv.granada2 = it.nome;
+                    eqSay(it.nome + ' equipado(a) na Granada 2.');
+                } else {
+                    eqSay('Slots de granada cheios: remova uma granada antes.', true);
+                    return eqRender();
+                }
             } else {
-                const why = eqWhy(it);
-                if (why) { eqSay(why, true); return eqRender(); }
-                if (!inv.armaPrincipal) inv.armaPrincipal = it.nome; else inv.armaSecundaria = it.nome;
-                eqSay(it.nome + ' equipado(a).');
+                if (eqIsEq(it.nome)) {
+                    if (inv.armaPrincipal === it.nome) inv.armaPrincipal = ''; else inv.armaSecundario = '';
+                    eqSay(it.nome + ' removido(a).');
+                } else {
+                    const why = eqWhy(it);
+                    if (why) { eqSay(why, true); return eqRender(); }
+                    if (!inv.armaPrincipal) inv.armaPrincipal = it.nome; else inv.armaSecundario = it.nome;
+                    eqSay(it.nome + ' equipado(a).');
+                }
             }
             eqCommit();
         }
@@ -9160,36 +9208,6 @@ function renderIdentity() {
             renderCoreArt();
         }
 
-        // Seletor inline de granada (slots 5 e 6 no topo e base)
-        function abrirSeletorGranada(slotId) {
-            const grid = document.getElementById('cbSlotsGrid');
-            if (!grid) return;
-            const anterior = grid.querySelector('.cb-grenade-select');
-            if (anterior) anterior.remove();
-            const btn = grid.querySelector(`[data-slot-id="${slotId}"]`);
-            if (!btn) return;
-            const chave = slotId === 'm5' ? 'granada1' : 'granada2';
-            const atual = (state.inventory || {})[chave] || '';
-            const sel = document.createElement('select');
-            sel.className = 'cb-grenade-select';
-            sel.innerHTML = '<option value="">— escolher —</option>' +
-                GRENADES.map(n => `<option value="${n}"${n === atual ? ' selected' : ''}>${n}</option>`).join('');
-            const r = btn.getBoundingClientRect(), gr = grid.getBoundingClientRect();
-            sel.style.left = (r.left - gr.left + r.width / 2) + 'px';
-            // Mantem o seletor dentro do box: abaixo do slot de cima, acima do de baixo
-            const dentro = r.top - gr.top < 44;
-            sel.style.top = dentro ? (r.bottom - gr.top + 6) + 'px' : (r.top - gr.top - 36) + 'px';
-            sel.addEventListener('change', () => {
-                state.inventory[chave] = sel.value;
-                saveState();
-                sel.remove();
-                renderCombatSlots();
-            });
-            sel.addEventListener('blur', () => setTimeout(() => sel.remove(), 150));
-            grid.appendChild(sel);
-            sel.focus();
-        }
-
         function setupCombatSlots() {
             // Tabs ARMAS / MAGIAS
             document.querySelectorAll('#combate .cb-slots-tab').forEach(btn => {
@@ -9209,16 +9227,15 @@ function renderIdentity() {
                 const btn = e.target.closest('[data-slot-id]');
                 if (!btn) return;
                 const tipo = btn.dataset.tipo, nome = btn.dataset.nome;
-                // Slot de granada vazio: abre o seletor
-                if (tipo === 'granada' && !nome) {
-                    abrirSeletorGranada(btn.dataset.slotId);
-                    return;
-                }
                 if (!tipo || !nome) return;
                 cbSelecionado = { tipo, nome };
                 renderInfoBox();
                 renderCombatSlots();
             });
+        }
+
+        function setupCombate() {
+            setupCombatSlots();
 
             // Botao de fechar do painel (colapsa o arsenal)
             const toggle = document.getElementById('cbSlotsToggle');
@@ -9230,12 +9247,7 @@ function renderIdentity() {
             }
 
             renderCombatSlots();
-        }
-
-        function setupCombate() {
-            setupCombatSlots();
-
-            // Usar Kit Médico
+// Usar Kit Médico
             const btnKit = document.getElementById('cbBtnUseKit');
             if (btnKit) btnKit.addEventListener('click', () => {
                 const ar = eqAr();
