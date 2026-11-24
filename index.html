@@ -1612,7 +1612,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 26px;
             height: 292px;
             flex: 0 0 292px;
             padding: 14px 12px 12px;
@@ -1631,7 +1631,9 @@
             width: 100%;
             text-align: center;
             justify-content: center;
+            gap: 6px;
         }
+        .cred-org-name .cred-chev { margin-left: 0; }
 
         .cred-org-name .cred-value {
             font-size: .92rem;
@@ -1743,6 +1745,11 @@
         }
 
         .cred-back-sec > .cred-label { display: block; margin-bottom: 3px; }
+        .cred-back-input{
+            font-size: 1.5rem;letter-spacing: 1px;text-transform:uppercase;
+            border-bottom-color: rgba(196,31,46,.45);
+        }
+        .cred-back-input::placeholder{color:rgba(242,239,232,.30);letter-spacing:.5px}
 
         .cred-back-value {
             font-family: 'Absolute Empire', serif;
@@ -4552,6 +4559,11 @@
                                                 <span class="cred-topbar-r">Confidencial</span>
                                             </div>
                                             <div class="cred-back-body" id="credBackBody">
+                    <div class="cred-back-sec">
+                        <span class="cred-label">Codinome</span>
+                        <input type="text" class="cred-input cred-back-input" data-field="personal.codinome" placeholder="—">
+                    </div>
+                    <div id="credBackRest"></div>
                                                 <!-- Injetado via JS por renderCredBack() -->
                                             </div>
                                             <div class="cred-front-foot">
@@ -7752,7 +7764,7 @@ function renderIdentity() {
          * ✨ CARTÃO — verso com os dados das outras abas
          * ============================================= */
         function renderCredBack() {
-            const box = document.getElementById('credBackBody');
+            const box = document.getElementById('credBackRest');
             if (!box) return;
             const p = state.personal || {};
             const org = p.organizacao || '';
@@ -7772,7 +7784,6 @@ function renderIdentity() {
                     <span class="cred-label">Registro</span>
                     <div class="cred-back-reg"><b>${idEsc(registro)}</b><span class="cred-back-value">${idEsc(p.nome || 'Sem nome')}</span></div>
                 </div>
-                ${sec('Codinome', p.codinome)}
                 ${sec('Organização', org)}
                 ${lema ? `<div class="cred-back-sec"><span class="cred-label">Lema da Organização</span><p class="cred-back-note">${idEsc(lema)}</p></div>` : ''}
                 ${secList('Bônus de Habilidades', skills, s => `<li><b>${idEsc(s)}</b>+1</li>`)}
@@ -7799,7 +7810,14 @@ function renderIdentity() {
                 else if (go) show(go.dataset.goto);
                 else if (e.target.closest('.tag')) setTimeout(renderIdentity, 0);
             });
-            root.addEventListener('input', () => setTimeout(renderIdentity, 0));
+            root.addEventListener('input', (e) => {
+                // O codinome vive no verso: re-renderizar destruiria o input e o foco a cada tecla.
+                if (e.target.matches('[data-field="personal.codinome"]')) {
+                    if (typeof renderResumo === 'function') renderResumo();
+                    return;
+                }
+                setTimeout(renderIdentity, 0);
+            });
                 renderIdentity();
             }
 
