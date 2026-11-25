@@ -6050,7 +6050,8 @@ function updateOrganizationDetails(organization) {
             const current = (state.personal || {}).classe || '';
             list.innerHTML = CLASS_ORDER.map(nome => {
                 const info = CLASS_INFO[nome] || { ic: '✦' };
-                return `<button type="button" class="cs-btn ${nome === current ? 'selected' : ''}" data-value="${idEsc(nome)}"><span class="cs-ic">${info.ic}</span>${idEsc(nome)}</button>`;
+                const logo = CLASSE_LOGOS[nome] || '';
+                return `<button type="button" class="cs-btn ${nome === current ? 'selected' : ''}" data-value="${idEsc(nome)}"><span class="cs-ic"><img src="${logo}" alt="Logo ${nome}" class="cs-list-logo" onerror="this.style.display='none'; this.nextSibling.style.display='inline'">${info.ic}</span>${idEsc(nome)}</button>`;
             }).join('');
         }
 
@@ -6080,10 +6081,10 @@ function updateOrganizationDetails(organization) {
             const mods = CLASS_MODS[nome] || { hp: 0, sp: 0, san: 0 };
             const sgn = n => (n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '0');
 
-            emblem.innerHTML = `<span class="cs-emblem-ic">${info.ic}</span><span class="cs-emblem-nm">${idEsc(nome)}</span>`;
+            emblem.innerHTML = `<img src="${CLASSE_LOGOS[nome] || ''}" alt="Logo ${nome}" class="cs-emblem-img" style="width:100%;height:100%;object-fit:contain;display:none"><span class="cs-emblem-ic">${info.ic}</span><span class="cs-emblem-nm">${idEsc(nome)}</span>`;
             nm.textContent = nome;
-            updateClasseLogo(nome);
             desc.textContent = info.desc || '';
+            updateClasseLogo(nome);
             req.innerHTML = `Requer um mínimo de <b>6</b> em <b>${idEsc(info.req || attrs[0] || '—')}</b><span class="cs-sep">·</span>Bônus: <b>${attrs.map(a => idEsc(a) + ' +2').join(' · ')}</b><span class="cs-sep">·</span>HP <b>${sgn(mods.hp)}</b><span class="cs-sep">·</span>Proteção <b>${sgn(mods.sp)}</b><span class="cs-sep">·</span>SAN <b>${sgn(mods.san)}</b>`;
 
             // Armas do Arsenal que usam os atributos da classe
