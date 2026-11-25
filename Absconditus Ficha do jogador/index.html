@@ -5748,6 +5748,16 @@
             'Absconditus': 'Absconditus Ficha do jogador/assets/logos/absconditus-a.png'
         };
 
+        const CLASSE_LOGOS = {
+            'Caçador': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_cacador.png',
+            'Atirador': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_atirador.png',
+            'Espadachim': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_espadachim.png',
+            'Sacerdote': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_sacerdote.png',
+            'Feiticeiro': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_feiticeiro.png',
+            'Bruxo': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_bruxo.png',
+            'Investigador': 'Absconditus Ficha do jogador/assets/logos/Classes Logo/classe_investigador.png'
+        };
+
         function updateCategoriaLogos(categoria) {
             const src = CATEGORIA_LOGOS[categoria] || CATEGORIA_LOGOS['Velado'];
             document.querySelectorAll('[data-cat-logo]').forEach(img => {
@@ -5782,6 +5792,20 @@
                 img.removeAttribute('src');
             }
         }, true);
+
+        function updateClasseLogo(classe) {
+            const src = CLASSE_LOGOS[classe] || '';
+            document.querySelectorAll('[data-classe-logo]').forEach(img => {
+                img.classList.remove('logo-missing');
+                if (!src) {
+                    img.removeAttribute('src');
+                    img.classList.add('logo-missing');
+                    return;
+                }
+                img.src = src;
+                img.alt = classe ? `Logo ${classe}` : 'Logo da classe';
+            });
+        }
 
         // =============================================
         // ✨ ORGANIZAÇÕES — especialidade e visão do Superno
@@ -6058,6 +6082,7 @@ function updateOrganizationDetails(organization) {
 
             emblem.innerHTML = `<span class="cs-emblem-ic">${info.ic}</span><span class="cs-emblem-nm">${idEsc(nome)}</span>`;
             nm.textContent = nome;
+            updateClasseLogo(nome);
             desc.textContent = info.desc || '';
             req.innerHTML = `Requer um mínimo de <b>6</b> em <b>${idEsc(info.req || attrs[0] || '—')}</b><span class="cs-sep">·</span>Bônus: <b>${attrs.map(a => idEsc(a) + ' +2').join(' · ')}</b><span class="cs-sep">·</span>HP <b>${sgn(mods.hp)}</b><span class="cs-sep">·</span>Proteção <b>${sgn(mods.sp)}</b><span class="cs-sep">·</span>SAN <b>${sgn(mods.san)}</b>`;
 
@@ -6070,7 +6095,7 @@ function updateOrganizationDetails(organization) {
             }).join('');
             weapons.innerHTML = grupos || '<span class="cs-wempty">Nenhum atributo definido para esta classe.</span>';
 
-            art.innerHTML = csArtSVG(nome, info.ic) + `<span class="cs-art-cap">${idEsc(nome)} · arte placeholder</span>`;
+            art.innerHTML = csArtSVG(nome, info.ic) + `<span class="cs-art-cap">${idEsc(nome)} · arte placeholder</span>` + `<img src="${CLASSE_LOGOS[nome] || ''}" alt="Logo ${nome}" class="cs-art-img" style="width:100%;height:100%;object-fit:contain;display:none">`;
         }
 
         function setupClassScreen() {
