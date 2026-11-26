@@ -5746,8 +5746,8 @@
         };
 
         const CATEGORIA_LOGOS = {
-            'Velado': 'assets/logos/Categoria Superno/logo_velado_branco.png',
-            'Testemunha': 'assets/logos/Categoria Superno/logo_testemunha_branco.png',
+            'Velado': 'assets/logos/Categoria%20Superno/logo_velado_branco.png',
+            'Testemunha': 'assets/logos/Categoria%20Superno/logo_testemunha_branco.png',
             'Absconditus': 'assets/logos/absconditus-a.png'
         };
 
@@ -8858,6 +8858,13 @@ function renderIdentity() {
             renderClassList();         // gera a lista de classes antes do bind
             renderOrgCarousel();       // gera os cards de organização antes do bind
             bindTagGroups();
+            // Listener para o select da Categoria Superno
+            const catSelect = document.querySelector('select[data-field="personal.categoriaSuperno"]');
+            if (catSelect) {
+                catSelect.addEventListener('change', (e) => {
+                    updateCategoriaLogos(e.target.value);
+                });
+            }
             setupRaceScreen();
             setupClassScreen();
             setupOrgCarousel();
