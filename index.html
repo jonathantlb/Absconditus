@@ -6053,9 +6053,8 @@ function updateOrganizationDetails(organization) {
             if (!list) return;
             const current = (state.personal || {}).classe || '';
             list.innerHTML = CLASS_ORDER.map(nome => {
-                const info = CLASS_INFO[nome] || { ic: '✦' };
                 const logo = CLASSE_LOGOS[nome] || '';
-                return `<button type="button" class="cs-btn ${nome === current ? 'selected' : ''}" data-value="${idEsc(nome)}"><span class="cs-ic"><img src="${logo}" alt="Logo ${nome}" class="cs-list-logo" data-classe-logo="${idEsc(nome)}" style="display:none" onerror="this.style.display='none'; this.nextSibling.style.display='inline'">${info.ic}</span>${idEsc(nome)}</button>`;
+                return `<button type="button" class="cs-btn ${nome === current ? 'selected' : ''}" data-value="${idEsc(nome)}"><span class="cs-ic"><img src="${logo}" alt="Logo ${nome}" class="cs-list-logo" style="width:24px;height:24px;object-fit:contain"></span>${idEsc(nome)}</button>`;
             }).join('');
         }
 
