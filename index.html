@@ -6084,7 +6084,7 @@ function updateOrganizationDetails(organization) {
             const mods = CLASS_MODS[nome] || { hp: 0, sp: 0, san: 0 };
             const sgn = n => (n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '0');
 
-            emblem.innerHTML = `<img src="${CLASSE_LOGOS[nome] || ''}" alt="Logo ${nome}" class="cs-emblem-img" data-classe-logo="${idEsc(nome)}" style="width:100%;height:100%;object-fit:contain;display:none"><span class="cs-emblem-ic">${info.ic}</span><span class="cs-emblem-nm">${idEsc(nome)}</span>`;
+            emblem.innerHTML = `<img src="${CLASSE_LOGOS[nome] || ''}" alt="Logo ${nome}" class="cs-emblem-img" data-classe-logo="${idEsc(nome)}" style="width:100%;height:100%;object-fit:contain;display:none"><span class="cs-emblem-nm">${idEsc(nome)}</span>`;
             nm.textContent = nome;
             desc.textContent = info.desc || '';
             updateClasseLogo(nome);
@@ -6099,7 +6099,7 @@ function updateOrganizationDetails(organization) {
             }).join('');
             weapons.innerHTML = grupos || '<span class="cs-wempty">Nenhum atributo definido para esta classe.</span>';
 
-            art.innerHTML = csArtSVG(nome, info.ic) + `<span class="cs-art-cap">${idEsc(nome)} · arte placeholder</span>` + `<img src="${CLASSE_LOGOS[nome] || ''}" alt="Logo ${nome}" class="cs-art-img" data-classe-logo="${idEsc(nome)}" style="width:100%;height:100%;object-fit:contain;display:none">`;
+            art.innerHTML = (CLASSE_LOGOS[nome] ? '' : csArtSVG(nome, info.ic)) + `<span class="cs-art-cap">${idEsc(nome)} · arte placeholder</span>` + `<img src="${CLASSE_LOGOS[nome] || ''}" alt="Logo ${nome}" class="cs-art-img" data-classe-logo="${idEsc(nome)}" style="width:100%;height:100%;object-fit:contain;display:none">`;
         }
 
         function setupClassScreen() {
