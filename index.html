@@ -1725,67 +1725,109 @@
         }
 
         /* ================= VERSO ================= */
+        /* =============================================
+         * ✨ CARTAO VERSO — Estilo dark fantasy / registro confidencial
+         * ============================================= */
         .cred-back {
             padding: 0;
+            position: relative;
+        }
+
+        .cred-back::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--line-strong);
+            border-left: 3px solid var(--blood-bright);
+            border-radius: 6px;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .cred-back-body {
+            position: relative;
+            z-index: 1;
             display: flex;
             flex-direction: column;
-            gap: 0;
-            padding: 20px 20px 24px;
+            gap: 14px;
+            padding: 22px 20px 26px;
             flex: 1;
             min-height: 0;
             overflow-y: auto;
+            background:
+                linear-gradient(180deg, rgba(20,18,18,.92), rgba(10,9,9,.92) 60%, rgba(5,4,4,.98));
         }
 
-        /* Topbar do verso com título */
+        /* Topbar do verso com título estilo "PROJECT HEADERS" */
         .cred-back .cred-topbar {
-            padding: 14px 20px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 18px;
             border-bottom: 1px solid var(--line-strong);
-            background: linear-gradient(90deg, rgba(150,22,34,.4), rgba(20,8,10,.2));
+            background:
+                linear-gradient(90deg, rgba(150,22,34,.35), rgba(20,8,10,.25) 60%, rgba(5,4,4,.8));
         }
 
         .cred-back .cred-topbar-l {
-            font-family: var(--font-mono);
-            font-size: .7rem;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--blood-bright);
+            text-shadow: 0 0 10px rgba(196,31,46,.45);
         }
 
         .cred-back .cred-topbar-r {
             font-family: var(--font-mono);
-            font-size: .7rem;
-            letter-spacing: 3px;
+            font-size: .65rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            color: #D2142A;
+            color: var(--bone-dim);
             font-weight: 700;
         }
 
-        /* Seções do verso */
+        /* Cada seção como um "card" com barra lateral colorida */
         .cred-back-sec {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             padding-left: 0;
             border-left: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cred-back-sec::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--blood-bright), rgba(196,31,46,.4));
+            opacity: .9;
         }
 
         .cred-back-sec > .cred-label {
             display: block;
             font-family: var(--font-mono);
-            font-size: .65rem;
-            letter-spacing: 2px;
+            font-size: .62rem;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            color: var(--blood-bright);
-            margin-bottom: 4px;
+            color: var(--bone-dim);
+            margin-bottom: 3px;
+            letter-spacing: 2px;
         }
 
+        /* Input do codinome — estilo campo grande */
         .cred-back-input {
-            font-size: 2rem;
+            font-size: 1.9rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             border-bottom-color: rgba(196,31,46,.45);
             color: #fff;
+            background: transparent;
+            padding: 4px 0;
         }
 
         .cred-back-input::placeholder {
@@ -1795,15 +1837,16 @@
 
         .cred-back-value {
             font-family: 'Absolute Empire', serif;
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             color: #ffffff;
             letter-spacing: 1px;
             line-height: 1.2;
         }
 
+        /* Lista de itens (habilidades, equipamento) */
         .cred-back-list {
             list-style: none;
-            margin: 0;
+            margin: 4px 0 0;
             padding: 0;
             display: flex;
             flex-wrap: wrap;
@@ -1814,6 +1857,11 @@
             font-family: var(--font-mono);
             font-size: .75rem;
             color: var(--bone-dim);
+            padding: 6px 10px;
+            background: rgba(0,0,0,.3);
+            border: 1px solid var(--line-strong);
+            border-radius: 3px;
+            display: inline-block;
         }
 
         .cred-back-list li b {
@@ -1830,20 +1878,79 @@
             color: var(--bone-dim);
             line-height: 1.45;
             margin: 4px 0 0;
+            font-style: italic;
         }
 
+        /* Registro (código + nome) — destaque */
         .cred-back-reg {
             display: flex;
             align-items: baseline;
             gap: 10px;
             flex-wrap: wrap;
+            padding: 12px 14px;
+            background: rgba(0,0,0,.4);
+            border: 1px solid var(--line-strong);
+            border-left: 3px solid var(--blood-bright);
+            border-radius: 4px;
         }
 
         .cred-back-reg b {
             font-family: 'Absolute Empire', serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--blood-bright);
             letter-spacing: 2px;
+        }
+
+        /* Badge de status (ranking, categoria, etc.) */
+        .cred-back-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 8px;
+            background: rgba(0,0,0,.45);
+            border: 1px solid var(--line-strong);
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: .65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--bone-dim);
+        }
+
+        .cred-back-badge .badge-value {
+            font-family: 'Absolute Empire', serif;
+            font-size: 1rem;
+            color: var(--bone);
+        }
+
+        .cred-back-badge.done { border-color: var(--rank-D); color: var(--rank-D); }
+        .cred-back-badge.active { border-color: var(--rank-C); color: var(--rank-C); }
+        .cred-back-badge.overdue { border-color: var(--rank-A); color: var(--rank-A); }
+        .cred-back-badge.pending { border-color: var(--rank-B); color: var(--rank-B); }
+
+        /* Barra de progresso circular estilo */
+        .cred-back-ring {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid rgba(196,31,46,.3);
+            position: relative;
+            margin: 8px auto;
+        }
+
+        .cred-back-ring .ring-value {
+            font-family: 'Absolute Empire', serif;
+            font-size: 1rem;
+            color: var(--bone);
+            z-index: 2;
+        }
+
+        .cred-back-ring.progress {
+            background: conic-gradient(var(--blood-bright) 0deg, transparent 0deg);
+            mask: radial-gradient(circle, transparent 62%, #000 65%);
         }
 
         @media (max-width: 640px) {
@@ -7869,6 +7976,7 @@ function renderIdentity() {
 
         /* =============================================
          * ✨ CARTÃO — verso com os dados das outras abas
+         * Estilo: dark fantasy / registro confidencial (cards com barras laterais, ícones, barras de progresso)
          * ============================================= */
         function renderCredBack() {
             const box = document.getElementById('credBackRest');
@@ -7880,18 +7988,47 @@ function renderIdentity() {
             const skills = ORGANIZATION_SKILLS[org] || [];
             const gear = orgData.gear || [];
             const lema = [orgInfo.especialidade, orgInfo.visaoSuperno].filter(Boolean).join(' · ');
+            const rank = p.ranking || '';
+            const R = ID_RANK_INFO[rank];
+            const rankColor = rank ? rankVar(rank) : 'var(--bone-dim)';
 
-            const sec = (label, value) => `<div class="cred-back-sec"><span class="cred-label">${idEsc(label)}</span><div class="cred-back-value">${idEsc(value || '—')}</div></div>`;
-            const secList = (label, items, render) => `<div class="cred-back-sec"><span class="cred-label">${idEsc(label)}</span><ul class="cred-back-list">${items.length ? items.map(render).join('') : '<li>—</li>'}</ul></div>`;
+            const sec = (label, value, badgeClass, badgeText) => {
+                const badge = badgeText ? `<span class="cred-back-badge ${badgeClass}"><span class="badge-value">${idEsc(badgeText)}</span></span>` : '';
+                return `<div class="cred-back-sec"><span class="cred-label">${idEsc(label)}</span><div class="cred-back-value">${idEsc(value || '—')}</div>${badge}</div>`;
+            };
+            const secList = (label, items, render) => {
+                const itens = items.length ? items.map(render).join('') : '<li>—</li>';
+                return `<div class="cred-back-sec"><span class="cred-label">${idEsc(label)}</span><ul class="cred-back-list">${itens}</ul></div>`;
+            };
 
             const registro = 'ABS-' + (p.registro || p.codigo || '0000');
 
+            // Ícones por seção
+            const IC = {
+                registro: '🆔',
+                nome: '👤',
+                codinome: '🎭',
+                categoria: '🌙',
+                raca: '🛡️',
+                classe: '⚔️',
+                ranking: '🏆',
+                habilidades: '✨',
+                equipamento: '🎒',
+                historico: '📜'
+            };
+
             box.innerHTML = `
                 <div class="cred-back-sec">
-                    <span class="cred-label">Registro</span>
+                    <span class="cred-label">Registro de Campo</span>
                     <div class="cred-back-reg"><b>${idEsc(registro)}</b><span class="cred-back-value">${idEsc(p.nome || 'Sem nome')}</span></div>
                 </div>
-                ${sec('Organização', org)}
+                ${p.nome ? `<div class="cred-back-sec"><span class="cred-label">Nome</span><div class="cred-back-value">${idEsc(p.nome)}</div></div>` : ''}
+                ${p.codinome ? `<div class="cred-back-sec"><span class="cred-label">Codinome</span><div class="cred-back-value">${idEsc(p.codinome)}</div></div>` : ''}
+                ${p.idade ? `<div class="cred-back-sec"><span class="cred-label">Idade</span><div class="cred-back-value">${idEsc(p.idade)}</div></div>` : ''}
+                ${p.categoriaSuperno ? `<div class="cred-back-sec"><span class="cred-label">Categoria Superno</span><div class="cred-back-value">${idEsc(p.categoriaSuperno)}</div></div>` : ''}
+                ${p.raca ? `<div class="cred-back-sec"><span class="cred-label">Raça</span><div class="cred-back-value">${idEsc(p.raca)}</div></div>` : ''}
+                ${p.classe ? `<div class="cred-back-sec"><span class="cred-label">Classe</span><div class="cred-back-value">${idEsc(p.classe)}</div></div>` : ''}
+                ${rank ? `<div class="cred-back-sec"><span class="cred-label">Ranking</span><div class="cred-back-value" style="color:${rankColor}">${idEsc(rank)}</div></div>` : ''}
                 ${lema ? `<div class="cred-back-sec"><span class="cred-label">Lema da Organização</span><p class="cred-back-note">${idEsc(lema)}</p></div>` : ''}
                 ${secList('Bônus de Habilidades', skills, s => `<li><b>${idEsc(s)}</b>+1</li>`)}
                 ${secList('Equipamento Padrão', gear, g => `<li>${idEsc(g)}</li>`)}
